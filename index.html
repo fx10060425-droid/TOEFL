@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LKYSPP 戰略潛行：托福 3.0 ➔ 5.0 隨身刷字與秒殺系統</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans TC', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                        serif: ['Noto Serif TC', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom 3D Flip Utilities */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+        .flipped {
+            transform: rotateY(180deg);
+        }
+
+        /* 1-Second Recognition Reflex Bar Animation */
+        @keyframes reflexShrink {
+            0% { width: 100%; background-color: #10b981; }
+            60% { background-color: #f59e0b; }
+            100% { width: 0%; background-color: #ef4444; }
+        }
+        .animate-reflex {
+            animation: reflexShrink 1.2s linear forwards;
+        }
+
+        /* Stealth Disguise Mode (偽裝公文白底模式) */
+        body.stealth-mode {
+            background-color: #ffffff !important;
+            color: #111827 !important;
+            font-family: 'Noto Serif TC', 'PMingLiU', '新細明體', serif !important;
+        }
+        body.stealth-mode .stealth-card,
+        body.stealth-mode header,
+        body.stealth-mode nav,
+        body.stealth-mode .panel-box {
+            background-color: #ffffff !important;
+            border-color: #d1d5db !important;
+            color: #111827 !important;
+            box-shadow: none !important;
+            border-radius: 2px !important;
+        }
+        body.stealth-mode .stealth-accent {
+            background-color: #f3f4f6 !important;
+            color: #1f2937 !important;
+            border: 1px solid #9ca3af !important;
+        }
+        body.stealth-mode .stealth-hide {
+            display: none !important;
+        }
+        body.stealth-mode .stealth-show {
+            display: block !important;
+        }
+        body.stealth-mode .reflex-bar-container {
+            opacity: 0.25;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(148, 163, 184, 0.3);
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950 transition-colors duration-200">
+
+    <!-- Fake Official Document Header (Only visible when Stealth Mode is ON) -->
+    <div id="stealthDocBanner" class="stealth-show hidden border-b-2 border-gray-800 bg-gray-50 px-4 py-2 text-gray-900">
+        <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between text-xs sm:text-sm">
+            <div class="font-bold tracking-widest">
+                【內部法制研究彙編】行政程序法暨公務人員考績法正當法律程序實務研析（檔號：115-PR-0402）
+            </div>
+            <div class="flex items-center gap-4 text-xs text-gray-600">
+                <span>承辦單位：人事法制研究組</span>
+                <span>密等：一般公務機密（內部參考）</span>
+                <button onclick="toggleStealthMode()" class="underline font-semibold text-gray-800 hover:text-black">[切回戰略暗色面板 (Esc)]</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Executive Command Header -->
+    <header class="sticky top-0 z-30 bg-slate-900/95 backdrop-blur border-b border-slate-800 px-3 sm:px-6 py-3">
+        <div class="max-w-6xl mx-auto flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+            
+            <!-- Brand & Title -->
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="stealth-hide w-9 h-9 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-slate-950 font-black text-lg shadow-md">
+                        SG
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h1 id="mainAppTitle" class="text-base sm:text-lg font-bold tracking-tight text-white">
+                                LKYSPP 戰略潛行：托福 3.0 ➔ 5.0 隨身刷字系統
+                            </h1>
+                            <span class="stealth-hide hidden sm:inline-block text-[11px] font-mono uppercase px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                                Block A · 50 Core Words
+                            </span>
+                        </div>
+                        <p id="subAppTitle" class="text-xs text-slate-400">
+                            目標：NUS 李光耀公共政策學院 / NTU 南洋公共管理研究生院（政經法規高頻核心詞庫）
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Mobile Stealth Button -->
+                <button onclick="toggleStealthMode()" class="lg:hidden px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 flex items-center gap-1 stealth-accent" title="快捷鍵 Esc">
+                    <span>📄</span>
+                    <span id="stealthBtnTextMobile">偽裝公文</span>
+                </button>
+            </div>
+
+            <!-- 30-Min Stealth Timer & Controls -->
+            <div class="flex flex-wrap items-center justify-between sm:justify-end gap-2 sm:gap-3 bg-slate-950/80 border border-slate-800 rounded-xl px-3 py-2 panel-box">
+                <div class="flex items-center gap-2.5">
+                    <div class="text-right">
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse stealth-hide" id="timerPulseDot"></span>
+                            <span id="timerPhaseBadge" class="text-[11px] font-semibold text-amber-400 tracking-wide">
+                                階段一：前15m 0.5秒極速快篩
+                            </span>
+                        </div>
+                        <div class="text-[10px] text-slate-400">30分鐘帶薪潛行區塊 A</div>
+                    </div>
+                    <div id="stealthTimerDisplay" class="font-mono text-xl sm:text-2xl font-bold text-white tracking-wider px-2 py-0.5 rounded bg-slate-900 border border-slate-800 panel-box">
+                        30:00
+                    </div>
+                </div>
+
+                <!-- Timer Action Buttons -->
+                <div class="flex items-center gap-1.5">
+                    <button id="timerStartBtn" onclick="toggleStealthTimer()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white transition stealth-accent">
+                        ▶ 啟動潛行
+                    </button>
+                    <button onclick="resetStealthTimer()" class="px-2 py-1.5 rounded-lg text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-300 transition stealth-accent" title="重置 30:00">
+                        ↺
+                    </button>
+                    <button onclick="toggleMute()" id="muteToggleBtn" class="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-300 transition stealth-accent" title="辦公室靜音/開啟發音">
+                        🔇 靜音中
+                    </button>
+                    <button onclick="toggleStealthMode()" class="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/30 transition stealth-accent" title="老闆走過來時按 Esc 瞬間切換成黑白公文">
+                        <span>📄</span>
+                        <span id="stealthBtnTextDesktop">偽裝公文模式 (Esc)</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mastery Progress Bar -->
+        <div class="max-w-6xl mx-auto mt-2.5 pt-2 border-t border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+            <div class="flex items-center gap-4 flex-wrap">
+                <span class="font-medium text-slate-300">今日 50 字戰備進度：</span>
+                <span class="inline-flex items-center gap-1 text-emerald-400 font-medium">
+                    ● 已秒懂掌握：<strong id="countMastered" class="font-mono">0</strong>
+                </span>
+                <span class="inline-flex items-center gap-1 text-rose-400 font-medium">
+                    ● 待加強弱點：<strong id="countReview" class="font-mono">0</strong>
+                </span>
+                <span class="inline-flex items-center gap-1 text-slate-400">
+                    ● 未檢視：<strong id="countUnseen" class="font-mono">50</strong>
+                </span>
+            </div>
+            <div class="flex items-center gap-2 w-full sm:w-64">
+                <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden flex">
+                    <div id="barMastered" class="bg-emerald-500 h-full transition-all duration-300" style="width: 0%"></div>
+                    <div id="barReview" class="bg-rose-500 h-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+                <button onclick="resetAllProgress()" class="text-[11px] text-slate-400 hover:text-slate-200 underline whitespace-nowrap">重置紀錄</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="bg-slate-900/60 border-b border-slate-800 px-3 sm:px-6">
+        <div class="max-w-6xl mx-auto flex overflow-x-auto no-scrollbar gap-1 sm:gap-2 py-2">
+            <button onclick="switchTab('flashcard')" id="tabBtn-flashcard" class="tab-btn flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold whitespace-nowrap transition bg-amber-500 text-slate-950 shadow-sm stealth-accent">
+                <span>⚡ 1. 閃卡極速快刷</span>
+                <span class="text-[11px] px-1.5 py-0.5 rounded bg-slate-950/20 font-mono">0.5s 反應</span>
+            </button>
+            <button onclick="switchTab('quiz')" id="tabBtn-quiz" class="tab-btn flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold whitespace-nowrap transition text-slate-300 hover:bg-slate-800">
+                <span>🎯 2. 托福同義詞秒殺測驗</span>
+                <span class="text-[11px] px-1.5 py-0.5 rounded bg-slate-800 text-amber-400 font-mono">實戰題庫</span>
+            </button>
+            <button onclick="switchTab('table')" id="tabBtn-table" class="tab-btn flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold whitespace-nowrap transition text-slate-300 hover:bg-slate-800">
+                <span>📋 3. 50字戰略總表（遮罩自測）</span>
+            </button>
+            <button onclick="switchTab('writing')" id="tabBtn-writing" class="tab-btn flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold whitespace-nowrap transition text-slate-300 hover:bg-slate-800">
+                <span>✍️ 4. 今晚寫作答辯沙盒</span>
+                <span class="text-[11px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono">19:30 預演</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-6 py-5">
+
+        <!-- TAB 1: FLASHCARD DECK -->
+        <section id="tab-flashcard" class="space-y-4">
+            <!-- Group & Status Filter Bar -->
+            <div class="flex flex-wrap items-center justify-between gap-2 bg-slate-900/90 border border-slate-800 rounded-xl p-3 panel-box">
+                <div class="flex flex-wrap items-center gap-1.5">
+                    <span class="text-xs text-slate-400 mr-1 font-medium">戰略分組篩選：</span>
+                    <button onclick="setDeckFilter('all')" id="filter-all" class="deck-filter-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-amber-500 text-slate-950 stealth-accent">全部 (50)</button>
+                    <button onclick="setDeckFilter('1')" id="filter-1" class="deck-filter-btn px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">一、體制弊端與究責 (12)</button>
+                    <button onclick="setDeckFilter('2')" id="filter-2" class="deck-filter-btn px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">二、預算分配與誘因 (13)</button>
+                    <button onclick="setDeckFilter('3')" id="filter-3" class="deck-filter-btn px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">三、法規合規與程序 (13)</button>
+                    <button onclick="setDeckFilter('4')" id="filter-4" class="deck-filter-btn px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">四、閱讀必考邏輯動詞 (12)</button>
+                    <button onclick="setDeckFilter('review')" id="filter-review" class="deck-filter-btn px-2.5 py-1 rounded-lg text-xs font-medium bg-rose-950/80 text-rose-300 border border-rose-700/50 hover:bg-rose-900/60">🔥 只刷「待加強」弱點</button>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="shuffleDeck()" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 stealth-accent">
+                        🔀 隨機洗牌
+                    </button>
+                </div>
+            </div>
+
+            <!-- Interactive 3D Flashcard Area -->
+            <div class="max-w-2xl mx-auto">
+                <!-- Card Counter & Reflex Indicator -->
+                <div class="flex items-center justify-between text-xs text-slate-400 mb-2 px-1">
+                    <div class="flex items-center gap-2">
+                        <span id="cardIndexText" class="font-mono font-bold text-slate-200">Card 01 / 50</span>
+                        <span id="cardStatusBadge" class="px-2 py-0.5 rounded text-[11px] bg-slate-800 text-slate-400">未檢視</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <span>⏱️ 1秒直覺反應計時：</span>
+                        <span class="text-slate-300 font-medium">超過1秒想不起來請直接翻牌！</span>
+                    </div>
+                </div>
+
+                <!-- 1-Second Reflex Bar -->
+                <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden mb-3 reflex-bar-container">
+                    <div id="reflexBar" class="h-full bg-emerald-500 animate-reflex"></div>
+                </div>
+
+                <!-- 3D Flip Card Wrapper -->
+                <div class="perspective-1000 w-full h-80 sm:h-96 cursor-pointer select-none" onclick="flipCard()">
+                    <div id="flashcardInner" class="relative w-full h-full transform-style-3d">
+                        
+                        <!-- FRONT OF CARD -->
+                        <div class="absolute inset-0 w-full h-full backface-hidden bg-gradient-to-b from-slate-900 to-slate-900/95 border-2 border-slate-700/80 rounded-2xl p-6 sm:p-8 flex flex-col justify-between shadow-2xl stealth-card">
+                            <div class="flex items-center justify-between">
+                                <span id="cardGroupTag" class="text-xs font-semibold px-2.5 py-1 rounded-md bg-slate-800 text-amber-400 border border-slate-700 stealth-accent">
+                                    群組一：體制弊端與行政究責
+                                </span>
+                                <button onclick="event.stopPropagation(); speakCurrentWord();" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium flex items-center gap-1.5 border border-slate-700 stealth-accent" title="點擊發音 (S鍵)">
+                                    <span>🔊</span>
+                                    <span>發音 (S)</span>
+                                </button>
+                            </div>
+
+                            <div class="text-center my-auto py-4">
+                                <div id="cardWordFront" class="text-4xl sm:text-5xl font-extrabold tracking-tight text-white mb-3 font-sans">
+                                    bureaucracy
+                                </div>
+                                <div id="cardPosFront" class="text-sm sm:text-base font-mono text-amber-400/90">
+                                    (n.)
+                                </div>
+                                <p id="reflexHintText" class="mt-5 text-xs text-slate-400">
+                                    💡 點擊卡片或按 <kbd class="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 font-mono">空白鍵 Space</kbd> 翻開法理記憶錨點
+                                </p>
+                            </div>
+
+                            <div class="flex items-center justify-between text-[11px] text-slate-500 border-t border-slate-800/80 pt-3">
+                                <span>編號 #<span id="cardIdFront">01</span></span>
+                                <span>目標：0.5 秒內直接反射出中文概念與同義字</span>
+                            </div>
+                        </div>
+
+                        <!-- BACK OF CARD -->
+                        <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-slate-900 border-2 border-amber-500/50 rounded-2xl p-5 sm:p-7 flex flex-col justify-between shadow-2xl overflow-y-auto stealth-card">
+                            <div>
+                                <div class="flex items-baseline justify-between border-b border-slate-800 pb-2.5 mb-3">
+                                    <div class="flex items-baseline gap-2.5">
+                                        <h2 id="cardWordBack" class="text-2xl sm:text-3xl font-bold text-white">bureaucracy</h2>
+                                        <span id="cardPosBack" class="text-xs font-mono text-amber-400">(n.)</span>
+                                    </div>
+                                    <button onclick="event.stopPropagation(); speakCurrentWord();" class="text-xs px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300">🔊 重聽</button>
+                                </div>
+
+                                <!-- Core Meaning -->
+                                <div class="mb-3.5">
+                                    <div class="text-[11px] uppercase tracking-wider text-slate-400 mb-0.5">精準中譯</div>
+                                    <div id="cardMeaningBack" class="text-xl sm:text-2xl font-bold text-emerald-400">
+                                        官僚體制；官僚作風
+                                    </div>
+                                </div>
+
+                                <!-- Public Service / Legal Anchor -->
+                                <div class="mb-3.5 bg-slate-950/90 border border-slate-800 rounded-xl p-3 panel-box">
+                                    <div class="text-[11px] font-semibold text-amber-400 mb-1 flex items-center gap-1">
+                                        <span>⚖️ 公職／法理專屬記憶錨點與搭配詞</span>
+                                    </div>
+                                    <p id="cardAnchorBack" class="text-xs sm:text-sm text-slate-200 leading-relaxed">
+                                        每天面對的龐大機器。搭配：rigid bureaucracy（僵化的官僚體制）
+                                    </p>
+                                </div>
+
+                                <!-- TOEFL Synonyms -->
+                                <div class="mb-3">
+                                    <div class="text-[11px] font-semibold text-sky-400 mb-1">
+                                        🎯 托福閱讀秒殺同義詞 (看到直接選)：
+                                    </div>
+                                    <div id="cardSynonymsBack" class="flex flex-wrap gap-1.5">
+                                        <!-- Populated dynamically -->
+                                    </div>
+                                </div>
+
+                                <!-- High-Level Policy Example -->
+                                <div class="bg-slate-950/50 border-l-2 border-amber-500 pl-3 py-1">
+                                    <div class="text-[10px] text-slate-400">LKYSPP 政策寫作實戰例句：</div>
+                                    <p id="cardExampleBack" class="text-xs text-slate-300 italic leading-relaxed">
+                                        Excessive bureaucracy often impedes the efficient allocation of emergency subsidies.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="text-[11px] text-center text-slate-400 pt-2 border-t border-slate-800/80 mt-2">
+                                點擊卡片任意處翻回正面 · 使用下方按鈕標記熟練度
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Action Controls Below Card -->
+                <div class="grid grid-cols-4 gap-2 sm:gap-3 mt-4">
+                    <button onclick="prevCard()" class="col-span-1 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 text-xs sm:text-sm font-semibold transition panel-box" title="上一張 (↑)">
+                        ◀ 上一字
+                    </button>
+                    <button onclick="markCurrentCard('review')" class="col-span-1 py-3 rounded-xl bg-rose-950/80 hover:bg-rose-900 border border-rose-700/60 text-rose-200 text-xs sm:text-sm font-bold transition stealth-accent" title="快捷鍵：左方向鍵 ←">
+                        ❌ 還不熟 (←)
+                    </button>
+                    <button onclick="markCurrentCard('mastered')" class="col-span-1 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-bold shadow-lg shadow-emerald-950/50 transition stealth-accent" title="快捷鍵：右方向鍵 →">
+                        ⚡ 秒懂！(→)
+                    </button>
+                    <button onclick="nextCard()" class="col-span-1 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 text-xs sm:text-sm font-semibold transition panel-box" title="下一張 (↓)">
+                        下一字 ▶
+                    </button>
+                </div>
+
+                <!-- Keyboard Shortcut Legend -->
+                <div class="hidden sm:flex items-center justify-center gap-4 text-[11px] text-slate-500 mt-3">
+                    <span>鍵盤極速操作：</span>
+                    <span><kbd class="px-1.5 py-0.5 bg-slate-900 border border-slate-800 rounded">Space</kbd> 翻牌</span>
+                    <span><kbd class="px-1.5 py-0.5 bg-slate-900 border border-slate-800 rounded">→</kbd> 標記秒懂並下一題</span>
+                    <span><kbd class="px-1.5 py-0.5 bg-slate-900 border border-slate-800 rounded">←</kbd> 加入待加強並下一題</span>
+                    <span><kbd class="px-1.5 py-0.5 bg-slate-900 border border-slate-800 rounded">S</kbd> 單字發音</span>
+                    <span><kbd class="px-1.5 py-0.5 bg-slate-900 border border-slate-800 rounded">Esc</kbd> 偽裝公文模式</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: RAPID-FIRE TOEFL QUIZ -->
+        <section id="tab-quiz" class="hidden space-y-5 max-w-3xl mx-auto">
+            <!-- Quiz Control Header -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 panel-box">
+                <div>
+                    <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                        <span>🎯 托福閱讀同義詞 ＆ 今晚寫作填空秒殺測驗</span>
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-0.5">
+                        模擬 TOEFL iBT 閱讀詞彙題（Closest in meaning）與政策語境填空，答錯自動納入「待加強弱點庫」。
+                    </p>
+                </div>
+                <div class="flex flex-wrap items-center gap-2">
+                    <button onclick="startQuiz(5, 'classic')" class="px-3 py-2 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 transition stealth-accent">
+                        🔥 12:55 驗收必做 (4題經典自測)
+                    </button>
+                    <button onclick="startQuiz(10, 'random')" class="px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition stealth-accent">
+                        ⚡ 隨機 10 題快刷
+                    </button>
+                    <button onclick="startQuiz(20, 'random')" class="px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition stealth-accent">
+                        ⚔️ 隨機 20 題特訓
+                    </button>
+                </div>
+            </div>
+
+            <!-- Active Quiz Box -->
+            <div id="quizContainer" class="bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-7 shadow-xl panel-box">
+                <!-- Populated dynamically by JS -->
+            </div>
+        </section>
+
+        <!-- TAB 3: FULL 50-WORD STRATEGIC TABLE -->
+        <section id="tab-table" class="hidden space-y-4">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 panel-box">
+                <div class="flex flex-wrap items-center gap-2 flex-1">
+                    <input type="text" id="tableSearchInput" oninput="renderWordTable()" placeholder="搜尋英文單字、中文解釋、法理錨點或同義字..." class="w-full md:w-72 px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs sm:text-sm text-slate-100 focus:outline-none focus:border-amber-500">
+                    <select id="tableGroupSelect" onchange="renderWordTable()" class="px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs sm:text-sm text-slate-200">
+                        <option value="all">所有戰略群組 (50字)</option>
+                        <option value="1">群組一：體制弊端與行政究責 (12)</option>
+                        <option value="2">群組二：預算分配與政策誘因 (13)</option>
+                        <option value="3">群組三：法規合規與正當程序 (13)</option>
+                        <option value="4">群組四：閱讀必考轉折與邏輯動詞 (12)</option>
+                        <option value="review">🔥 只顯示「待加強」弱點字</option>
+                    </select>
+                </div>
+                <div class="flex items-center gap-3">
+                    <label class="inline-flex items-center gap-2 cursor-pointer select-none bg-slate-950 border border-slate-800 px-3.5 py-2 rounded-xl">
+                        <input type="checkbox" id="maskChineseToggle" onchange="renderWordTable()" class="rounded text-amber-500 focus:ring-0">
+                        <span class="text-xs font-semibold text-amber-400">🙈 遮住中文與錨點自測 (滑鼠移過或點擊顯現)</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl panel-box">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-800 bg-slate-950/70 text-[11px] uppercase tracking-wider text-slate-400">
+                                <th class="py-3 px-3 w-12">#</th>
+                                <th class="py-3 px-3">托福核心單字</th>
+                                <th class="py-3 px-3">精準中譯</th>
+                                <th class="py-3 px-3">公職／法理記憶錨點與搭配詞</th>
+                                <th class="py-3 px-3">托福必考同義詞</th>
+                                <th class="py-3 px-3 text-center w-28">狀態標記</th>
+                            </tr>
+                        </thead>
+                        <tbody id="wordTableBody" class="divide-y divide-slate-800/70 text-xs sm:text-sm">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: TONIGHT'S 19:30 WRITING SANDBOX -->
+        <section id="tab-writing" class="hidden space-y-5">
+            <!-- Prompt & Template Split View -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+                
+                <!-- Left Column: Professor Gupta Prompt & 5-Sentence Template -->
+                <div class="lg:col-span-5 space-y-4">
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 panel-box">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                                今晚 19:30 區塊 B 實戰題目
+                            </span>
+                            <span class="text-xs text-slate-400 font-mono">目標：10分鐘 · 120–140字</span>
+                        </div>
+                        <h3 class="text-sm sm:text-base font-bold text-white mb-2">
+                            【偏鄉發展與政府預算配置】Rural Infrastructure vs. Direct Cash Subsidies
+                        </h3>
+                        <div class="space-y-2.5 text-xs text-slate-300 bg-slate-950/80 p-3.5 rounded-xl border border-slate-800 leading-relaxed max-h-60 overflow-y-auto">
+                            <p><strong class="text-amber-400">Professor Gupta:</strong> Many rural towns are experiencing severe population decline and aging demographics. Some policymakers argue that the central government should offer <strong>direct financial incentives (cash handouts or tax breaks)</strong> to individuals and businesses that relocate to rural areas. Others believe the government should instead <strong>invest solely in upgrading rural public infrastructure and digital connectivity</strong>. Which approach is more effective and why?</p>
+                            <p class="border-t border-slate-800 pt-2"><strong class="text-sky-400">Paul (支持直接發錢/減稅):</strong> Money talks. Immediate tax cuts or housing subsidies lower living costs right away and stimulate the local economy fastest.</p>
+                            <p class="border-t border-slate-800 pt-2"><strong class="text-emerald-400">Claire (支持升級基建與網路):</strong> Handing out cash is a temporary fix. Once the subsidy ends, people leave. Investing in high-speed internet, hospitals, and public transit naturally attracts remote workers and industries over time.</p>
+                        </div>
+                    </div>
+
+                    <!-- 5-Sentence Legal Defense Template Reference -->
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 panel-box">
+                        <div class="flex items-center justify-between mb-3">
+                            <h4 class="text-xs sm:text-sm font-bold text-amber-400">⚖️ 5.0 滿分「五句抗辯法典」萬用骨架</h4>
+                            <button onclick="insertTemplateSkeleton()" class="text-xs px-2.5 py-1 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold transition stealth-accent">
+                                ＋ 一鍵載入骨架至右側編輯區
+                            </button>
+                        </div>
+                        <ol class="space-y-2 text-xs text-slate-300 list-decimal list-inside leading-relaxed">
+                            <li><strong class="text-white">破題立論：</strong><span class="font-mono text-amber-200">While this policy debate is multifaceted, I firmly contend that</span> [核心立場] <span class="font-mono text-amber-200">primarily due to its profound impact on</span> [高維度價值].</li>
+                            <li><strong class="text-white">駁斥盲點：</strong><span class="font-mono text-amber-200">Although</span> [Paul/Claire] <span class="font-mono text-amber-200">raises a valid point regarding</span> [對方考量], <span class="font-mono text-amber-200">this perspective overlooks a critical systemic flaw:</span> [指出制度漏洞].</li>
+                            <li><strong class="text-white">正面論證：</strong><span class="font-mono text-amber-200">Specifically, when authorities implement</span> [您的方案], <span class="font-mono text-amber-200">it directly creates a powerful structural incentive for</span> [對象] <span class="font-mono text-amber-200">to</span> [具體行為].</li>
+                            <li><strong class="text-white">實務舉證：</strong><span class="font-mono text-amber-200">For instance, in practical governance, establishing</span> [具體工具] <span class="font-mono text-amber-200">not only mitigates</span> [弊端] <span class="font-mono text-amber-200">but also optimizes resource allocation.</span></li>
+                            <li><strong class="text-white">權威收尾：</strong><span class="font-mono text-amber-200">Therefore, rather than relying on short-sighted measures, adopting</span> [方案簡稱] <span class="font-mono text-amber-200">remains the most viable strategy to ensure sustainable progress.</span></li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Right Column: 10-Min Writing Editor & Instant Word Chips -->
+                <div class="lg:col-span-7 space-y-4">
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 panel-box">
+                        <!-- Writing Timer & Word Count Bar -->
+                        <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-800">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs font-semibold text-slate-300">⏱️ 10分鐘實戰計時：</span>
+                                <span id="writingTimerDisplay" class="font-mono text-lg font-bold text-amber-400 bg-slate-950 px-2.5 py-0.5 rounded border border-slate-800">10:00</span>
+                                <button onclick="toggleWritingTimer()" id="writingTimerBtn" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white stealth-accent">開始計時</button>
+                                <button onclick="resetWritingTimer()" class="px-2 py-1 rounded-lg text-xs bg-slate-800 hover:bg-slate-700 text-slate-300">重置</button>
+                            </div>
+                            <div class="flex items-center gap-3 text-xs">
+                                <span>字數統計：<strong id="writingWordCount" class="font-mono text-base text-emerald-400">0</strong> / 135 字</span>
+                                <span id="usedCoreWordsBadge" class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30 font-mono">
+                                    已嵌入今日核心字：0 個
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Clickable High-Score Vocabulary Chips -->
+                        <div class="mb-3">
+                            <div class="text-[11px] text-slate-400 mb-1.5 flex items-center justify-between">
+                                <span>💡 點擊下方「今日偏鄉與法規核心字」可直接插入游標處（已使用會亮起綠燈）：</span>
+                            </div>
+                            <div id="writingVocabChips" class="flex flex-wrap gap-1.5">
+                                <!-- Generated by JS -->
+                            </div>
+                        </div>
+
+                        <!-- Textarea -->
+                        <textarea id="writingTextarea" oninput="updateWritingMetrics()" rows="10" placeholder="今晚 19:30 點擊上方「一鍵載入骨架」，像填寫行政答辯狀一樣把今日單字填進去..." class="w-full p-4 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 font-sans text-sm leading-relaxed focus:outline-none focus:border-amber-500"></textarea>
+
+                        <!-- Bottom Actions -->
+                        <div class="flex flex-wrap items-center justify-between gap-2 mt-3 pt-3 border-t border-slate-800">
+                            <div class="flex items-center gap-2">
+                                <button onclick="loadModelAnswer()" class="px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/30 transition stealth-accent">
+                                    ✨ 載入 135字 5.0 滿分示範範本
+                                </button>
+                                <button onclick="clearWritingDraft()" class="px-3 py-2 rounded-xl text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-400 transition">
+                                    清空重寫
+                                </button>
+                            </div>
+                            <button onclick="copyDraftForAI()" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-lg transition stealth-accent">
+                                📋 一鍵複製草稿（22:00 貼給 AI 幕僚批改）
+                            </button>
+                        </div>
+                        <div id="copyToast" class="hidden mt-2 text-xs text-emerald-400 font-medium text-right">
+                            ✅ 已複製草稿與提示詞！今晚 22:00 區塊 C 直接貼回對話視窗即可批改。
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-900 py-4 px-4 text-center text-xs text-slate-500">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+            <span>LKYSPP / NTU NCPA 戰略潛行系統 · 專為具備七年公職與法學底蘊之破局者量身打造</span>
+            <span>進度自動儲存於本機瀏覽器 · 按 <kbd class="px-1.5 py-0.5 bg-slate-900 border border-slate-800 rounded">Esc</kbd> 隨時切換偽裝公文</span>
+        </div>
+    </footer>
+
+    <script>
+        const WORDS_DATA = [
+            // Group 1: 體制弊端與行政究責 (1-12)
+            { id: 1, group: 1, groupName: "群組一：體制弊端與行政究責", word: "bureaucracy", pos: "(n.)", meaning: "官僚體制；官僚作風", anchor: "每天面對的龐大機器。搭配：rigid bureaucracy（僵化的官僚體制）", synonyms: ["administration", "officialdom"], example: "Rigid bureaucracy often impedes the timely delivery of public services in rural townships." },
+            { id: 2, group: 1, groupName: "群組一：體制弊端與行政究責", word: "accountability", pos: "(n.)", meaning: "權責相符；問責制", anchor: "答辯書的核心靈魂！搭配：ensure public accountability（確保公眾問責）", synonyms: ["responsibility", "answerability"], example: "Clear procedural guidelines are essential to ensure administrative accountability." },
+            { id: 3, group: 1, groupName: "群組一：體制弊端與行政究責", word: "discrepancy", pos: "(n.)", meaning: "差異；不一致；落差", anchor: "都市法規與偏鄉實務間的「斷層」。必考同義詞：inconsistency", synonyms: ["inconsistency", "disparity", "difference"], example: "There is a stark discrepancy between metropolitan regulations and rural governance realities." },
+            { id: 4, group: 1, groupName: "群組一：體制弊端與行政究責", word: "superficial", pos: "(adj.)", meaning: "表面上的；膚淺的", anchor: "只發錢不搞基建就是治標不治本。搭配：a superficial solution", synonyms: ["shallow", "surface-level", "cosmetic"], example: "Handing out cash is merely a superficial fix that fails to address structural decline." },
+            { id: 5, group: 1, groupName: "群組一：體制弊端與行政究責", word: "short-sighted", pos: "(adj.)", meaning: "短視近利的", anchor: "為了今年考績甲等而妥協就是短視。同義詞：myopic", synonyms: ["myopic", "imprudent"], example: "Relying solely on temporary tax breaks is a short-sighted policy approach." },
+            { id: 6, group: 1, groupName: "群組一：體制弊端與行政究責", word: "exacerbate", pos: "(v.)", meaning: "惡化；使...雪上加霜", anchor: "錯誤的政策只會讓偏鄉流失更嚴重。同義詞：aggravate / worsen", synonyms: ["aggravate", "worsen", "intensify"], example: "Unconditional cash subsidies may exacerbate fiscal waste without retaining talent." },
+            { id: 7, group: 1, groupName: "群組一：體制弊端與行政究責", word: "undermine", pos: "(v.)", meaning: "暗中削弱；動搖根基", anchor: "推諉卸責會「削弱」基層士氣。托福聽力超愛考態度字！", synonyms: ["weaken", "subvert", "erode"], example: "Arbitrary performance evaluations severely undermine civil servants' morale." },
+            { id: 8, group: 1, groupName: "群組一：體制弊端與行政究責", word: "impede", pos: "(v.)", meaning: "阻礙；妨礙（行政流程）", anchor: "繁文縟節「阻礙」了效率。同義詞：hinder / obstruct", synonyms: ["hinder", "obstruct", "hamper"], example: "Outdated digital infrastructure continues to impede regional economic integration." },
+            { id: 9, group: 1, groupName: "群組一：體制弊端與行政究責", word: "redundant", pos: "(adj.)", meaning: "冗餘的；多餘的", anchor: "疊床架屋的無效公文。搭配：redundant procedures（冗餘的程序）", synonyms: ["unnecessary", "superfluous", "repetitive"], example: "Streamlining redundant administrative procedures can significantly boost efficiency." },
+            { id: 10, group: 1, groupName: "群組一：體制弊端與行政究責", word: "chronic", pos: "(adj.)", meaning: "長期慢性的；積習難改的", anchor: "偏鄉缺人是「長期結構性」問題。搭配：chronic shortage", synonyms: ["persistent", "long-standing", "habitual"], example: "Remote municipalities suffer from a chronic shortage of医療 and educational resources." },
+            { id: 11, group: 1, groupName: "群組一：體制弊端與行政究責", word: "vulnerable", pos: "(adj.)", meaning: "脆弱的；易受傷害/究責的", anchor: "基層承辦人往往在制度下最脆弱。搭配：vulnerable populations", synonyms: ["susceptible", "exposed", "defenseless"], example: "Frontline officers are often left vulnerable when systemic flaws occur." },
+            { id: 12, group: 1, groupName: "群組一：體制弊端與行政究責", word: "stagnant", pos: "(adj.)", meaning: "停滯不前的；死水般的", anchor: "形容不思長進的組織或經濟。搭配：stagnant economy", synonyms: ["inactive", "sluggish", "static"], example: "Without reliable public transit, the local economy will remain stagnant." },
+
+            // Group 2: 預算分配與政策誘因 (13-25)
+            { id: 13, group: 2, groupName: "群組二：預算分配與政策誘因", word: "allocate", pos: "(v.)", meaning: "分配；撥款（預算/資源）", anchor: "政府編列預算的核心動詞。名詞：resource allocation（資源配置）", synonyms: ["distribute", "assign", "allot"], example: "Governments should allocate public funds toward high-speed internet and healthcare." },
+            { id: 14, group: 2, groupName: "群組二：預算分配與政策誘因", word: "subsidy", pos: "(n.)", meaning: "政府補助金；津貼", anchor: "偏鄉題核心字！動詞：subsidize。搭配：housing subsidies", synonyms: ["grant", "financial aid", "allowance"], example: "Direct housing subsidies rarely guarantee long-term residency in rural towns." },
+            { id: 15, group: 2, groupName: "群組二：預算分配與政策誘因", word: "incentive", pos: "(n.)", meaning: "誘因；鼓勵措施", anchor: "法規與政策的胡蘿蔔。搭配：create a structural incentive", synonyms: ["motivation", "stimulus", "inducement"], example: "Modern infrastructure creates a structural incentive for remote professionals to relocate." },
+            { id: 16, group: 2, groupName: "群組二：預算分配與政策誘因", word: "infrastructure", pos: "(n.)", meaning: "基礎建設（交通/醫療/網路）", anchor: "地方長遠發展核心字！搭配：upgrade public infrastructure", synonyms: ["foundational facilities", "public works"], example: "Upgrading digital and medical infrastructure is the cornerstone of rural revitalization." },
+            { id: 17, group: 2, groupName: "群組二：預算分配與政策誘因", word: "disparity", pos: "(n.)", meaning: "（地位、城鄉、貧富）懸殊", anchor: "教授提問第一句！搭配：regional economic disparities", synonyms: ["inequality", "gap", "imbalance"], example: "Targeted public investment can effectively narrow regional economic disparities." },
+            { id: 18, group: 2, groupName: "群組二：預算分配與政策誘因", word: "revitalize", pos: "(v.)", meaning: "使復興；注入新活力", anchor: "地方創生、活化偏鄉的精準英文。搭配：revitalize rural communities", synonyms: ["rejuvenate", "renew", "restore"], example: "Reliable connectivity is essential to revitalize aging rural communities." },
+            { id: 19, group: 2, groupName: "群組二：預算分配與政策誘因", word: "lucrative", pos: "(adj.)", meaning: "有利可圖的；高薪的", anchor: "外商的高薪職位。托福常考：a lucrative market/career", synonyms: ["profitable", "remunerative", "high-paying"], example: "High-speed broadband allows rural residents to access lucrative remote jobs." },
+            { id: 20, group: 2, groupName: "群組二：預算分配與政策誘因", word: "opportunistic", pos: "(adj.)", meaning: "投機取巧的；見風轉舵的", anchor: "領完補助就跑的人。搭配：opportunistic behavior（投機行為）", synonyms: ["exploitative", "self-serving"], example: "One-off cash handouts often attract opportunistic applicants who leave once funds expire." },
+            { id: 21, group: 2, groupName: "群組二：預算分配與政策誘因", word: "transient", pos: "(adj.)", meaning: "短暫的；過客性質的", anchor: "發錢只能帶來「短暫的」人口移入。同義詞：temporary / fleeting", synonyms: ["temporary", "fleeting", "ephemeral"], example: "Tax breaks generate only a transient population influx rather than lasting growth." },
+            { id: 22, group: 2, groupName: "群組二：預算分配與政策誘因", word: "viable", pos: "(adj.)", meaning: "可行的；能獨立存活的", anchor: "簽呈方案「具可行性」。搭配：the most viable strategy", synonyms: ["feasible", "workable", "practical"], example: "Infrastructure modernization remains the most viable strategy for sustainable development." },
+            { id: 23, group: 2, groupName: "群組二：預算分配與政策誘因", word: "prerequisite", pos: "(n.)", meaning: "先決條件；必要前提", anchor: "良好的基建是留才的「先決條件」。搭配：a prerequisite for success", synonyms: ["precondition", "requirement", "necessity"], example: "Quality healthcare is a fundamental prerequisite for attracting young families." },
+            { id: 24, group: 2, groupName: "群組二：預算分配與政策誘因", word: "catalyst", pos: "(n.)", meaning: "催化劑；促使改變的契機", anchor: "促使改革的關鍵契機。搭配：act as a catalyst for...", synonyms: ["stimulus", "spark", "impetus"], example: "High-speed rail networks can act as a powerful catalyst for regional transformation." },
+            { id: 25, group: 2, groupName: "群組二：預算分配與政策誘因", word: "autonomous", pos: "(adj.)", meaning: "自治的；自主運作的", anchor: "新加坡公立大學皆為 Autonomous Universities。", synonyms: ["independent", "self-governing", "sovereign"], example: "Empowering autonomous local agencies improves responsiveness to community needs." },
+
+            // Group 3: 法規合規與正當程序 (26-38)
+            { id: 26, group: 3, groupName: "群組三：法規合規與正當程序", word: "mandate", pos: "(n./v.)", meaning: "官方授權；強制命令", anchor: "法律明文賦予的職權。形容詞：mandatory（強制性的，必考！）", synonyms: ["directive", "decree", "require"], example: "The agency acted strictly within its statutory mandate." },
+            { id: 27, group: 3, groupName: "群組三：法規合規與正當程序", word: "compliance", pos: "(n.)", meaning: "遵循；合規（依從法規）", anchor: "新加坡外商主打專業！搭配：regulatory compliance（法規遵循）", synonyms: ["adherence", "conformity", "obedience"], example: "Multinational corporations prioritize strict regulatory compliance across Asia-Pacific." },
+            { id: 28, group: 3, groupName: "群組三：法規合規與正當程序", word: "legitimate", pos: "(adj.)", meaning: "合法的；正當合理的", anchor: "符合《行政程序法》的正當性。搭配：a legitimate concern", synonyms: ["lawful", "valid", "justifiable"], example: "Due process protects civil servants who exercise legitimate administrative discretion." },
+            { id: 29, group: 3, groupName: "群組三：法規合規與正當程序", word: "arbitrary", pos: "(adj.)", meaning: "專斷的；隨心所欲的（人治）", anchor: "長官無標準亂打考績就是 arbitrary decision（專斷的裁量）。", synonyms: ["capricious", "whimsical", "unreasonable"], example: "Collegial review boards are designed to prevent arbitrary decisions by supervisors." },
+            { id: 30, group: 3, groupName: "群組三：法規合規與正當程序", word: "hierarchy", pos: "(n.)", meaning: "階層制度；官僚科層", anchor: "申請 NUS 機關組織圖即呈現 organizational hierarchy。", synonyms: ["ranking", "pecking order", "chain of command"], example: "A rigid organizational hierarchy often delays critical policy feedback." },
+            { id: 31, group: 3, groupName: "群組三：法規合規與正當程序", word: "scrutiny", pos: "(n.)", meaning: "嚴密審查；監察院的審視", anchor: "公文經得起檢驗。搭配：come under strict scrutiny", synonyms: ["inspection", "examination", "investigation"], example: "Public procurement budgets must withstand rigorous legislative scrutiny." },
+            { id: 32, group: 3, groupName: "群組三：法規合規與正當程序", word: "jurisdiction", pos: "(n.)", meaning: "管轄權；職權範圍", anchor: "「這不是我的管轄範圍」！把黑鍋推回去的最帥單字。", synonyms: ["authority", "control", "territory"], example: "That matter falls outside the legal jurisdiction of the municipal personnel office." },
+            { id: 33, group: 3, groupName: "群組三：法規合規與正當程序", word: "precedent", pos: "(n.)", meaning: "先例；判例", anchor: "行政慣例或法院判例。搭配：set a precedent（創下先例）", synonyms: ["model", "example", "prior case"], example: "Penalizing frontline staff without due process sets a dangerous administrative precedent." },
+            { id: 34, group: 3, groupName: "群組三：法規合規與正當程序", word: "consensus", pos: "(n.)", meaning: "共識（合議制的決議）", anchor: "考績會是「合議制」，需要 reach a consensus（達成共識）。", synonyms: ["agreement", "harmony", "unanimity"], example: "Committee decisions require a formal consensus rather than unilateral commands." },
+            { id: 35, group: 3, groupName: "群組三：法規合規與正當程序", word: "ratify", pos: "(v.)", meaning: "正式批准；核定（簽呈/條約）", anchor: "機關或議會「核定」計畫。托福歷史題常考批准憲法或條約。", synonyms: ["approve", "confirm", "endorse"], example: "The council voted unanimously to ratify the regional development plan." },
+            { id: 36, group: 3, groupName: "群組三：法規合規與正當程序", word: "statute", pos: "(n.)", meaning: "成文法；法規條文", anchor: "最熟的法條本身。別跟 status（地位）或 statue（雕像）搞混！", synonyms: ["law", "enactment", "regulation"], example: "Administrative actions must strictly adhere to the governing statute." },
+            { id: 37, group: 3, groupName: "群組三：法規合規與正當程序", word: "exempt", pos: "(adj./v.)", meaning: "被豁免的；免除（義務）", anchor: "免稅或免責。搭配：be exempt from taxation/liability", synonyms: ["excused", "immune", "spared"], example: "No executive official should be exempt from legal accountability." },
+            { id: 38, group: 3, groupName: "群組三：法規合規與正當程序", word: "stringent", pos: "(adj.)", meaning: "（法規/標準）極為嚴苛的", anchor: "新加坡簽證標準非常嚴格。搭配：stringent regulations", synonyms: ["rigorous", "strict", "tight"], example: "Stringent auditing standards prevent the misuse of rural development grants." },
+
+            // Group 4: 托福閱讀必考高頻轉折與邏輯動詞 (39-50)
+            { id: 39, group: 4, groupName: "群組四：閱讀必考轉折與邏輯動詞", word: "mitigate", pos: "(v.)", meaning: "緩解；減輕（風險/衝擊）", anchor: "= alleviate / lessen / reduce（模板第 4 句必用字！）", synonyms: ["alleviate", "lessen", "reduce"], example: "Expanding telemedicine networks can effectively mitigate healthcare shortages in rural areas." },
+            { id: 40, group: 4, groupName: "群組四：閱讀必考轉折與邏輯動詞", word: "bolster", pos: "(v.)", meaning: "支持；強化（論點/經濟）", anchor: "= support / reinforce / strengthen", synonyms: ["support", "reinforce", "strengthen"], example: "Robust transport links bolster local tourism and small business growth." },
+            { id: 41, group: 4, groupName: "群組四：閱讀必考轉折與邏輯動詞", word: "proliferate", pos: "(v.)", meaning: "激增；迅速繁衍/擴散", anchor: "= multiply / increase rapidly", synonyms: ["multiply", "mushroom", "expand rapidly"], example: "Tech startups tend to proliferate in cities with world-class digital connectivity." },
+            { id: 42, group: 4, groupName: "群組四：閱讀必考轉折與邏輯動詞", word: "culminate", pos: "(v.)", meaning: "最終達到（高潮或結果）", anchor: "= result in / end in / peak（常搭配 culminate in）", synonyms: ["climax", "peak", "result in"], example: "Years of systemic neglect culminated in severe population outflow." },
+            { id: 43, group: 4, groupName: "群組四：閱讀必考轉折與邏輯動詞", word: "ubiquitous", pos: "(adj.)", meaning: "無所不在的；隨處可見的", anchor: "= omnipresent / found everywhere", synonyms: ["omnipresent", "pervasive", "universal"], example: "High-speed wireless coverage has become ubiquitous in modern metropolitan hubs." },
+            { id: 44, group: 4, groupName: "群組四：閱讀必考轉折與邏輯動詞", word: "meticulous", pos: "(adj.)", meaning: "一絲不苟的；極度嚴謹的", anchor: "= careful / thorough / precise（形容寫答辯狀的嚴謹度！）", synonyms: ["thorough", "scrupulous", "precise"], example: "Preparing a legal defense requires meticulous attention to procedural evidence." },
+            { id: 45, group: 4, groupName: "群組四：閱讀必考轉折與邏輯動詞", word: "ambiguous", pos: "(adj.)", meaning: "模稜兩可的；含糊不清的", anchor: "= vague / unclear（官僚最愛寫的模糊公文）", synonyms: ["vague", "equivocal", "unclear"], example: "Ambiguous policy directives often lead to inconsistent enforcement at the local level." },
+            { id: 46, group: 4, groupName: "群組四：閱讀必考轉折與邏輯動詞", word: "plausible", pos: "(adj.)", meaning: "看似合理的；說得過去的", anchor: "= believable / reasonable / likely", synonyms: ["believable", "credible", "reasonable"], example: "While Paul's cash handout proposal sounds plausible, it ignores long-term retention." },
+            { id: 47, group: 4, groupName: "群組四：閱讀必考轉折與邏輯動詞", word: "compelling", pos: "(adj.)", meaning: "極具說服力的；強而有力的", anchor: "= convincing / persuasive（形容強而有力的答辯書！）", synonyms: ["convincing", "persuasive", "cogent"], example: "Empirical data provides compelling evidence for prioritizing public infrastructure." },
+            { id: 48, group: 4, groupName: "群組四：閱讀必考轉折與邏輯動詞", word: "inherent", pos: "(adj.)", meaning: "固有的；體制內在天生的", anchor: "= intrinsic / built-in / essential（搭配：inherent flaw 固有瑕疵）", synonyms: ["intrinsic", "innate", "built-in"], example: "Moral hazard is an inherent flaw in unconditional cash subsidy programs." },
+            { id: 49, group: 4, groupName: "群組四：閱讀必考轉折與邏輯動詞", word: "offset", pos: "(v.)", meaning: "抵銷；彌補（劣勢或成本）", anchor: "= counterbalance / compensate for（頂尖學歷能 offset 年齡劣勢）", synonyms: ["counterbalance", "compensate for", "neutralize"], example: "A prestigious degree from NUS can effectively offset age barriers in the global job market." },
+            { id: 50, group: 4, groupName: "群組四：閱讀必考轉折與邏輯動詞", word: "paradigm", pos: "(n.)", meaning: "典範；思維模式/框架", anchor: "= model / framework（搭配：paradigm shift 思維維度的徹底轉換）", synonyms: ["model", "framework", "pattern"], example: "Digital governance represents a fundamental paradigm shift in public administration." }
+        ];
+
+        // Priority words for tonight's Rural Budget Allocation writing prompt
+        const WRITING_PRIORITY_IDS = [17, 16, 14, 15, 13, 18, 4, 5, 6, 20, 21, 39, 22, 10, 23];
+
+        const STORAGE_KEY = "lkyspp_toefl_50_status_v1";
+        const DRAFT_STORAGE_KEY = "lkyspp_toefl_writing_draft_v1";
+        let wordStatus = {}; // { [id]: 'mastered' | 'review' }
+        let currentFilter = 'all';
+        let filteredDeck = [...WORDS_DATA];
+        let currentCardIndex = 0;
+        let isCardFlipped = false;
+        let isMuted = true; // Default muted for office stealth!
+        let isStealthMode = false;
+
+        // 30-Minute Stealth Timer State
+        let stealthSecondsLeft = 30 * 60;
+        let stealthTimerInterval = null;
+
+        // 10-Minute Writing Timer State
+        let writingSecondsLeft = 10 * 60;
+        let writingTimerInterval = null;
+
+        // Quiz State
+        let quizQuestions = [];
+        let currentQuizIdx = 0;
+        let quizScore = 0;
+
+        function loadState() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) wordStatus = JSON.parse(saved);
+                const savedDraft = localStorage.getItem(DRAFT_STORAGE_KEY);
+                if (savedDraft) {
+                    document.getElementById('writingTextarea').value = savedDraft;
+                }
+            } catch (e) {
+                wordStatus = {};
+            }
+            updateProgressStats();
+        }
+
+        function saveState() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(wordStatus));
+            } catch (e) {}
+            updateProgressStats();
+        }
+
+        function updateProgressStats() {
+            let mastered = 0;
+            let review = 0;
+            WORDS_DATA.forEach(w => {
+                if (wordStatus[w.id] === 'mastered') mastered++;
+                else if (wordStatus[w.id] === 'review') review++;
+            });
+            const unseen = WORDS_DATA.length - mastered - review;
+
+            document.getElementById('countMastered').textContent = mastered;
+            document.getElementById('countReview').textContent = review;
+            document.getElementById('countUnseen').textContent = unseen;
+
+            document.getElementById('barMastered').style.width = `${(mastered / 50) * 100}%`;
+            document.getElementById('barReview').style.width = `${(review / 50) * 100}%`;
+        }
+
+        function resetAllProgress() {
+            wordStatus = {};
+            saveState();
+            renderCurrentCard();
+            renderWordTable();
+        }
+
+        function toggleStealthTimer() {
+            const btn = document.getElementById('timerStartBtn');
+            if (stealthTimerInterval) {
+                clearInterval(stealthTimerInterval);
+                stealthTimerInterval = null;
+                btn.textContent = '▶ 繼續潛行';
+            } else {
+                btn.textContent = '⏸ 暫停';
+                stealthTimerInterval = setInterval(() => {
+                    if (stealthSecondsLeft > 0) {
+                        stealthSecondsLeft--;
+                        updateStealthTimerUI();
+                    } else {
+                        clearInterval(stealthTimerInterval);
+                        stealthTimerInterval = null;
+                        btn.textContent = '✔ 完成 30m';
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetStealthTimer() {
+            if (stealthTimerInterval) {
+                clearInterval(stealthTimerInterval);
+                stealthTimerInterval = null;
+            }
+            stealthSecondsLeft = 30 * 60;
+            document.getElementById('timerStartBtn').textContent = '▶ 啟動潛行';
+            updateStealthTimerUI();
+        }
+
+        function updateStealthTimerUI() {
+            const mins = String(Math.floor(stealthSecondsLeft / 60)).padStart(2, '0');
+            const secs = String(stealthSecondsLeft % 60).padStart(2, '0');
+            document.getElementById('stealthTimerDisplay').textContent = `${mins}:${secs}`;
+
+            const phaseBadge = document.getElementById('timerPhaseBadge');
+            if (stealthSecondsLeft > 15 * 60) {
+                phaseBadge.textContent = '階段一 (前15m)：第一輪 0.5秒極速掃瞄';
+            } else if (stealthSecondsLeft > 5 * 60) {
+                phaseBadge.textContent = '階段二 (中10m)：專刷「待加強」弱點與例句';
+            } else {
+                phaseBadge.textContent = '階段三 (後5m)：12:55 秒殺自測驗收！';
+            }
+        }
+
+        function toggleStealthMode() {
+            isStealthMode = !isStealthMode;
+            document.body.classList.toggle('stealth-mode', isStealthMode);
+            const mainTitle = document.getElementById('mainAppTitle');
+            const subTitle = document.getElementById('subAppTitle');
+            const btnDesktop = document.getElementById('stealthBtnTextDesktop');
+            const btnMobile = document.getElementById('stealthBtnTextMobile');
+
+            if (isStealthMode) {
+                mainTitle.textContent = '行政程序法暨正當法律程序實務用語對照檢索系統';
+                subTitle.textContent = '內部法制參考資料 · 雙語法規詞彙與抗辯例句彙編';
+                btnDesktop.textContent = '切回戰略暗色模式 (Esc)';
+                btnMobile.textContent = '切回暗色';
+            } else {
+                mainTitle.textContent = 'LKYSPP 戰略潛行：托福 3.0 ➔ 5.0 隨身刷字系統';
+                subTitle.textContent = '目標：NUS 李光耀公共政策學院 / NTU 南洋公共管理研究生院（政經法規高頻核心詞庫）';
+                btnDesktop.textContent = '偽裝公文模式 (Esc)';
+                btnMobile.textContent = '偽裝公文';
+            }
+        }
+
+        function toggleMute() {
+            isMuted = !isMuted;
+            const btn = document.getElementById('muteToggleBtn');
+            btn.textContent = isMuted ? '🔇 靜音中' : '🔊 發音開啟';
+        }
+
+        function speakWord(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            const utter = new SpeechSynthesisUtterance(text);
+            utter.lang = 'en-US';
+            utter.rate = 0.95;
+            window.speechSynthesis.speak(utter);
+        }
+
+        function speakCurrentWord() {
+            if (!filteredDeck.length) return;
+            const item = filteredDeck[currentCardIndex];
+            speakWord(item.word);
+        }
+
+        function setDeckFilter(filterType) {
+            currentFilter = filterType;
+            document.querySelectorAll('.deck-filter-btn').forEach(btn => {
+                btn.className = 'deck-filter-btn px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700';
+            });
+            const activeBtn = document.getElementById(`filter-${filterType}`);
+            if (activeBtn) {
+                activeBtn.className = 'deck-filter-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-amber-500 text-slate-950 stealth-accent';
+            }
+
+            if (filterType === 'all') {
+                filteredDeck = [...WORDS_DATA];
+            } else if (filterType === 'review') {
+                filteredDeck = WORDS_DATA.filter(w => wordStatus[w.id] === 'review');
+                if (filteredDeck.length === 0) {
+                    filteredDeck = [...WORDS_DATA];
+                }
+            } else {
+                const g = parseInt(filterType, 10);
+                filteredDeck = WORDS_DATA.filter(w => w.group === g);
+            }
+
+            currentCardIndex = 0;
+            isCardFlipped = false;
+            renderCurrentCard();
+        }
+
+        function shuffleDeck() {
+            for (let i = filteredDeck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [filteredDeck[i], filteredDeck[j]] = [filteredDeck[j], filteredDeck[i]];
+            }
+            currentCardIndex = 0;
+            isCardFlipped = false;
+            renderCurrentCard();
+        }
+
+        function triggerReflexBar() {
+            const bar = document.getElementById('reflexBar');
+            if (!bar) return;
+            bar.classList.remove('animate-reflex');
+            void bar.offsetWidth; // Force reflow
+            bar.classList.add('animate-reflex');
+        }
+
+        function renderCurrentCard() {
+            if (filteredDeck.length === 0) return;
+            const item = filteredDeck[currentCardIndex];
+            const inner = document.getElementById('flashcardInner');
+            isCardFlipped = false;
+            inner.classList.remove('flipped');
+
+            document.getElementById('cardIndexText').textContent = `Card ${String(currentCardIndex + 1).padStart(2, '0')} / ${String(filteredDeck.length).padStart(2, '0')}`;
+            document.getElementById('cardGroupTag').textContent = item.groupName;
+            document.getElementById('cardIdFront').textContent = String(item.id).padStart(2, '0');
+            document.getElementById('cardWordFront').textContent = item.word;
+            document.getElementById('cardPosFront').textContent = item.pos;
+
+            document.getElementById('cardWordBack').textContent = item.word;
+            document.getElementById('cardPosBack').textContent = item.pos;
+            document.getElementById('cardMeaningBack').textContent = item.meaning;
+            document.getElementById('cardAnchorBack').textContent = item.anchor;
+            document.getElementById('cardExampleBack').textContent = item.example;
+
+            const synContainer = document.getElementById('cardSynonymsBack');
+            synContainer.innerHTML = item.synonyms.map(s => 
+                `<span class="px-2.5 py-0.5 rounded-md bg-sky-950/90 border border-sky-700/60 text-sky-300 font-mono text-xs font-semibold">= ${s}</span>`
+            ).join('');
+
+            const statusBadge = document.getElementById('cardStatusBadge');
+            const st = wordStatus[item.id];
+            if (st === 'mastered') {
+                statusBadge.textContent = '⚡ 已秒懂掌握';
+                statusBadge.className = 'px-2 py-0.5 rounded text-[11px] bg-emerald-950 text-emerald-300 border border-emerald-700/50';
+            } else if (st === 'review') {
+                statusBadge.textContent = '🔥 待加強弱點';
+                statusBadge.className = 'px-2 py-0.5 rounded text-[11px] bg-rose-950 text-rose-300 border border-rose-700/50';
+            } else {
+                statusBadge.textContent = '未檢視';
+                statusBadge.className = 'px-2 py-0.5 rounded text-[11px] bg-slate-800 text-slate-400';
+            }
+
+            triggerReflexBar();
+            if (!isMuted) speakWord(item.word);
+        }
+
+        function flipCard() {
+            isCardFlipped = !isCardFlipped;
+            const inner = document.getElementById('flashcardInner');
+            inner.classList.toggle('flipped', isCardFlipped);
+        }
+
+        function nextCard() {
+            if (filteredDeck.length === 0) return;
+            currentCardIndex = (currentCardIndex + 1) % filteredDeck.length;
+            renderCurrentCard();
+        }
+
+        function prevCard() {
+            if (filteredDeck.length === 0) return;
+            currentCardIndex = (currentCardIndex - 1 + filteredDeck.length) % filteredDeck.length;
+            renderCurrentCard();
+        }
+
+        function markCurrentCard(status) {
+            if (filteredDeck.length === 0) return;
+            const item = filteredDeck[currentCardIndex];
+            wordStatus[item.id] = status;
+            saveState();
+            nextCard();
+        }
+
+        function startQuiz(count, mode) {
+            quizScore = 0;
+            currentQuizIdx = 0;
+            quizQuestions = [];
+
+            if (mode === 'classic') {
+                // Exact 4 verification questions from today's 12:55 checkpoint + 1 bonus context question
+                quizQuestions = [
+                    {
+                        wordId: 38,
+                        prompt: '1. The word <strong class="text-amber-400">"stringent"</strong> (No. 38) is closest in meaning to:',
+                        options: ['flexible', 'rigorous', 'superficial', 'redundant'],
+                        answer: 'rigorous',
+                        explanation: 'stringent 指「（法規或標準）極為嚴苛的」，對應托福必考同義詞 rigorous / strict。'
+                    },
+                    {
+                        wordId: 39,
+                        prompt: '2. The word <strong class="text-amber-400">"mitigate"</strong> (No. 39) is closest in meaning to:',
+                        options: ['exacerbate', 'ratify', 'alleviate', 'impede'],
+                        answer: 'alleviate',
+                        explanation: 'mitigate 指「緩解、減輕（風險或衝擊）」，直接等於 alleviate / lessen / reduce。'
+                    },
+                    {
+                        wordId: 21,
+                        prompt: '3. The word <strong class="text-amber-400">"transient"</strong> (No. 21) is closest in meaning to:',
+                        options: ['temporary', 'chronic', 'mandatory', 'lucrative'],
+                        answer: 'temporary',
+                        explanation: 'transient 指「短暫的、過客性質的」，同義詞為 temporary / fleeting。'
+                    },
+                    {
+                        wordId: 5,
+                        prompt: '4. 【今晚寫作填空預演】Handing out cash is merely a <strong class="text-amber-400">________</strong> and <strong class="text-amber-400">superficial</strong> fix that may even <strong class="text-amber-400">exacerbate</strong> resource misallocation.',
+                        options: ['short-sighted', 'meticulous', 'compelling', 'autonomous'],
+                        answer: 'short-sighted',
+                        explanation: '發放現金只是「短視近利（short-sighted）」且「治標不治本（superficial）」的做法，甚至會「惡化（exacerbate）」資源錯置。'
+                    },
+                    {
+                        wordId: 20,
+                        prompt: '5. 【偏鄉補助反駁句】One-off cash subsidies often attract <strong class="text-amber-400">________</strong> applicants who leave as soon as the funding expires.',
+                        options: ['opportunistic', 'ubiquitous', 'legitimate', 'stagnant'],
+                        answer: 'opportunistic',
+                        explanation: 'opportunistic 指「投機取巧的」，完美用來駁斥 Paul 的短期現金補助盲點！'
+                    }
+                ];
+            } else {
+                const pool = [...WORDS_DATA].sort(() => Math.random() - 0.5).slice(0, count);
+                pool.forEach((target, idx) => {
+                    const correctSyn = target.synonyms[0];
+                    const distractors = WORDS_DATA
+                        .filter(w => w.id !== target.id)
+                        .sort(() => Math.random() - 0.5)
+                        .slice(0, 3)
+                        .map(w => w.synonyms[0]);
+                    const options = [correctSyn, ...distractors].sort(() => Math.random() - 0.5);
+
+                    quizQuestions.push({
+                        wordId: target.id,
+                        prompt: `${idx + 1}. The word <strong class="text-amber-400">"${target.word}"</strong> ${target.pos} is closest in meaning to:`,
+                        options,
+                        answer: correctSyn,
+                        explanation: `【#${target.id} ${target.word}】${target.meaning}。記憶錨點：${target.anchor}`
+                    });
+                });
+            }
+
+            renderQuizQuestion();
+        }
+
+        function renderQuizQuestion() {
+            const box = document.getElementById('quizContainer');
+            if (currentQuizIdx >= quizQuestions.length) {
+                const pct = Math.round((quizScore / quizQuestions.length) * 100);
+                box.innerHTML = `
+                    <div class="text-center py-6 space-y-4">
+                        <div class="text-4xl font-black text-amber-400 font-mono">${quizScore} / ${quizQuestions.length} (${pct}%)</div>
+                        <h3 class="text-lg font-bold text-white">
+                            ${pct >= 80 ? '⚡ 戰略算力滿格！具備秒殺托福詞彙題水準！' : '🔥 錯題已自動標記至「待加強弱點庫」，可切回閃卡專項快刷！'}
+                        </h3>
+                        <div class="flex justify-center gap-3 pt-2">
+                            <button onclick="startQuiz(5, 'classic')" class="px-4 py-2 rounded-xl text-xs font-bold bg-amber-500 text-slate-950">再測一次經典 5 題</button>
+                            <button onclick="startQuiz(10, 'random')" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-200 border border-slate-700">再刷隨機 10 題</button>
+                            <button onclick="switchTab('flashcard'); setDeckFilter('review');" class="px-4 py-2 rounded-xl text-xs font-semibold bg-rose-950 text-rose-200 border border-rose-700/50">去刷「待加強」弱點字</button>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            const q = quizQuestions[currentQuizIdx];
+            box.innerHTML = `
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between text-xs text-slate-400 border-b border-slate-800 pb-2">
+                        <span>題目進度：${currentQuizIdx + 1} / ${quizQuestions.length}</span>
+                        <span>當前得分：<strong class="text-emerald-400 font-mono">${quizScore}</strong></span>
+                    </div>
+                    <div class="text-base sm:text-lg text-slate-100 leading-relaxed py-2">
+                        ${q.prompt}
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        ${q.options.map((opt, idx) => `
+                            <button onclick="submitQuizAnswer('${opt.replace(/'/g, "\\'")}', this)" class="quiz-opt-btn text-left px-4 py-3 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-sm font-mono text-slate-200 transition flex items-center gap-2.5">
+                                <span class="w-6 h-6 rounded-lg bg-slate-900 border border-slate-700 flex items-center justify-center text-xs text-amber-400 font-bold">${String.fromCharCode(65 + idx)}</span>
+                                <span>${opt}</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div id="quizFeedbackBox" class="hidden p-4 rounded-xl border text-xs sm:text-sm leading-relaxed"></div>
+                </div>
+            `;
+        }
+
+        function submitQuizAnswer(selected, btnEl) {
+            const q = quizQuestions[currentQuizIdx];
+            const allBtns = document.querySelectorAll('.quiz-opt-btn');
+            allBtns.forEach(b => b.disabled = true);
+
+            const fb = document.getElementById('quizFeedbackBox');
+            fb.classList.remove('hidden');
+
+            if (selected === q.answer) {
+                quizScore++;
+                wordStatus[q.wordId] = 'mastered';
+                btnEl.classList.add('border-emerald-500', 'bg-emerald-950/60');
+                fb.className = 'p-4 rounded-xl border border-emerald-700/60 bg-emerald-950/40 text-emerald-200 text-xs sm:text-sm';
+                fb.innerHTML = `<div class="font-bold mb-1">✅ 秒殺正確！已標記為「秒懂掌握」</div><div>${q.explanation}</div>`;
+            } else {
+                wordStatus[q.wordId] = 'review';
+                btnEl.classList.add('border-rose-500', 'bg-rose-950/60');
+                fb.className = 'p-4 rounded-xl border border-rose-700/60 bg-rose-950/40 text-rose-200 text-xs sm:text-sm';
+                fb.innerHTML = `<div class="font-bold mb-1">❌ 答錯了！正確答案為：<span class="font-mono underline">${q.answer}</span>（已自動加入待加強庫）</div><div>${q.explanation}</div>`;
+            }
+            saveState();
+
+            fb.innerHTML += `
+                <div class="mt-3 text-right">
+                    <button onclick="currentQuizIdx++; renderQuizQuestion();" class="px-4 py-1.5 rounded-lg bg-amber-500 text-slate-950 font-bold text-xs">下一題 ▶</button>
+                </div>
+            `;
+        }
+
+        function renderWordTable() {
+            const query = (document.getElementById('tableSearchInput')?.value || '').trim().toLowerCase();
+            const groupFilter = document.getElementById('tableGroupSelect')?.value || 'all';
+            const maskChinese = document.getElementById('maskChineseToggle')?.checked || false;
+
+            const rows = WORDS_DATA.filter(w => {
+                if (groupFilter === 'review' && wordStatus[w.id] !== 'review') return false;
+                if (groupFilter !== 'all' && groupFilter !== 'review' && w.group !== parseInt(groupFilter, 10)) return false;
+                if (!query) return true;
+                return (
+                    w.word.toLowerCase().includes(query) ||
+                    w.meaning.toLowerCase().includes(query) ||
+                    w.anchor.toLowerCase().includes(query) ||
+                    w.synonyms.some(s => s.toLowerCase().includes(query))
+                );
+            });
+
+            const tbody = document.getElementById('wordTableBody');
+            tbody.innerHTML = rows.map(w => {
+                const st = wordStatus[w.id];
+                const maskClass = maskChinese
+                    ? 'blur-sm hover:blur-none focus:blur-none transition duration-150 cursor-pointer select-none'
+                    : '';
+
+                return `
+                    <tr class="hover:bg-slate-800/40 transition">
+                        <td class="py-2.5 px-3 font-mono text-xs text-slate-500">${String(w.id).padStart(2, '0')}</td>
+                        <td class="py-2.5 px-3">
+                            <div class="flex items-center gap-2">
+                                <button onclick="speakWord('${w.word}')" class="text-slate-400 hover:text-amber-400" title="發音">🔊</button>
+                                <span class="font-bold text-white text-sm">${w.word}</span>
+                                <span class="text-xs font-mono text-amber-400/90">${w.pos}</span>
+                            </div>
+                        </td>
+                        <td class="py-2.5 px-3 font-semibold text-emerald-400 ${maskClass}" onclick="this.classList.toggle('blur-sm')">
+                            ${w.meaning}
+                        </td>
+                        <td class="py-2.5 px-3 text-slate-300 text-xs ${maskClass}" onclick="this.classList.toggle('blur-sm')">
+                            ${w.anchor}
+                        </td>
+                        <td class="py-2.5 px-3 font-mono text-xs text-sky-300">
+                            ${w.synonyms.join(', ')}
+                        </td>
+                        <td class="py-2.5 px-3 text-center">
+                            <div class="inline-flex rounded-lg overflow-hidden border border-slate-700">
+                                <button onclick="setWordStatusFromTable(${w.id}, 'mastered')" class="px-2 py-1 text-[11px] ${st === 'mastered' ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-900 text-slate-400 hover:bg-slate-800'}">秒懂</button>
+                                <button onclick="setWordStatusFromTable(${w.id}, 'review')" class="px-2 py-1 text-[11px] ${st === 'review' ? 'bg-rose-600 text-white font-bold' : 'bg-slate-900 text-slate-400 hover:bg-slate-800'}">弱點</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function setWordStatusFromTable(id, status) {
+            if (wordStatus[id] === status) {
+                delete wordStatus[id];
+            } else {
+                wordStatus[id] = status;
+            }
+            saveState();
+            renderWordTable();
+        }
+
+        function renderWritingChips() {
+            const container = document.getElementById('writingVocabChips');
+            if (!container) return;
+            const text = (document.getElementById('writingTextarea')?.value || '').toLowerCase();
+
+            let usedCount = 0;
+            WORDS_DATA.forEach(w => {
+                const stem = w.word.toLowerCase().slice(0, Math.max(4, w.word.length - 2));
+                if (text.includes(stem)) usedCount++;
+            });
+            document.getElementById('usedCoreWordsBadge').textContent = `已嵌入今日核心字：${usedCount} 個`;
+
+            const priorityWords = WORDS_DATA.filter(w => WRITING_PRIORITY_IDS.includes(w.id));
+            container.innerHTML = priorityWords.map(w => {
+                const stem = w.word.toLowerCase().slice(0, Math.max(4, w.word.length - 2));
+                const isUsed = text.includes(stem);
+                return `
+                    <button onclick="insertWordIntoWriting('${w.word}')" class="px-2.5 py-1 rounded-lg text-xs font-mono transition flex items-center gap-1 border ${
+                        isUsed
+                            ? 'bg-emerald-950/90 border-emerald-500 text-emerald-300 font-bold'
+                            : 'bg-slate-950 border-slate-800 text-slate-300 hover:border-amber-500/60'
+                    }" title="${w.meaning} | ${w.anchor}">
+                        <span>${isUsed ? '✓' : '+'} ${w.word}</span>
+                        <span class="text-[10px] text-slate-400 font-sans">(${w.meaning.split('；')[0]})</span>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function insertWordIntoWriting(word) {
+            const ta = document.getElementById('writingTextarea');
+            const start = ta.selectionStart;
+            const end = ta.selectionEnd;
+            const current = ta.value;
+            const insertText = (start > 0 && current[start - 1] !== ' ' && current[start - 1] !== '\n') ? ` ${word}` : word;
+            ta.value = current.substring(0, start) + insertText + current.substring(end);
+            ta.focus();
+            ta.selectionStart = ta.selectionEnd = start + insertText.length;
+            updateWritingMetrics();
+        }
+
+        function insertTemplateSkeleton() {
+            const ta = document.getElementById('writingTextarea');
+            const skeleton = `While this policy debate is multifaceted, I firmly contend that the government should allocate budgets toward upgrading rural public infrastructure rather than direct cash subsidies, primarily due to its profound impact on long-term regional sustainability.
+
+Although Paul raises a valid point regarding immediate financial relief, this perspective overlooks a critical systemic flaw: short-sighted cash handouts often attract opportunistic applicants, resulting in only a transient population influx.
+
+Specifically, when authorities implement comprehensive infrastructure upgrades, it directly creates a powerful structural incentive for remote professionals and enterprises to relocate permanently.
+
+For instance, in practical governance, establishing high-speed digital connectivity and reliable healthcare not only mitigates chronic regional disparities but also optimizes public resource allocation.
+
+Therefore, rather than relying on superficial subsidies, modernizing rural infrastructure remains the most viable strategy to revitalize aging communities.`;
+            ta.value = skeleton;
+            updateWritingMetrics();
+        }
+
+        function loadModelAnswer() {
+            insertTemplateSkeleton();
+        }
+
+        function clearWritingDraft() {
+            document.getElementById('writingTextarea').value = '';
+            updateWritingMetrics();
+        }
+
+        function updateWritingMetrics() {
+            const text = document.getElementById('writingTextarea').value;
+            try {
+                localStorage.setItem(DRAFT_STORAGE_KEY, text);
+            } catch (e) {}
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            const countEl = document.getElementById('writingWordCount');
+            countEl.textContent = words;
+            countEl.className = words >= 120 ? 'font-mono text-base text-emerald-400' : 'font-mono text-base text-amber-400';
+            renderWritingChips();
+        }
+
+        function toggleWritingTimer() {
+            const btn = document.getElementById('writingTimerBtn');
+            if (writingTimerInterval) {
+                clearInterval(writingTimerInterval);
+                writingTimerInterval = null;
+                btn.textContent = '繼續計時';
+            } else {
+                btn.textContent = '暫停';
+                writingTimerInterval = setInterval(() => {
+                    if (writingSecondsLeft > 0) {
+                        writingSecondsLeft--;
+                        const m = String(Math.floor(writingSecondsLeft / 60)).padStart(2, '0');
+                        const s = String(writingSecondsLeft % 60).padStart(2, '0');
+                        document.getElementById('writingTimerDisplay').textContent = `${m}:${s}`;
+                    } else {
+                        clearInterval(writingTimerInterval);
+                        writingTimerInterval = null;
+                        btn.textContent = '時間到！';
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetWritingTimer() {
+            if (writingTimerInterval) {
+                clearInterval(writingTimerInterval);
+                writingTimerInterval = null;
+            }
+            writingSecondsLeft = 10 * 60;
+            document.getElementById('writingTimerDisplay').textContent = '10:00';
+            document.getElementById('writingTimerBtn').textContent = '開始計時';
+        }
+
+        function copyDraftForAI() {
+            const draft = document.getElementById('writingTextarea').value.trim();
+            const payload = `【區塊 C 寫作答辯驗收】這是我今晚針對「偏鄉預算配置（Infrastructure vs. Cash Subsidies）」套用五句抗辯法典寫出的草稿，請幫我依托福新制 5.0 滿分標準批改並升級句型：\n\n${draft}`;
+            
+            const temp = document.createElement('textarea');
+            temp.value = payload;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+
+            const toast = document.getElementById('copyToast');
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 4000);
+        }
+
+        function switchTab(tabName) {
+            ['flashcard', 'quiz', 'table', 'writing'].forEach(t => {
+                document.getElementById(`tab-${t}`).classList.add('hidden');
+                const btn = document.getElementById(`tabBtn-${t}`);
+                btn.className = 'tab-btn flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold whitespace-nowrap transition text-slate-300 hover:bg-slate-800';
+            });
+
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tabBtn-${tabName}`);
+            activeBtn.className = 'tab-btn flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold whitespace-nowrap transition bg-amber-500 text-slate-950 shadow-sm stealth-accent';
+
+            if (tabName === 'quiz' && quizQuestions.length === 0) {
+                startQuiz(5, 'classic');
+            } else if (tabName === 'table') {
+                renderWordTable();
+            } else if (tabName === 'writing') {
+                updateWritingMetrics();
+            }
+        }
+
+        // Global Keyboard Shortcuts
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                toggleStealthMode();
+                return;
+            }
+            // Ignore shortcuts when typing in input/textarea
+            if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) {
+                return;
+            }
+            const isFlashcardVisible = !document.getElementById('tab-flashcard').classList.contains('hidden');
+            if (!isFlashcardVisible) return;
+
+            if (e.code === 'Space') {
+                e.preventDefault();
+                flipCard();
+            } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                markCurrentCard('mastered');
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                markCurrentCard('review');
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                nextCard();
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                prevCard();
+            } else if (e.key.toLowerCase() === 's') {
+                e.preventDefault();
+                speakCurrentWord();
+            }
+        });
+
+        window.onload = function () {
+            loadState();
+            renderCurrentCard();
+            renderWritingChips();
+        };
+    </script>
+</body>
+</html>
