@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LKYSPP 托福苦手：托福 3.0 ➔ 5.0 隨身刷字與好好寫作</title>
+    <title>LKYSPP 戰略潛行 v2.0：智慧日曆感知 ＆ 托福 3.0 ➔ 5.0 隨身特訓系統</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,7 +29,7 @@
         }
         .transform-style-3d {
             transform-style: preserve-3d;
-            transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+            transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .backface-hidden {
             backface-visibility: hidden;
@@ -42,7 +42,7 @@
             transform: rotateY(180deg);
         }
 
-        /* 1-Second Recognition Reflex Bar Animation */
+        /* 1.2-Second Recognition Reflex Bar Animation */
         @keyframes reflexShrink {
             0% { width: 100%; background-color: #10b981; }
             60% { background-color: #f59e0b; }
@@ -50,6 +50,34 @@
         }
         .animate-reflex {
             animation: reflexShrink 1.2s linear forwards;
+        }
+
+        /* Legal Bracket Slasher Styling for Reading Long Sentences */
+        .clause-modifier {
+            transition: all 0.25s ease;
+        }
+        .slasher-active .clause-modifier {
+            opacity: 0.32;
+            text-decoration: line-through;
+            background-color: rgba(148, 163, 184, 0.1);
+            padding: 0 4px;
+            border-radius: 4px;
+        }
+        .slasher-active .clause-modifier::before {
+            content: "【";
+            color: #64748b;
+        }
+        .slasher-active .clause-modifier::after {
+            content: "】";
+            color: #64748b;
+        }
+        .slasher-active .clause-core {
+            background-color: rgba(245, 158, 11, 0.22);
+            color: #fde68a;
+            font-weight: 700;
+            padding: 1px 5px;
+            border-bottom: 2px solid #f59e0b;
+            border-radius: 4px;
         }
 
         /* Stealth Disguise Mode (偽裝公文白底模式) */
@@ -80,7 +108,16 @@
             display: block !important;
         }
         body.stealth-mode .reflex-bar-container {
-            opacity: 0.25;
+            opacity: 0.2;
+        }
+        body.stealth-mode h1,
+        body.stealth-mode h2,
+        body.stealth-mode h3,
+        body.stealth-mode h4,
+        body.stealth-mode span,
+        body.stealth-mode p,
+        body.stealth-mode div {
+            color: #111827 !important;
         }
 
         /* Custom Scrollbar */
@@ -107,7 +144,7 @@
             </div>
             <div class="flex items-center gap-4 text-xs text-gray-600">
                 <span>承辦單位：人事法制研究組</span>
-                <span>密等：一般公務機密（內部參考）</span>
+                <span>密等：內部參考</span>
                 <button onclick="toggleStealthMode()" class="underline font-semibold text-gray-800 hover:text-black">[切回戰略暗色面板 (Esc)]</button>
             </div>
         </div>
@@ -124,29 +161,35 @@
                         SG
                     </div>
                     <div>
-                        <div class="flex items-center gap-2">
+                        <div class="flex items-center gap-2 flex-wrap">
                             <h1 id="mainAppTitle" class="text-base sm:text-lg font-bold tracking-tight text-white">
-                                LKYSPP 戰略潛行：托福 3.0 ➔ 5.0 隨身刷字系統
+                                LKYSPP 戰略潛行 v2.0：托福 3.0 ➔ 5.0 智慧特訓系統
                             </h1>
-                            <span class="stealth-hide hidden sm:inline-block text-[11px] font-mono uppercase px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                                Block A · 50 Core Words
+                            <span id="todayHeaderBadge" class="stealth-hide text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                                載入今日排程中...
                             </span>
                         </div>
                         <p id="subAppTitle" class="text-xs text-slate-400">
-                            目標：NUS 李光耀公共政策學院 / NTU 南洋公共管理研究生院（政經法規高頻核心詞庫）
+                            目標：NUS 李光耀公共政策學院 / NTU 南洋公共管理研究生院（自動感知星期排程 ＋ 隨身熱更新題庫）
                         </p>
                     </div>
                 </div>
 
-                <!-- Mobile Stealth Button -->
-                <button onclick="toggleStealthMode()" class="lg:hidden px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 flex items-center gap-1 stealth-accent" title="快捷鍵 Esc">
-                    <span>📄</span>
-                    <span id="stealthBtnTextMobile">偽裝公文</span>
-                </button>
+                <!-- Mobile Quick Action Buttons -->
+                <div class="flex lg:hidden items-center gap-1.5">
+                    <button onclick="openAmmoModal()" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-amber-500 text-slate-950 flex items-center gap-1 stealth-accent">
+                        <span>📥</span>
+                        <span>擴充</span>
+                    </button>
+                    <button onclick="toggleStealthMode()" class="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 flex items-center gap-1 stealth-accent" title="快捷鍵 Esc">
+                        <span>📄</span>
+                        <span id="stealthBtnTextMobile">偽裝</span>
+                    </button>
+                </div>
             </div>
 
-            <!-- 30-Min Stealth Timer & Controls -->
-            <div class="flex flex-wrap items-center justify-between sm:justify-end gap-2 sm:gap-3 bg-slate-950/80 border border-slate-800 rounded-xl px-3 py-2 panel-box">
+            <!-- 30-Min Stealth Timer & Ammo Importer Controls -->
+            <div class="flex flex-wrap items-center justify-between sm:justify-end gap-2 sm:gap-2.5 bg-slate-950/80 border border-slate-800 rounded-xl px-3 py-2 panel-box">
                 <div class="flex items-center gap-2.5">
                     <div class="text-right">
                         <div class="flex items-center gap-1.5">
@@ -155,17 +198,17 @@
                                 階段一：前15m 0.5秒極速快篩
                             </span>
                         </div>
-                        <div class="text-[10px] text-slate-400">30分鐘帶薪潛行區塊 A</div>
+                        <div class="text-[10px] text-slate-400">30分鐘帶薪潛行計時器</div>
                     </div>
                     <div id="stealthTimerDisplay" class="font-mono text-xl sm:text-2xl font-bold text-white tracking-wider px-2 py-0.5 rounded bg-slate-900 border border-slate-800 panel-box">
                         30:00
                     </div>
                 </div>
 
-                <!-- Timer Action Buttons -->
-                <div class="flex items-center gap-1.5">
-                    <button id="timerStartBtn" onclick="toggleStealthTimer()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white transition stealth-accent">
-                        ▶ 啟動潛行
+                <!-- Timer & Ammo Action Buttons -->
+                <div class="flex items-center gap-1.5 flex-wrap">
+                    <button id="timerStartBtn" onclick="toggleStealthTimer()" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white transition stealth-accent">
+                        ▶ 啟動
                     </button>
                     <button onclick="resetStealthTimer()" class="px-2 py-1.5 rounded-lg text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-300 transition stealth-accent" title="重置 30:00">
                         ↺
@@ -173,9 +216,12 @@
                     <button onclick="toggleMute()" id="muteToggleBtn" class="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-300 transition stealth-accent" title="辦公室靜音/開啟發音">
                         🔇 靜音中
                     </button>
-                    <button onclick="toggleStealthMode()" class="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/30 transition stealth-accent" title="老闆走過來時按 Esc 瞬間切換成黑白公文">
+                    <button onclick="openAmmoModal()" class="hidden lg:flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-sm transition stealth-accent" title="一鍵貼上 AI 幕僚給您的新單字或新題目代碼">
+                        <span>📥 匯入新彈藥</span>
+                    </button>
+                    <button onclick="toggleStealthMode()" class="hidden lg:flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/30 transition stealth-accent" title="老闆走過來時按 Esc 瞬間切換成黑白公文">
                         <span>📄</span>
-                        <span id="stealthBtnTextDesktop">偽裝公文模式 (Esc)</span>
+                        <span id="stealthBtnTextDesktop">偽裝公文 (Esc)</span>
                     </button>
                 </div>
             </div>
@@ -183,10 +229,10 @@
 
         <!-- Mastery Progress Bar -->
         <div class="max-w-6xl mx-auto mt-2.5 pt-2 border-t border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
-            <div class="flex items-center gap-4 flex-wrap">
-                <span class="font-medium text-slate-300">今日 50 字戰備進度：</span>
+            <div class="flex items-center gap-3 sm:gap-4 flex-wrap">
+                <span class="font-medium text-slate-300">詞庫總戰備進度 (<strong id="totalWordsCount" class="font-mono text-amber-400">50</strong> 字)：</span>
                 <span class="inline-flex items-center gap-1 text-emerald-400 font-medium">
-                    ● 已秒懂掌握：<strong id="countMastered" class="font-mono">0</strong>
+                    ● 已秒懂：<strong id="countMastered" class="font-mono">0</strong>
                 </span>
                 <span class="inline-flex items-center gap-1 text-rose-400 font-medium">
                     ● 待加強弱點：<strong id="countReview" class="font-mono">0</strong>
@@ -208,20 +254,23 @@
     <!-- Navigation Tabs -->
     <nav class="bg-slate-900/60 border-b border-slate-800 px-3 sm:px-6">
         <div class="max-w-6xl mx-auto flex overflow-x-auto no-scrollbar gap-1 sm:gap-2 py-2">
-            <button onclick="switchTab('flashcard')" id="tabBtn-flashcard" class="tab-btn flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold whitespace-nowrap transition bg-amber-500 text-slate-950 shadow-sm stealth-accent">
-                <span>⚡ 1. 閃卡極速快刷</span>
-                <span class="text-[11px] px-1.5 py-0.5 rounded bg-slate-950/20 font-mono">0.5s 反應</span>
+            <button onclick="switchTab('schedule')" id="tabBtn-schedule" class="tab-btn flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold whitespace-nowrap transition bg-amber-500 text-slate-950 shadow-sm stealth-accent">
+                <span>📅 1. 今日智慧排程 ＆ 專屬特訓艙</span>
+                <span class="text-[11px] px-1.5 py-0.5 rounded bg-slate-950/20 font-mono">自動感知</span>
+            </button>
+            <button onclick="switchTab('flashcard')" id="tabBtn-flashcard" class="tab-btn flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold whitespace-nowrap transition text-slate-300 hover:bg-slate-800">
+                <span>⚡ 2. 閃卡極速快刷</span>
+                <span class="text-[11px] px-1.5 py-0.5 rounded bg-slate-800 text-amber-400 font-mono">0.5s 反射</span>
             </button>
             <button onclick="switchTab('quiz')" id="tabBtn-quiz" class="tab-btn flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold whitespace-nowrap transition text-slate-300 hover:bg-slate-800">
-                <span>🎯 2. 托福同義詞秒殺測驗</span>
-                <span class="text-[11px] px-1.5 py-0.5 rounded bg-slate-800 text-amber-400 font-mono">實戰題庫</span>
-            </button>
-            <button onclick="switchTab('table')" id="tabBtn-table" class="tab-btn flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold whitespace-nowrap transition text-slate-300 hover:bg-slate-800">
-                <span>📋 3. 50字戰略總表（遮罩自測）</span>
+                <span>🎯 3. 托福同義詞秒殺測驗</span>
             </button>
             <button onclick="switchTab('writing')" id="tabBtn-writing" class="tab-btn flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold whitespace-nowrap transition text-slate-300 hover:bg-slate-800">
-                <span>✍️ 4. 今晚寫作答辯沙盒</span>
-                <span class="text-[11px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono">19:30 預演</span>
+                <span>✍️ 4. 寫作五句抗辯沙盒</span>
+                <span class="text-[11px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono">多題庫</span>
+            </button>
+            <button onclick="switchTab('table')" id="tabBtn-table" class="tab-btn flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold whitespace-nowrap transition text-slate-300 hover:bg-slate-800">
+                <span>📋 5. 戰略詞庫總表（遮罩自測）</span>
             </button>
         </div>
     </nav>
@@ -229,18 +278,152 @@
     <!-- Main Content Container -->
     <main class="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-6 py-5">
 
-        <!-- TAB 1: FLASHCARD DECK -->
-        <section id="tab-flashcard" class="space-y-4">
+        <!-- TAB 1: AUTO DAY-OF-WEEK SCHEDULE & DAILY DRILL POD -->
+        <section id="tab-schedule" class="space-y-5">
+            
+            <!-- 7-Day Selector Pill Bar -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 panel-box">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+                    <div>
+                        <h2 id="scheduleDayTitle" class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                            <!-- Populated by JS -->
+                        </h2>
+                        <p id="scheduleDaySubtitle" class="text-xs text-slate-400 mt-0.5">
+                            系統已根據您的裝置時鐘自動鎖定今日課表；您也可以隨時點擊下方星期預覽其他日子的訓練艙。
+                        </p>
+                    </div>
+                    <button onclick="jumpToRealToday()" class="self-start sm:self-auto px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 transition stealth-accent">
+                        📍 回到今天真實星期
+                    </button>
+                </div>
+
+                <!-- Mon to Sun Buttons -->
+                <div class="grid grid-cols-7 gap-1.5 sm:gap-2" id="weekdayPillBar">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- 3 Daily Blocks Checkable Cards (Block A 12:30, Block B 19:30, Block C 22:00) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="dailyBlocksContainer">
+                <!-- Populated dynamically by JS based on selected day -->
+            </div>
+
+            <!-- Interactive Day-Specific Drill Pod Switcher -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl panel-box">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4 mb-5">
+                    <div>
+                        <span class="text-[11px] font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                            Interactive Drill Pod · 實戰訓練艙
+                        </span>
+                        <h3 class="text-base sm:text-lg font-bold text-white mt-1">
+                            依星期自動配置：托福「法條拆解」與「考點狙擊」模擬器
+                        </h3>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button onclick="switchDrillPod('listening')" id="podBtn-listening" class="pod-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-amber-500 text-slate-950 transition stealth-accent">
+                            🎧 週二/三：聽力轉折考點解剖
+                        </button>
+                        <button onclick="switchDrillPod('reading')" id="podBtn-reading" class="pod-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+                            🔍 週一/四：閱讀長難句括號拆解
+                        </button>
+                        <button onclick="switchDrillPod('speaking')" id="podBtn-speaking" class="pod-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+                            🎙️ 週四/六：口說 45秒 結構計時器
+                        </button>
+                    </div>
+                </div>
+
+                <!-- POD 1: LISTENING TRANSITION SIGNAL CATCHER (Tue/Wed Focus) -->
+                <div id="drillPod-listening" class="space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-2 bg-slate-950/90 border border-slate-800 rounded-xl p-3">
+                        <div class="text-xs text-slate-300">
+                            <strong class="text-amber-400">💡 考績會聽力法：</strong>不用聽懂每一個字！托福聽力 85% 的考題都出現在 <span class="font-mono text-emerald-400">However / Actually / The thing is</span> 等轉折訊號詞後面那句話。
+                        </div>
+                        <div class="flex items-center gap-2" id="listeningTrackSelectBar">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <div id="listeningExerciseBox" class="space-y-4">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- POD 2: READING LONG SENTENCE BRACKET SLASHER (Mon/Thu Focus) -->
+                <div id="drillPod-reading" class="hidden space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-3 bg-slate-950/90 border border-slate-800 rounded-xl p-3">
+                        <div class="text-xs text-slate-300">
+                            <strong class="text-amber-400">⚖️ 法條括號刪減法：</strong>把介系詞片語、形容詞子句全部視為「長官的贅詞」括起來刪掉，直接抓出<span class="text-amber-300 font-bold">「主詞＋動詞＋受詞」核心法意</span>！
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="toggleSlasherMode()" id="slasherToggleBtn" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-amber-500 text-slate-950 transition stealth-accent">
+                                ✂️ 切換「括號刪減廢話」視角
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="readingSlasherBox" class="space-y-4">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- POD 3: SPEAKING 45S/60S STRUCTURE PACER (Thu/Sat Focus) -->
+                <div id="drillPod-speaking" class="hidden space-y-4">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+                        <div class="lg:col-span-7 bg-slate-950/90 border border-slate-800 rounded-xl p-4 space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-amber-400">🎙️ 口說高頻實戰題庫（點擊切換題目）</span>
+                                <select id="speakingPromptSelect" onchange="renderSpeakingPrompt()" class="bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-slate-200">
+                                    <!-- Populated by JS -->
+                                </select>
+                            </div>
+                            <div id="speakingPromptBox" class="p-3.5 bg-slate-900 rounded-xl border border-slate-800 text-xs sm:text-sm text-slate-200 leading-relaxed">
+                                <!-- Populated by JS -->
+                            </div>
+                            <div class="bg-slate-900/70 border border-slate-800 rounded-xl p-3 space-y-2">
+                                <div class="text-xs font-bold text-emerald-400">🛡️ 45秒防禦性口說萬用骨幹（照著唸永不冷場）：</div>
+                                <ul class="text-xs text-slate-300 space-y-1.5 font-mono">
+                                    <li><span class="text-amber-400">[00-08秒 破題]</span> Personally, I firmly believe that <span class="text-slate-400">[立場]</span> for two compelling reasons.</li>
+                                    <li><span class="text-amber-400">[08-25秒 論點一]</span> First and foremost, from an efficiency standpoint, it directly creates a structural incentive to...</li>
+                                    <li><span class="text-amber-400">[25-40秒 論點二]</span> Furthermore, in practical governance, this approach mitigates systemic flaws such as...</li>
+                                    <li><span class="text-amber-400">[40-45秒 收尾]</span> Therefore, this remains the most viable option.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-5 bg-slate-950/90 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+                            <div>
+                                <div class="text-xs font-semibold text-slate-400 mb-1">⏱️ 口說秒數分配壓迫計時器</div>
+                                <div id="speakingPhaseHint" class="text-xs font-bold text-emerald-400 mb-3">
+                                    選擇下方模式開始計時，系統會即時提示您現在該講哪一句！
+                                </div>
+                                <div id="speakingTimerBig" class="font-mono text-5xl font-black text-center py-6 bg-slate-900 border border-slate-800 rounded-2xl text-white tracking-wider">
+                                    00:45
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 mt-4">
+                                <button onclick="startSpeakingTimer(15, 'prep')" class="py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs font-bold border border-slate-700">
+                                    15秒 準備
+                                </button>
+                                <button onclick="startSpeakingTimer(45, 'speak45')" class="py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow">
+                                    ▶ 45秒 作答
+                                </button>
+                                <button onclick="startSpeakingTimer(60, 'speak60')" class="py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold">
+                                    ▶ 60秒 整合
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- TAB 2: FLASHCARD DECK -->
+        <section id="tab-flashcard" class="hidden space-y-4">
             <!-- Group & Status Filter Bar -->
             <div class="flex flex-wrap items-center justify-between gap-2 bg-slate-900/90 border border-slate-800 rounded-xl p-3 panel-box">
-                <div class="flex flex-wrap items-center gap-1.5">
-                    <span class="text-xs text-slate-400 mr-1 font-medium">戰略分組篩選：</span>
-                    <button onclick="setDeckFilter('all')" id="filter-all" class="deck-filter-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-amber-500 text-slate-950 stealth-accent">全部 (50)</button>
-                    <button onclick="setDeckFilter('1')" id="filter-1" class="deck-filter-btn px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">一、體制弊端與究責 (12)</button>
-                    <button onclick="setDeckFilter('2')" id="filter-2" class="deck-filter-btn px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">二、預算分配與誘因 (13)</button>
-                    <button onclick="setDeckFilter('3')" id="filter-3" class="deck-filter-btn px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">三、法規合規與程序 (13)</button>
-                    <button onclick="setDeckFilter('4')" id="filter-4" class="deck-filter-btn px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">四、閱讀必考邏輯動詞 (12)</button>
-                    <button onclick="setDeckFilter('review')" id="filter-review" class="deck-filter-btn px-2.5 py-1 rounded-lg text-xs font-medium bg-rose-950/80 text-rose-300 border border-rose-700/50 hover:bg-rose-900/60">🔥 只刷「待加強」弱點</button>
+                <div class="flex flex-wrap items-center gap-1.5" id="deckFilterButtonsBar">
+                    <!-- Populated dynamically by JS to include imported packs -->
                 </div>
                 <div class="flex items-center gap-2">
                     <button onclick="shuffleDeck()" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 stealth-accent">
@@ -386,27 +569,26 @@
             </div>
         </section>
 
-        <!-- TAB 2: RAPID-FIRE TOEFL QUIZ -->
+        <!-- TAB 3: RAPID-FIRE TOEFL QUIZ -->
         <section id="tab-quiz" class="hidden space-y-5 max-w-3xl mx-auto">
-            <!-- Quiz Control Header -->
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 panel-box">
                 <div>
                     <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
-                        <span>🎯 托福閱讀同義詞 ＆ 今晚寫作填空秒殺測驗</span>
+                        <span>🎯 托福閱讀同義詞 ＆ 政策語境填空秒殺測驗</span>
                     </h2>
                     <p class="text-xs text-slate-400 mt-0.5">
-                        模擬 TOEFL iBT 閱讀詞彙題（Closest in meaning）與政策語境填空，答錯自動納入「待加強弱點庫」。
+                        模擬 TOEFL iBT 閱讀詞彙題（Closest in meaning），自動支援您匯入的所有新單字，答錯自動納入弱點庫。
                     </p>
                 </div>
                 <div class="flex flex-wrap items-center gap-2">
                     <button onclick="startQuiz(5, 'classic')" class="px-3 py-2 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 transition stealth-accent">
-                        🔥 12:55 驗收必做 (4題經典自測)
+                        🔥 12:55 驗收必做 (5題經典)
                     </button>
                     <button onclick="startQuiz(10, 'random')" class="px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition stealth-accent">
                         ⚡ 隨機 10 題快刷
                     </button>
-                    <button onclick="startQuiz(20, 'random')" class="px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition stealth-accent">
-                        ⚔️ 隨機 20 題特訓
+                    <button onclick="startQuiz(15, 'weak')" class="px-3 py-2 rounded-xl text-xs font-semibold bg-rose-950/80 hover:bg-rose-900 text-rose-200 border border-rose-700/60 transition stealth-accent">
+                        🎯 專殺「待加強」弱點
                     </button>
                 </div>
             </div>
@@ -417,18 +599,113 @@
             </div>
         </section>
 
-        <!-- TAB 3: FULL 50-WORD STRATEGIC TABLE -->
+        <!-- TAB 4: MULTI-PROMPT WRITING SANDBOX -->
+        <section id="tab-writing" class="hidden space-y-5">
+            <!-- Prompt Selector Bar -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 panel-box">
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-bold text-amber-400 whitespace-nowrap">📚 選擇學術討論寫作題庫：</span>
+                    <select id="writingPromptSelector" onchange="selectWritingPrompt()" class="bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs sm:text-sm text-white font-semibold focus:outline-none focus:border-amber-500">
+                        <!-- Populated by JS -->
+                    </select>
+                </div>
+                <span class="text-xs text-slate-400 font-mono">新制目標：10分鐘 · 120–140字 · 五句抗辯骨架</span>
+            </div>
+
+            <!-- Prompt & Template Split View -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+                
+                <!-- Left Column: Active Prompt & 5-Sentence Template -->
+                <div class="lg:col-span-5 space-y-4">
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 panel-box">
+                        <h3 id="writingPromptTitle" class="text-sm sm:text-base font-bold text-white mb-2">
+                            <!-- Populated by JS -->
+                        </h3>
+                        <div id="writingPromptBody" class="space-y-2.5 text-xs text-slate-300 bg-slate-950/80 p-3.5 rounded-xl border border-slate-800 leading-relaxed max-h-64 overflow-y-auto">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- 5-Sentence Legal Defense Template Reference -->
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 panel-box">
+                        <div class="flex items-center justify-between mb-3">
+                            <h4 class="text-xs sm:text-sm font-bold text-amber-400">⚖️ 5.0 滿分「五句抗辯法典」萬用骨架</h4>
+                            <button onclick="insertTemplateSkeletonOnly()" class="text-xs px-2.5 py-1 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold transition stealth-accent">
+                                ＋ 載入空白五句骨架
+                            </button>
+                        </div>
+                        <ol class="space-y-2 text-xs text-slate-300 list-decimal list-inside leading-relaxed">
+                            <li><strong class="text-white">破題立論：</strong><span class="font-mono text-amber-200">While this policy debate is multifaceted, I firmly contend that</span> [核心立場] <span class="font-mono text-amber-200">primarily due to its profound impact on</span> [高維度價值].</li>
+                            <li><strong class="text-white">駁斥盲點：</strong><span class="font-mono text-amber-200">Although</span> [同學名] <span class="font-mono text-amber-200">raises a valid point regarding</span> [對方考量], <span class="font-mono text-amber-200">this perspective overlooks a critical systemic flaw:</span> [指出制度漏洞].</li>
+                            <li><strong class="text-white">正面論證：</strong><span class="font-mono text-amber-200">Specifically, when authorities implement</span> [您的方案], <span class="font-mono text-amber-200">it directly creates a powerful structural incentive for</span> [對象] <span class="font-mono text-amber-200">to</span> [具體行為].</li>
+                            <li><strong class="text-white">實務舉證：</strong><span class="font-mono text-amber-200">For instance, in practical governance, establishing</span> [具體工具] <span class="font-mono text-amber-200">not only mitigates</span> [弊端] <span class="font-mono text-amber-200">but also optimizes resource allocation.</span></li>
+                            <li><strong class="text-white">權威收尾：</strong><span class="font-mono text-amber-200">Therefore, rather than relying on short-sighted measures, adopting</span> [方案簡稱] <span class="font-mono text-amber-200">remains the most viable strategy to ensure sustainable progress.</span></li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Right Column: 10-Min Writing Editor & Instant Word Chips -->
+                <div class="lg:col-span-7 space-y-4">
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 panel-box">
+                        <!-- Writing Timer & Word Count Bar -->
+                        <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-800">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs font-semibold text-slate-300">⏱️ 10分鐘計時：</span>
+                                <span id="writingTimerDisplay" class="font-mono text-lg font-bold text-amber-400 bg-slate-950 px-2.5 py-0.5 rounded border border-slate-800">10:00</span>
+                                <button onclick="toggleWritingTimer()" id="writingTimerBtn" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white stealth-accent">開始計時</button>
+                                <button onclick="resetWritingTimer()" class="px-2 py-1 rounded-lg text-xs bg-slate-800 hover:bg-slate-700 text-slate-300">重置</button>
+                            </div>
+                            <div class="flex items-center gap-3 text-xs">
+                                <span>字數統計：<strong id="writingWordCount" class="font-mono text-base text-emerald-400">0</strong> / 135 字</span>
+                                <span id="usedCoreWordsBadge" class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30 font-mono">
+                                    已嵌入核心字：0 個
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Clickable High-Score Vocabulary Chips -->
+                        <div class="mb-3">
+                            <div class="text-[11px] text-slate-400 mb-1.5 flex items-center justify-between">
+                                <span>💡 點擊下方「本題推薦高分核心字」可直接插入游標處（已使用會亮起綠燈）：</span>
+                            </div>
+                            <div id="writingVocabChips" class="flex flex-wrap gap-1.5">
+                                <!-- Generated by JS -->
+                            </div>
+                        </div>
+
+                        <!-- Textarea -->
+                        <textarea id="writingTextarea" oninput="updateWritingMetrics()" rows="10" placeholder="點擊左方「＋ 載入空白五句骨架」，像填寫行政答辯狀一樣把單字填進去..." class="w-full p-4 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 font-sans text-sm leading-relaxed focus:outline-none focus:border-amber-500"></textarea>
+
+                        <!-- Bottom Actions -->
+                        <div class="flex flex-wrap items-center justify-between gap-2 mt-3 pt-3 border-t border-slate-800">
+                            <div class="flex items-center gap-2">
+                                <button onclick="loadModelAnswer()" class="px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/30 transition stealth-accent">
+                                    ✨ 載入本題 5.0 滿分示範解答
+                                </button>
+                                <button onclick="clearWritingDraft()" class="px-3 py-2 rounded-xl text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-400 transition">
+                                    清空重寫
+                                </button>
+                            </div>
+                            <button onclick="copyDraftForAI()" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-lg transition stealth-accent">
+                                📋 一鍵複製草稿（22:00 貼給 AI 幕僚批改）
+                            </button>
+                        </div>
+                        <div id="copyToast" class="hidden mt-2 text-xs text-emerald-400 font-medium text-right">
+                            ✅ 已複製草稿與提示詞！今晚 22:00 區塊 C 直接貼回對話視窗即可批改。
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- TAB 5: FULL STRATEGIC TABLE -->
         <section id="tab-table" class="hidden space-y-4">
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 panel-box">
                 <div class="flex flex-wrap items-center gap-2 flex-1">
                     <input type="text" id="tableSearchInput" oninput="renderWordTable()" placeholder="搜尋英文單字、中文解釋、法理錨點或同義字..." class="w-full md:w-72 px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs sm:text-sm text-slate-100 focus:outline-none focus:border-amber-500">
                     <select id="tableGroupSelect" onchange="renderWordTable()" class="px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs sm:text-sm text-slate-200">
-                        <option value="all">所有戰略群組 (50字)</option>
-                        <option value="1">群組一：體制弊端與行政究責 (12)</option>
-                        <option value="2">群組二：預算分配與政策誘因 (13)</option>
-                        <option value="3">群組三：法規合規與正當程序 (13)</option>
-                        <option value="4">群組四：閱讀必考轉折與邏輯動詞 (12)</option>
-                        <option value="review">🔥 只顯示「待加強」弱點字</option>
+                        <!-- Populated dynamically by JS -->
                     </select>
                 </div>
                 <div class="flex items-center gap-3">
@@ -460,115 +737,81 @@
             </div>
         </section>
 
-        <!-- TAB 4: TONIGHT'S 19:30 WRITING SANDBOX -->
-        <section id="tab-writing" class="hidden space-y-5">
-            <!-- Prompt & Template Split View -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
-                
-                <!-- Left Column: Professor Gupta Prompt & 5-Sentence Template -->
-                <div class="lg:col-span-5 space-y-4">
-                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 panel-box">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                                今晚 19:30 區塊 B 實戰題目
-                            </span>
-                            <span class="text-xs text-slate-400 font-mono">目標：10分鐘 · 120–140字</span>
-                        </div>
-                        <h3 class="text-sm sm:text-base font-bold text-white mb-2">
-                            【偏鄉發展與政府預算配置】Rural Infrastructure vs. Direct Cash Subsidies
-                        </h3>
-                        <div class="space-y-2.5 text-xs text-slate-300 bg-slate-950/80 p-3.5 rounded-xl border border-slate-800 leading-relaxed max-h-60 overflow-y-auto">
-                            <p><strong class="text-amber-400">Professor Gupta:</strong> Many rural towns are experiencing severe population decline and aging demographics. Some policymakers argue that the central government should offer <strong>direct financial incentives (cash handouts or tax breaks)</strong> to individuals and businesses that relocate to rural areas. Others believe the government should instead <strong>invest solely in upgrading rural public infrastructure and digital connectivity</strong>. Which approach is more effective and why?</p>
-                            <p class="border-t border-slate-800 pt-2"><strong class="text-sky-400">Paul (支持直接發錢/減稅):</strong> Money talks. Immediate tax cuts or housing subsidies lower living costs right away and stimulate the local economy fastest.</p>
-                            <p class="border-t border-slate-800 pt-2"><strong class="text-emerald-400">Claire (支持升級基建與網路):</strong> Handing out cash is a temporary fix. Once the subsidy ends, people leave. Investing in high-speed internet, hospitals, and public transit naturally attracts remote workers and industries over time.</p>
-                        </div>
-                    </div>
-
-                    <!-- 5-Sentence Legal Defense Template Reference -->
-                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 panel-box">
-                        <div class="flex items-center justify-between mb-3">
-                            <h4 class="text-xs sm:text-sm font-bold text-amber-400">⚖️ 5.0 滿分「五句抗辯法典」萬用骨架</h4>
-                            <button onclick="insertTemplateSkeleton()" class="text-xs px-2.5 py-1 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold transition stealth-accent">
-                                ＋ 一鍵載入骨架至右側編輯區
-                            </button>
-                        </div>
-                        <ol class="space-y-2 text-xs text-slate-300 list-decimal list-inside leading-relaxed">
-                            <li><strong class="text-white">破題立論：</strong><span class="font-mono text-amber-200">While this policy debate is multifaceted, I firmly contend that</span> [核心立場] <span class="font-mono text-amber-200">primarily due to its profound impact on</span> [高維度價值].</li>
-                            <li><strong class="text-white">駁斥盲點：</strong><span class="font-mono text-amber-200">Although</span> [Paul/Claire] <span class="font-mono text-amber-200">raises a valid point regarding</span> [對方考量], <span class="font-mono text-amber-200">this perspective overlooks a critical systemic flaw:</span> [指出制度漏洞].</li>
-                            <li><strong class="text-white">正面論證：</strong><span class="font-mono text-amber-200">Specifically, when authorities implement</span> [您的方案], <span class="font-mono text-amber-200">it directly creates a powerful structural incentive for</span> [對象] <span class="font-mono text-amber-200">to</span> [具體行為].</li>
-                            <li><strong class="text-white">實務舉證：</strong><span class="font-mono text-amber-200">For instance, in practical governance, establishing</span> [具體工具] <span class="font-mono text-amber-200">not only mitigates</span> [弊端] <span class="font-mono text-amber-200">but also optimizes resource allocation.</span></li>
-                            <li><strong class="text-white">權威收尾：</strong><span class="font-mono text-amber-200">Therefore, rather than relying on short-sighted measures, adopting</span> [方案簡稱] <span class="font-mono text-amber-200">remains the most viable strategy to ensure sustainable progress.</span></li>
-                        </ol>
-                    </div>
-                </div>
-
-                <!-- Right Column: 10-Min Writing Editor & Instant Word Chips -->
-                <div class="lg:col-span-7 space-y-4">
-                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 panel-box">
-                        <!-- Writing Timer & Word Count Bar -->
-                        <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-800">
-                            <div class="flex items-center gap-2">
-                                <span class="text-xs font-semibold text-slate-300">⏱️ 10分鐘實戰計時：</span>
-                                <span id="writingTimerDisplay" class="font-mono text-lg font-bold text-amber-400 bg-slate-950 px-2.5 py-0.5 rounded border border-slate-800">10:00</span>
-                                <button onclick="toggleWritingTimer()" id="writingTimerBtn" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white stealth-accent">開始計時</button>
-                                <button onclick="resetWritingTimer()" class="px-2 py-1 rounded-lg text-xs bg-slate-800 hover:bg-slate-700 text-slate-300">重置</button>
-                            </div>
-                            <div class="flex items-center gap-3 text-xs">
-                                <span>字數統計：<strong id="writingWordCount" class="font-mono text-base text-emerald-400">0</strong> / 135 字</span>
-                                <span id="usedCoreWordsBadge" class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30 font-mono">
-                                    已嵌入今日核心字：0 個
-                                </span>
-                            </div>
-                        </div>
-
-                        <!-- Clickable High-Score Vocabulary Chips -->
-                        <div class="mb-3">
-                            <div class="text-[11px] text-slate-400 mb-1.5 flex items-center justify-between">
-                                <span>💡 點擊下方「今日偏鄉與法規核心字」可直接插入游標處（已使用會亮起綠燈）：</span>
-                            </div>
-                            <div id="writingVocabChips" class="flex flex-wrap gap-1.5">
-                                <!-- Generated by JS -->
-                            </div>
-                        </div>
-
-                        <!-- Textarea -->
-                        <textarea id="writingTextarea" oninput="updateWritingMetrics()" rows="10" placeholder="今晚 19:30 點擊上方「一鍵載入骨架」，像填寫行政答辯狀一樣把今日單字填進去..." class="w-full p-4 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 font-sans text-sm leading-relaxed focus:outline-none focus:border-amber-500"></textarea>
-
-                        <!-- Bottom Actions -->
-                        <div class="flex flex-wrap items-center justify-between gap-2 mt-3 pt-3 border-t border-slate-800">
-                            <div class="flex items-center gap-2">
-                                <button onclick="loadModelAnswer()" class="px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/30 transition stealth-accent">
-                                    ✨ 載入 135字 5.0 滿分示範範本
-                                </button>
-                                <button onclick="clearWritingDraft()" class="px-3 py-2 rounded-xl text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-400 transition">
-                                    清空重寫
-                                </button>
-                            </div>
-                            <button onclick="copyDraftForAI()" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-lg transition stealth-accent">
-                                📋 一鍵複製草稿（22:00 貼給 AI 幕僚批改）
-                            </button>
-                        </div>
-                        <div id="copyToast" class="hidden mt-2 text-xs text-emerald-400 font-medium text-right">
-                            ✅ 已複製草稿與提示詞！今晚 22:00 區塊 C 直接貼回對話視窗即可批改。
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
     </main>
+
+    <!-- MODAL: HOT-SWAP AMMO IMPORTER (一鍵貼上匯入新題庫擴充槽) -->
+    <div id="ammoModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-slate-900 border-2 border-amber-500/40 rounded-2xl max-w-2xl w-full p-5 sm:p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div>
+                    <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                        <span>📥 戰略彈藥熱更新擴充槽 (Hot-Swap Ammo Importer)</span>
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-0.5">
+                        無須重新上傳 GitHub！直接貼上 AI 幕僚產出的新單字或新題庫代碼，即可永久擴充至本機瀏覽器。
+                    </p>
+                </div>
+                <button onclick="closeAmmoModal()" class="text-slate-400 hover:text-white text-xl font-bold px-2">✕</button>
+            </div>
+
+            <!-- Built-in Expansion Pack Quick Button -->
+            <div class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="text-xs text-amber-200 leading-relaxed">
+                    <strong class="text-amber-400">🎁 內建預載擴充包（週三/週五戰備彈藥）：</strong><br>
+                    包含「群組五：環境生態與永續治理 (15字)」＋「群組六：歷史變革與社會結構 (15字)」＋「新寫作題：AI 決策透明化」。
+                </div>
+                <button onclick="loadBuiltinExpansionPack()" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 whitespace-nowrap shadow">
+                    ⚡ 一鍵載入內建第 2 彈 (+30字)
+                </button>
+            </div>
+
+            <!-- Paste Box -->
+            <div class="space-y-2">
+                <label class="text-xs font-semibold text-slate-300 block">
+                    或者，貼上 AI 幕僚給您的「簡易直線分隔文字」或「JSON 擴充代碼」：
+                </label>
+                <div class="text-[11px] text-slate-400 font-mono bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+                    支援格式一（極簡文字，一行一字）：<br>
+                    <span class="text-emerald-400">群組名稱 | 單字 | 詞性 | 中文解釋 | 法理記憶錨點 | 同義詞1,同義詞2 | 英文例句</span><br>
+                    支援格式二：AI 幕僚產出的完整 JSON 題庫封包
+                </div>
+                <textarea id="ammoImportInput" rows="6" placeholder="在此貼上新單字或 JSON 代碼..." class="w-full p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono text-slate-100 focus:outline-none focus:border-amber-500"></textarea>
+            </div>
+
+            <div id="ammoImportFeedback" class="hidden text-xs font-semibold p-2.5 rounded-lg"></div>
+
+            <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800">
+                <div class="flex items-center gap-2">
+                    <button onclick="exportAllUserData()" class="px-3 py-2 rounded-xl text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700">
+                        📤 備份/匯出目前進度
+                    </button>
+                    <button onclick="clearCustomAmmo()" class="px-3 py-2 rounded-xl text-xs font-medium bg-rose-950/60 hover:bg-rose-900 text-rose-300 border border-rose-800/50">
+                        🗑️ 還原預設 50 字
+                    </button>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="closeAmmoModal()" class="px-4 py-2 rounded-xl text-xs font-medium bg-slate-800 text-slate-300">關閉</button>
+                    <button onclick="processAmmoImport()" class="px-4 py-2 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg">
+                        📥 立即解析並匯入題庫
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="border-t border-slate-900 py-4 px-4 text-center text-xs text-slate-500">
         <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-            <span>LKYSPP / NTU NCPA 戰略潛行系統 · 專為具備七年公職與法學底蘊之破局者量身打造</span>
-            <span>進度自動儲存於本機瀏覽器 · 按 <kbd class="px-1.5 py-0.5 bg-slate-900 border border-slate-800 rounded">Esc</kbd> 隨時切換偽裝公文</span>
+            <span>LKYSPP / NTU NCPA 戰略潛行系統 v2.0 · 專為具備七年公職與法學底蘊之破局者量身打造</span>
+            <span>進度與擴充題庫自動儲存於本機瀏覽器 · 按 <kbd class="px-1.5 py-0.5 bg-slate-900 border border-slate-800 rounded">Esc</kbd> 隨時切換偽裝公文</span>
         </div>
     </footer>
 
     <script>
-        const WORDS_DATA = [
+        // ============================================================================
+        // 1. BASE 50 POLITICAL / LEGAL / POLICY CORE VOCABULARY
+        // ============================================================================
+        const BASE_WORDS_DATA = [
             // Group 1: 體制弊端與行政究責 (1-12)
             { id: 1, group: 1, groupName: "群組一：體制弊端與行政究責", word: "bureaucracy", pos: "(n.)", meaning: "官僚體制；官僚作風", anchor: "每天面對的龐大機器。搭配：rigid bureaucracy（僵化的官僚體制）", synonyms: ["administration", "officialdom"], example: "Rigid bureaucracy often impedes the timely delivery of public services in rural townships." },
             { id: 2, group: 1, groupName: "群組一：體制弊端與行政究責", word: "accountability", pos: "(n.)", meaning: "權責相符；問責制", anchor: "答辯書的核心靈魂！搭配：ensure public accountability（確保公眾問責）", synonyms: ["responsibility", "answerability"], example: "Clear procedural guidelines are essential to ensure administrative accountability." },
@@ -579,7 +822,7 @@
             { id: 7, group: 1, groupName: "群組一：體制弊端與行政究責", word: "undermine", pos: "(v.)", meaning: "暗中削弱；動搖根基", anchor: "推諉卸責會「削弱」基層士氣。托福聽力超愛考態度字！", synonyms: ["weaken", "subvert", "erode"], example: "Arbitrary performance evaluations severely undermine civil servants' morale." },
             { id: 8, group: 1, groupName: "群組一：體制弊端與行政究責", word: "impede", pos: "(v.)", meaning: "阻礙；妨礙（行政流程）", anchor: "繁文縟節「阻礙」了效率。同義詞：hinder / obstruct", synonyms: ["hinder", "obstruct", "hamper"], example: "Outdated digital infrastructure continues to impede regional economic integration." },
             { id: 9, group: 1, groupName: "群組一：體制弊端與行政究責", word: "redundant", pos: "(adj.)", meaning: "冗餘的；多餘的", anchor: "疊床架屋的無效公文。搭配：redundant procedures（冗餘的程序）", synonyms: ["unnecessary", "superfluous", "repetitive"], example: "Streamlining redundant administrative procedures can significantly boost efficiency." },
-            { id: 10, group: 1, groupName: "群組一：體制弊端與行政究責", word: "chronic", pos: "(adj.)", meaning: "長期慢性的；積習難改的", anchor: "偏鄉缺人是「長期結構性」問題。搭配：chronic shortage", synonyms: ["persistent", "long-standing", "habitual"], example: "Remote municipalities suffer from a chronic shortage of医療 and educational resources." },
+            { id: 10, group: 1, groupName: "群組一：體制弊端與行政究責", word: "chronic", pos: "(adj.)", meaning: "長期慢性的；積習難改的", anchor: "偏鄉缺人是「長期結構性」問題。搭配：chronic shortage", synonyms: ["persistent", "long-standing", "habitual"], example: "Remote municipalities suffer from a chronic shortage of medical and educational resources." },
             { id: 11, group: 1, groupName: "群組一：體制弊端與行政究責", word: "vulnerable", pos: "(adj.)", meaning: "脆弱的；易受傷害/究責的", anchor: "基層承辦人往往在制度下最脆弱。搭配：vulnerable populations", synonyms: ["susceptible", "exposed", "defenseless"], example: "Frontline officers are often left vulnerable when systemic flaws occur." },
             { id: 12, group: 1, groupName: "群組一：體制弊端與行政究責", word: "stagnant", pos: "(adj.)", meaning: "停滯不前的；死水般的", anchor: "形容不思長進的組織或經濟。搭配：stagnant economy", synonyms: ["inactive", "sluggish", "static"], example: "Without reliable public transit, the local economy will remain stagnant." },
 
@@ -628,26 +871,329 @@
             { id: 50, group: 4, groupName: "群組四：閱讀必考轉折與邏輯動詞", word: "paradigm", pos: "(n.)", meaning: "典範；思維模式/框架", anchor: "= model / framework（搭配：paradigm shift 思維維度的徹底轉換）", synonyms: ["model", "framework", "pattern"], example: "Digital governance represents a fundamental paradigm shift in public administration." }
         ];
 
-        // Priority words for tonight's Rural Budget Allocation writing prompt
-        const WRITING_PRIORITY_IDS = [17, 16, 14, 15, 13, 18, 4, 5, 6, 20, 21, 39, 22, 10, 23];
+        // Built-in Expansion Pack 2 (30 Words for Wed/Fri Ecology, Urban Governance & History)
+        const EXPANSION_PACK_WORDS = [
+            { id: 51, group: 5, groupName: "群組五：環境生態與永續治理", word: "deplete", pos: "(v.)", meaning: "耗盡；使枯竭（資源/預算）", anchor: "長期內耗會耗盡心力。同義詞：exhaust / drain", synonyms: ["exhaust", "drain", "consume"], example: "Unregulated industrial fishing continues to deplete marine resources." },
+            { id: 52, group: 5, groupName: "群組五：環境生態與永續治理", word: "repercussion", pos: "(n.)", meaning: "（負面）深遠影響；惡果", anchor: "錯誤決策帶來的連鎖後果。同義詞：consequence / fallout", synonyms: ["consequence", "ramification", "fallout"], example: "Ignoring climate compliance will have severe economic repercussions." },
+            { id: 53, group: 5, groupName: "群組五：環境生態與永續治理", word: "jeopardize", pos: "(v.)", meaning: "危及；損害（安全或權益）", anchor: "隨意推卸責任會危及機關信譽。同義詞：endanger / threaten", synonyms: ["endanger", "threaten", "imperil"], example: "Lax enforcement of safety statutes can jeopardize public health." },
+            { id: 54, group: 5, groupName: "群組五：環境生態與永續治理", word: "resilient", pos: "(adj.)", meaning: "具韌性的；能迅速復原的", anchor: "新加坡極度強調打造 resilient city（韌性城市）。", synonyms: ["adaptable", "robust", "durable"], example: "Diversified supply chains make the national economy more resilient to shocks." },
+            { id: 55, group: 5, groupName: "群組五：環境生態與永續治理", word: "emission", pos: "(n.)", meaning: "排放（碳排/廢氣）", anchor: "ESG 與碳稅題必備字。搭配：curb carbon emissions", synonyms: ["discharge", "release", "output"], example: "Stringent carbon taxes incentivize factories to curb greenhouse gas emissions." },
+            { id: 56, group: 5, groupName: "群組五：環境生態與永續治理", word: "degradation", pos: "(n.)", meaning: "退化；惡化；貶低", anchor: "環境退化或制度崩壞。搭配：environmental degradation", synonyms: ["deterioration", "decline", "degeneration"], example: "Rapid deforestation accelerates soil degradation in tropical regions." },
+            { id: 57, group: 5, groupName: "群組五：環境生態與永續治理", word: "threshold", pos: "(n.)", meaning: "門檻；臨界點", anchor: "新加坡 EP 簽證薪資門檻就是 salary threshold！", synonyms: ["limit", "boundary", "tipping point"], example: "Once pollution exceeds a critical threshold, ecosystem recovery becomes impossible." },
+            { id: 58, group: 5, groupName: "群組五：環境生態與永續治理", word: "equilibrium", pos: "(n.)", meaning: "平衡；均勢", anchor: "生態平衡或政治恐怖平衡。同義詞：balance / stability", synonyms: ["balance", "symmetry", "stability"], example: "Predators play a vital role in maintaining ecological equilibrium." },
+            { id: 59, group: 5, groupName: "群組五：環境生態與永續治理", word: "harness", pos: "(v.)", meaning: "善用；駕馭（能源/科技）", anchor: "駕馭 AI 工具為自己所用。同義詞：utilize / exploit", synonyms: ["utilize", "channel", "employ"], example: "Smart cities harness big data to optimize traffic flow and energy usage." },
+            { id: 60, group: 5, groupName: "群組五：環境生態與永續治理", word: "finite", pos: "(adj.)", meaning: "有限的（資源/時間）", anchor: "人生與預算都是有限的。反義詞：infinite", synonyms: ["limited", "restricted", "bounded"], example: "Because municipal budgets are finite, policymakers must prioritize core infrastructure." },
+            { id: 61, group: 6, groupName: "群組六：歷史變革與社會結構", word: "egalitarian", pos: "(adj.)", meaning: "平等主義的；講求人人平等的", anchor: "相對於官僚科層（hierarchical）的反義概念。", synonyms: ["equal", "democratic", "classless"], example: "Nordic welfare models promote an egalitarian distribution of educational resources." },
+            { id: 62, group: 6, groupName: "群組六：歷史變革與社會結構", word: "affluent", pos: "(adj.)", meaning: "富裕的；豐裕的", anchor: "托福社會學常考 affluent neighborhoods（富裕社區）。", synonyms: ["wealthy", "prosperous", "well-off"], example: "Affluent metropolitan districts often attract disproportionate public investment." },
+            { id: 63, group: 6, groupName: "群組六：歷史變革與社會結構", word: "cohesive", pos: "(adj.)", meaning: "具凝聚力的；緊密結合的", anchor: "新加坡社會政策最強調 social cohesion（社會凝聚力）。", synonyms: ["united", "integrated", "unified"], example: "Inclusive housing policies foster a more cohesive multicultural society." },
+            { id: 64, group: 6, groupName: "群組六：歷史變革與社會結構", word: "assimilation", pos: "(n.)", meaning: "同化；融合；吸收", anchor: "移民社會的同化過程或知識吸收。", synonyms: ["integration", "absorption", "incorporation"], example: "Language education facilitates the economic assimilation of skilled immigrants." },
+            { id: 65, group: 6, groupName: "群組六：歷史變革與社會結構", word: "empirical", pos: "(adj.)", meaning: "實證的；以經驗/數據為依據的", anchor: "LKYSPP 最看重 empirical evidence（實證數據），而非空談。", synonyms: ["observational", "experimental", "factual"], example: "Policy reforms must be grounded in rigorous empirical research." },
+            { id: 66, group: 6, groupName: "群組六：歷史變革與社會結構", word: "pragmatic", pos: "(adj.)", meaning: "務實的；實用主義的", anchor: "新加坡治國核心精神就是 pragmatic governance（務實治理）！", synonyms: ["practical", "realistic", "sensible"], example: "Lee Kuan Yew championed a pragmatic approach to economic development." },
+            { id: 67, group: 6, groupName: "群組六：歷史變革與社會結構", word: "orthodox", pos: "(adj.)", meaning: "正統的；傳統守舊的", anchor: "打破官僚的守舊思維。搭配：challenge orthodox views", synonyms: ["conventional", "traditional", "mainstream"], example: "Innovative economists often challenge orthodox fiscal theories." },
+            { id: 68, group: 6, groupName: "群組六：歷史變革與社會結構", word: "autonomy", pos: "(n.)", meaning: "自主權；自治", anchor: "脫離體制就是為了奪回人生與專業的 autonomy！", synonyms: ["independence", "self-determination", "freedom"], example: "Granting greater operational autonomy to local hospitals improves patient care." },
+            { id: 69, group: 6, groupName: "群組六：歷史變革與社會結構", word: "impetus", pos: "(n.)", meaning: "推動力；促進因素；契機", anchor: "十月的霧霾反而給了您離職的 impetus！", synonyms: ["catalyst", "stimulus", "momentum"], example: "The fiscal crisis provided the necessary impetus for structural reform." },
+            { id: 70, group: 6, groupName: "群組六：歷史變革與社會結構", word: "reconcile", pos: "(v.)", meaning: "調和；使一致；和解", anchor: "在「依法行政」與「偏鄉便民」之間做調和。", synonyms: ["harmonize", "balance", "resolve"], example: "Policymakers struggle to reconcile rapid industrial growth with environmental protection." }
+        ];
 
-        const STORAGE_KEY = "lkyspp_toefl_50_status_v1";
+        // ============================================================================
+        // 2. WEEKLY SCHEDULE DATA (週一至週日智慧排程與專屬訓練艙對應)
+        // ============================================================================
+        const WEEKLY_SCHEDULE = {
+            1: { // Monday
+                dayLabel: "週一",
+                themeTitle: "週一：閱讀結構與政經單字日",
+                recommendedPod: "reading",
+                blocks: [
+                    { id: "mon-a", time: "12:30 區塊 A（公所潛行 30m）", title: "政經社科核心單字快刷 50 個", desc: "使用 Tab 2 閃卡進行 0.5 秒直覺反應訓練，超過 1 秒直接翻牌看錨點。", actionTab: "flashcard", actionText: "⚡ 前往閃卡快刷" },
+                    { id: "mon-b", time: "19:30 區塊 B（下班主力 60m）", title: "閱讀「法條拆解法」長難句解剖", desc: "在下方「閱讀長難句括號拆解艙」開啟括號刪減視角，直接抓主詞＋動詞秒殺簡化題。", actionPod: "reading", actionText: "🔍 啟動長難句拆解艙" },
+                    { id: "mon-c", time: "22:00 區塊 C（睡前記憶 30m）", title: "朗讀 5 個經典長難句固化語感", desc: "把今天拆解過的長難句主幹大聲朗讀 5 遍，訓練雙眼在考場上的掃讀速度。", actionPod: "reading", actionText: "📖 複習今日長難句" }
+                ]
+            },
+            2: { // Tuesday
+                dayLabel: "週二",
+                themeTitle: "週二：寫作五句抗辯 ＆ 校園聽力日",
+                recommendedPod: "listening",
+                blocks: [
+                    { id: "tue-a", time: "12:30 區塊 A（公所潛行 30m）", title: "50字驗收快篩 ＋ 聽力 Campus 對話 2 篇", desc: "先刷一輪待加強單字，再於下方「聽力轉折考點艙」完成 2 篇校園行政對話盲聽。", actionPod: "listening", actionText: "🎧 啟動 Campus 聽力艙" },
+                    { id: "tue-b", time: "19:30 區塊 B（下班主力 60m）", title: "寫作實戰：10分鐘「五句抗辯法典」套用", desc: "前往 Tab 4 寫作沙盒，計時 10 分鐘完成「偏鄉發展與政府預算配置」實戰答辯文。", actionTab: "writing", actionText: "✍️ 進入 19:30 寫作沙盒" },
+                    { id: "tue-c", time: "22:00 區塊 C（睡前記憶 30m）", title: "AI 幕僚批改驗收 ＆ 滿分範本背誦", desc: "點擊寫作沙盒「一鍵複製草稿」貼回對話視窗批改，並將升級後的句型朗讀 5 遍。", actionTab: "writing", actionText: "📋 複製草稿去批改" }
+                ]
+            },
+            3: { // Wednesday
+                dayLabel: "週三",
+                themeTitle: "週三：學術聽力轉折狙擊 ＆ 環境詞庫日",
+                recommendedPod: "listening",
+                blocks: [
+                    { id: "wed-a", time: "12:30 區塊 A（公所潛行 30m）", title: "環境生態與永續治理單字快刷", desc: "可點右上角「📥 匯入新彈藥」一鍵載入第 2 彈環境與歷史詞庫，進行 0.5 秒快篩。", actionTab: "flashcard", actionText: "⚡ 刷環境與治理單字" },
+                    { id: "wed-b", time: "19:30 區塊 B（下班主力 60m）", title: "聽力 Lecture 教授講座「轉折訊號」精聽", desc: "在下方聽力訓練艙切換至「教授學術講座 (Lecture)」，專抓 However / What's puzzling 後的考點。", actionPod: "listening", actionText: "🎧 練習教授講座精聽" },
+                    { id: "wed-c", time: "22:00 區塊 C（睡前記憶 30m）", title: "聽力 1.2 倍速跟讀 (Shadowing)", desc: "點擊聽力訓練艙的「🔊 1.15x 實戰語速播放」，看著逐字稿同步跟讀，打通耳道連音。", actionPod: "listening", actionText: "🗣️ 執行跟讀訓練" }
+                ]
+            },
+            4: { // Thursday
+                dayLabel: "週四",
+                themeTitle: "週四：口說 45秒 結構壓迫 ＆ 閱讀秒殺日",
+                recommendedPod: "speaking",
+                blocks: [
+                    { id: "thu-a", time: "12:30 區塊 A（公所潛行 30m）", title: "閱讀詞彙題 ＋ 句子簡化題快刷", desc: "前往 Tab 3 進行 10 題同義詞秒殺測驗，並在閱讀訓練艙複習括號刪減法。", actionTab: "quiz", actionText: "🎯 啟動同義詞秒殺測驗" },
+                    { id: "thu-b", time: "19:30 區塊 B（下班主力 60m）", title: "口說 Task 1–4 計時壓迫輸出", desc: "使用下方「口說 45秒 結構計時器」，強迫自己在倒數結束前把兩大法理理由講完。", actionPod: "speaking", actionText: "🎙️ 啟動口說計時器" },
+                    { id: "thu-c", time: "22:00 區塊 C（睡前記憶 30m）", title: "口說萬用骨幹無稿朗讀 5 遍", desc: "將口說防禦骨幹唸到變成口腔肌肉反射，消除考場上的「嗯、啊」停頓。", actionPod: "speaking", actionText: "🎙️ 朗讀口說骨幹" }
+                ]
+            },
+            5: { // Friday
+                dayLabel: "週五",
+                themeTitle: "週五：全週弱點清剿 ＆ 綜合連考日",
+                recommendedPod: "reading",
+                blocks: [
+                    { id: "fri-a", time: "12:30 區塊 A（公所潛行 30m）", title: "本週「待加強弱點字」總清剿", desc: "在 Tab 2 閃卡或 Tab 3 測驗選擇「🔥 只刷待加強弱點」，把不熟的字全部消滅。", actionTab: "quiz", actionText: "🔥 專殺待加強弱點字" },
+                    { id: "fri-b", time: "19:30 區塊 B（下班主力 60m）", title: "小型連考模擬：閱讀 + 聽力 + 10分鐘寫作", desc: "連續完成閱讀長難句、聽力對話與一篇新主題寫作（如：跨國碳稅或 AI 治理）。", actionTab: "writing", actionText: "✍️ 挑戰新寫作題目" },
+                    { id: "fri-c", time: "22:00 區塊 C（睡前記憶 30m）", title: "週末放鬆與大腦記憶固化", desc: "聆聽坂本龍一或巴哈，不看新題，讓大腦在睡眠中完成本週法理詞彙的神經連結。", actionTab: "table", actionText: "📋 瀏覽詞庫總表" }
+                ]
+            },
+            6: { // Saturday
+                dayLabel: "週六",
+                themeTitle: "週六：TPO 全真模考與錯題法典檢討日",
+                recommendedPod: "speaking",
+                blocks: [
+                    { id: "sat-a", time: "09:00 上午場（全真模考 120m）", title: "新制 TPO 全真計時模考 1 回", desc: "模擬正式考場生理時鐘，連續作戰 2 小時不中斷，建立高壓體力抗體。", actionTab: "quiz", actionText: "⚔️ 暖身 20 題秒殺測驗" },
+                    { id: "sat-b", time: "14:30 下午場（主力檢討 60m）", title: "深度檢討錯題邏輯（抓出逾越母法選項）", desc: "分析每一個誘答選項為什麼錯（無中生有、偷換概念、因果顛倒）。", actionPod: "reading", actionText: "🔍 檢視長難句結構" },
+                    { id: "sat-c", time: "22:00 區塊 C（睡前記憶 30m）", title: "收錄本週 5 個最高級寫作/口說句型", desc: "將模考中學到的高階轉折詞收錄進您的隨身系統。", actionTab: "writing", actionText: "✍️ 檢視寫作沙盒" }
+                ]
+            },
+            0: { // Sunday
+                dayLabel: "週日",
+                themeTitle: "週日：戰略緩衝、二次改寫與下週預載日",
+                recommendedPod: "listening",
+                blocks: [
+                    { id: "sun-a", time: "彈性時段（緩衝潛行 30m）", title: "遮罩自測全週核心單字總表", desc: "打開 Tab 5 戰略總表，勾選「🙈 遮住中文與錨點自測」，快速巡視本週戰果。", actionTab: "table", actionText: "🙈 啟動遮罩自測總表" },
+                    { id: "sun-b", time: "19:30 區塊 B（主力攻堅 60m）", title: "模考口說二次重錄 ＆ 寫作滿分改寫", desc: "針對本週練習過的寫作與口說題目重新輸出一次，確保達到 5.0 滿分水準。", actionTab: "writing", actionText: "✍️ 重新改寫滿分短文" },
+                    { id: "sun-c", time: "22:00 區塊 C（下週部署 30m）", title: "向 AI 幕僚領取下週新彈藥並匯入系統", desc: "點擊右上角「📥 匯入新彈藥」，備妥明天週一去公所潛行的心態護盾。", actionPod: "listening", actionText: "📥 準備下週新題庫" }
+                ]
+            }
+        };
+
+        // ============================================================================
+        // 3. BUILT-IN DRILL POD DATA (Listening Dialogues, Reading Slasher, Speaking, Writing)
+        // ============================================================================
+        const LISTENING_DRILLS = [
+            {
+                id: "L1",
+                tag: "週二 Campus 行政對話 #1",
+                title: "研究生獎學金與助教工時限制爭議 (Graduate Stipend & TA Hours)",
+                context: "一名公共政策碩士生去行政辦公室詢問研究津貼被延遲發放的原因。請特別注意行政人員說出轉折詞後的核心規定！",
+                lines: [
+                    { speaker: "Student", text: "Hi, I'm checking on my research stipend for this semester. My tuition waiver went through, so I assumed the monthly living allowance would be deposited automatically." },
+                    { speaker: "Administrator", text: "Let me pull up your file... Okay, I see you're enrolled in the one-year Master in Public Administration track.", isSignal: false },
+                    { speaker: "Administrator", text: "However, according to the updated university statute, international students receiving a partial merit scholarship must submit a signed Departmental Compliance Form before the bursar can release any stipend.", isSignal: true, signalNote: "🎯 考點核心！However 後面直接點出真正卡關的制度原因：必須先提交系所合規表單（Departmental Compliance Form）。" },
+                    { speaker: "Student", text: "Oh! Professor Miller never mentioned that form. Can I just sign it right now?" },
+                    { speaker: "Administrator", text: "Actually, the thing is, because your appointment involves twenty hours of teaching assistant duties per week, it also requires the program director's ratification to verify that your workload doesn't impede your core coursework.", isSignal: true, signalNote: "🎯 第二考點！Actually, the thing is 點出學生不能當場簽完就走，還需要學程主任核定（ratification）確認工時不會妨礙課業。" }
+                ],
+                question: "Why has the student's monthly living allowance been delayed, and what must the student do next?",
+                options: [
+                    "The university depleted its scholarship budget, so the student must apply for an external bank loan.",
+                    "The student failed to maintain the minimum GPA threshold required by the faculty.",
+                    "A mandatory compliance form ratified by the program director has not yet been submitted.",
+                    "International MPA students are strictly exempt from receiving any teaching assistant stipends."
+                ],
+                answerIdx: 2,
+                explanation: "行政人員在兩個轉折詞（However 與 Actually, the thing is）後面明確指出：必須提交經學程主任核定（ratified）的合規表單（compliance form），出納處才能撥款。"
+            },
+            {
+                id: "L2",
+                tag: "週二 Campus 行政對話 #2",
+                title: "實習學分抵免與管轄權豁免 (Public Policy Internship Waiver)",
+                context: "一名具有七年公務資歷的 MPA 學生向指導教授爭取免修「基礎行政實習」並改選高階資料分析課。",
+                lines: [
+                    { speaker: "Student", text: "Professor, since I already worked in municipal personnel administration for seven years before coming to Singapore, I'm hoping to be exempt from the mandatory summer internship." },
+                    { speaker: "Professor", text: "On the surface, your prior civil service experience certainly exceeds our baseline requirement.", isSignal: false },
+                    { speaker: "Professor", text: "But here's the catch: the curriculum committee views the summer placement not merely as work experience, but as an opportunity to observe cross-border regulatory compliance in multinational organizations.", isSignal: true, signalNote: "🎯 考點核心！But here's the catch 點出委員會不同意單純用過去國內公職抵免的原因：實習目的是觀察跨國組織的合規運作。" },
+                    { speaker: "Student", text: "I see. What if I conduct an empirical policy analysis comparing Taiwan's administrative procedure with Singapore's statutory boards?" },
+                    { speaker: "Professor", text: "Now that's a compelling alternative! In fact, if you submit a formal research proposal by Friday, I can ask the dean to grant a special precedent waiver.", isSignal: true, signalNote: "🎯 轉折解法！In fact 後面給出具體行動方案：週五前交正式研究計畫書，就能向院長申請破例豁免。" }
+                ],
+                question: "What does the professor suggest the student do to obtain an exemption from the summer internship?",
+                options: [
+                    "Provide an organizational hierarchy chart from his previous municipal office.",
+                    "Submit a formal research proposal comparing cross-national administrative procedures by Friday.",
+                    "File a complaint with the university senate regarding redundant curriculum requirements.",
+                    "Take a leave of absence and return to his previous civil service position."
+                ],
+                answerIdx: 1,
+                explanation: "教授在 In fact 後面明確表示，只要學生在週五前提交那份比較台星行政程序的實證研究計畫書，就能幫他向院長申請特別豁免。"
+            },
+            {
+                id: "L3",
+                tag: "週三 Lecture 教授講座 #1",
+                title: "都市基礎建設與誘發需求悖論 (Induced Demand in Urban Transit)",
+                context: "公共管理教授講解為什麼「拓寬高速公路」反而會讓塞車更嚴重（托福社科極高頻考題）。",
+                lines: [
+                    { speaker: "Professor", text: "When metropolitan commuters complain about chronic traffic congestion, the most intuitive bureaucratic response is to allocate billions of dollars toward widening existing highways." },
+                    { speaker: "Professor", text: "It sounds entirely plausible—more lanes should naturally accommodate more vehicles and alleviate bottlenecks, right?", isSignal: false },
+                    { speaker: "Professor", text: "However, decades of empirical urban data reveal a counterintuitive phenomenon known as 'induced demand': expanding road capacity actually exacerbates congestion within just a few years.", isSignal: true, signalNote: "🎯 講座核心主旨！However 直接推翻前面的直覺假設（plausible），引出專有名詞 induced demand（誘發需求）：拓寬道路反而惡化（exacerbate）塞車！" },
+                    { speaker: "Professor", text: "What's particularly striking is that newly widened highways lower the immediate time cost of driving, which inadvertently creates a powerful incentive for suburban residents who previously took public transit to switch back to private cars.", isSignal: true, signalNote: "🎯 因果機制考點！What's particularly striking 解釋為什麼會塞車：開車時間成本短期下降，反而吸引原本搭大眾運輸的人改開車。" }
+                ],
+                question: "According to the professor, why does widening highways often fail to solve traffic congestion?",
+                options: [
+                    "Construction projects are frequently delayed by stringent environmental scrutiny.",
+                    "The expanded road capacity attracts former public transit users to drive, quickly filling up the new lanes.",
+                    "Local governments lack the legal jurisdiction to enforce speed limits on new highways.",
+                    "Highway maintenance depletes municipal budgets meant for rural revitalization."
+                ],
+                answerIdx: 1,
+                explanation: "教授在兩個轉折強調詞後指出，拓寬馬路降低了短期開車成本，反而創造誘因讓原本搭公車捷運的通勤族改開私家車（induced demand），導致新車道迅速塞滿。"
+            }
+        ];
+
+        const READING_SLASHER_DRILLS = [
+            {
+                id: "R1",
+                tag: "法條拆解實戰 #1（政府補助與農業轉型）",
+                rawHtml: `<span class="clause-modifier">Although post-war agricultural subsidies, which were initially designed to stabilize food prices during severe economic downturns,</span> <span class="clause-core">temporarily bolstered rural incomes</span>, <span class="clause-core">they ultimately impeded long-term structural transformation</span> <span class="clause-modifier">by discouraging farmers from diversifying into more lucrative high-value crops.</span>`,
+                coreSummary: "主幹：Subsidies temporarily bolstered incomes, [but] they ultimately impeded transformation.（補助短期提升了收入，但最終卻阻礙了長期結構轉型。）",
+                question: "Which of the following best expresses the essential information in the highlighted sentence?",
+                options: [
+                    "Post-war agricultural subsidies successfully stabilized food prices and encouraged farmers to grow lucrative crops.",
+                    "While agricultural subsidies provided short-term income support, they hindered long-term rural transformation by reducing incentives to diversify.",
+                    "Severe economic downturns forced the government to abolish agricultural subsidies despite strong opposition from rural farmers.",
+                    "Farmers who diversified into high-value crops were exempt from receiving post-war government subsidies."
+                ],
+                answerIdx: 1,
+                explanation: "括號刪掉中間的 which 子句後，主幹是「Although subsidies bolstered incomes (讓步), they impeded transformation by discouraging diversification (主旨)」，完全對應選項 (B)，其中 impeded 對應 hindered。"
+            },
+            {
+                id: "R2",
+                tag: "法條拆解實戰 #2（官僚科層與政策執行斷層）",
+                rawHtml: `<span class="clause-core">A stark discrepancy frequently emerges</span> <span class="clause-modifier">between the ambitious environmental statutes ratified by central legislatures and their actual enforcement in remote municipalities,</span> <span class="clause-core">largely because local agencies lack both the autonomous fiscal resources and the technical personnel</span> <span class="clause-modifier">required to monitor stringent compliance standards.</span>`,
+                coreSummary: "主幹：A discrepancy emerges, largely because local agencies lack resources and personnel.（政策與執行出現巨大落差，主要是因為基層機關缺乏自主財源與專業人力。）",
+                question: "Which of the following best expresses the essential information in the highlighted sentence?",
+                options: [
+                    "Central legislatures often refuse to ratify environmental statutes because remote municipalities oppose stringent standards.",
+                    "A gap between environmental laws and local enforcement occurs primarily because local agencies lack the funding and staff needed to ensure compliance.",
+                    "Local agencies with autonomous fiscal resources have successfully eliminated discrepancies in national environmental laws.",
+                    "Technical personnel in remote municipalities are exempt from enforcing central legislative mandates."
+                ],
+                answerIdx: 1,
+                explanation: "這句話簡直就是您偏鄉公所經驗的翻版！主幹抓出『A discrepancy emerges because local agencies lack resources and personnel』，discrepancy = gap，秒選 (B)。"
+            },
+            {
+                id: "R3",
+                tag: "法條拆解實戰 #3（制度典範轉移與既得利益抵抗）",
+                rawHtml: `<span class="clause-modifier">Even when empirical evidence overwhelmingly demonstrates that an existing administrative paradigm has become obsolete and redundant,</span> <span class="clause-core">entrenched bureaucratic hierarchies tend to resist fundamental reforms</span> <span class="clause-modifier">that might undermine their traditional jurisdiction or subject their discretionary power to external scrutiny.</span>`,
+                coreSummary: "主幹：Entrenched hierarchies resist reforms [even when evidence shows the paradigm is obsolete].（即便實證顯示舊制度已過時冗餘，既得官僚階層仍傾向抗拒會削弱其管轄權的改革。）",
+                question: "Which of the following best expresses the essential information in the highlighted sentence?",
+                options: [
+                    "Bureaucratic hierarchies eagerly adopt new administrative paradigms whenever empirical evidence proves their efficiency.",
+                    "External scrutiny has successfully forced obsolete bureaucracies to surrender their discretionary power.",
+                    "Despite clear evidence that current systems are outdated, established bureaucracies often oppose reforms that threaten their authority or increase oversight.",
+                    "Redundant administrative procedures are the primary cause of jurisdictional disputes among local officials."
+                ],
+                answerIdx: 2,
+                explanation: "抓出讓步子句 Even when... 與主幹 hierarchies resist reforms，其中 undermine jurisdiction = threaten authority，scrutiny = oversight，秒選 (C)。"
+            }
+        ];
+
+        const SPEAKING_PROMPTS = [
+            {
+                id: "S1",
+                title: "Task 1 獨立口說：政府應優先補助「偏鄉基建」還是「直接發放現金」？",
+                prompt: "Some people believe that to revitalize declining rural towns, the government should provide direct cash handouts to residents. Others believe the government should invest that budget in public infrastructure such as high-speed internet and hospitals. Which view do you support and why?"
+            },
+            {
+                id: "S2",
+                title: "Task 1 獨立口說：機關考績評核應由「主管獨斷」還是「合議制共識」決定？",
+                prompt: "Some organizations evaluate employees' annual performance solely based on their immediate supervisor's assessment. Others use a collegial committee and objective metrics to reach a consensus. Which approach do you think is better for organizational efficiency and morale?"
+            },
+            {
+                id: "S3",
+                title: "Task 1 獨立口說：資深專業人士在 40 歲時選擇「維持現狀」還是「出國攻讀新學位」？",
+                prompt: "Some mid-career professionals prefer to remain in a stable, predictable job until retirement. Others choose to pursue advanced international education and take on new career challenges even in their forties. Which choice do you admire more and why?"
+            }
+        ];
+
+        const WRITING_PROMPTS_DATA = [
+            {
+                id: "W1",
+                title: "題庫 1：【偏鄉發展與政府預算配置】Rural Infrastructure vs. Direct Cash Subsidies",
+                prof: "Professor Gupta: Many rural towns are experiencing severe population decline and aging demographics. Some policymakers argue that the central government should offer direct financial incentives (cash handouts or tax breaks) to individuals and businesses that relocate to rural areas. Others believe the government should instead invest solely in upgrading rural public infrastructure and digital connectivity. Which approach is more effective and why?",
+                stuA: "Paul (支持直接發錢/減稅): Money talks. Immediate tax cuts or housing subsidies lower living costs right away and stimulate the local economy fastest.",
+                stuB: "Claire (支持升級基建與網路): Handing out cash is a temporary fix. Once the subsidy ends, people leave. Investing in high-speed internet, hospitals, and public transit naturally attracts remote workers and industries over time.",
+                priorityIds: [17, 16, 14, 15, 13, 18, 4, 5, 6, 20, 21, 39, 22, 10, 23],
+                modelAnswer: `While this policy debate is multifaceted, I firmly contend that the government should allocate budgets toward upgrading rural public infrastructure rather than direct cash subsidies, primarily due to its profound impact on long-term regional sustainability.
+
+Although Paul raises a valid point regarding immediate financial relief, this perspective overlooks a critical systemic flaw: short-sighted cash handouts often attract opportunistic applicants, resulting in only a transient population influx.
+
+Specifically, when authorities implement comprehensive infrastructure upgrades, it directly creates a powerful structural incentive for remote professionals and enterprises to relocate permanently.
+
+For instance, in practical governance, establishing high-speed digital connectivity and reliable healthcare not only mitigates chronic regional disparities but also optimizes public resource allocation.
+
+Therefore, rather than relying on superficial subsidies, modernizing rural infrastructure remains the most viable strategy to revitalize aging communities.`
+            },
+            {
+                id: "W2",
+                title: "題庫 2：【環境法規合規：嚴格碳稅懲罰 vs. 綠色研發補助】Carbon Tax vs. Green Subsidies",
+                prof: "Professor Reynolds: To combat climate change, governments are debating two primary regulatory tools. Some economists advocate imposing stringent carbon taxes and heavy fines on corporations that exceed emission thresholds. Others argue that governments should instead provide generous R&D subsidies and tax exemptions to help companies transition to green energy. Which policy is more effective?",
+                stuA: "Liam (支持嚴格碳稅與重罰): Corporations only care about profits. Without stringent penalties and mandatory compliance, polluting industries will never voluntarily change their behavior.",
+                stuB: "Sofia (支持綠色研發補助): Heavy taxes will only impede economic growth and force companies to relocate abroad. Financial incentives and subsidies act as a catalyst for technological innovation.",
+                priorityIds: [38, 27, 26, 37, 14, 15, 24, 39, 6, 8, 22, 49, 50],
+                modelAnswer: `While this policy debate is multifaceted, I firmly contend that enforcing stringent carbon taxes and mandatory compliance is more effective than unconditional subsidies, primarily due to its profound impact on corporate accountability.
+
+Although Sofia raises a valid point regarding encouraging innovation, this perspective overlooks a critical systemic flaw: generous government subsidies without strict oversight often lead to opportunistic rent-seeking rather than genuine emission reductions.
+
+Specifically, when authorities implement a clear statutory carbon price, it directly creates a powerful structural incentive for polluting industries to internalize their environmental costs.
+
+For instance, in practical governance, combining rigorous compliance scrutiny with targeted tax credits not only mitigates environmental degradation but also optimizes public budget allocation.
+
+Therefore, rather than relying on ambiguous voluntary measures, enforcing stringent regulatory standards remains the most viable strategy to ensure sustainable progress.`
+            },
+            {
+                id: "W3",
+                title: "題庫 3：【行政決策革新：AI 演算法考評 vs. 合議制正當程序】Algorithmic Governance vs. Human Due Process",
+                prof: "Professor Chen: Many public sector agencies and large corporations are considering using AI algorithms to evaluate employee performance and allocate promotions, claiming it eliminates human bias. Others argue that personnel evaluations must remain under human committees to protect due process and contextual fairness. Which view do you support?",
+                stuA: "David (支持 AI 自動化考評): Human supervisors often make arbitrary decisions based on personal favoritism. An AI system uses objective empirical metrics, making evaluations faster and fairer.",
+                stuB: "Elena (支持合議制與人工審查): AI algorithms cannot understand complex real-world contexts, such as working in under-resourced rural areas. Relying solely on cold data undermines employee morale and accountability.",
+                priorityIds: [29, 2, 3, 7, 31, 34, 28, 44, 48, 50, 22],
+                modelAnswer: `While this policy debate is multifaceted, I firmly contend that personnel evaluations must be governed by transparent collegial consensus rather than automated algorithms, primarily due to its profound impact on procedural legitimacy and accountability.
+
+Although David raises a valid point regarding preventing arbitrary supervisor bias, this perspective overlooks a critical systemic flaw: standardized algorithms ignore the stark discrepancy between well-funded metropolitan offices and under-resourced rural jurisdictions.
+
+Specifically, when authorities implement a transparent human review board grounded in due process, it directly creates a powerful structural incentive for civil servants to tackle complex frontline challenges.
+
+For instance, in practical governance, requiring meticulous evidence and collegial scrutiny not only mitigates arbitrary evaluations but also bolsters organizational morale.
+
+Therefore, rather than relying on superficial algorithmic metrics, upholding rigorous human due process remains the most viable strategy to ensure fair governance.`
+            }
+        ];
+
+        // ============================================================================
+        // 4. APPLICATION STATE & STORAGE MANAGEMENT
+        // ============================================================================
+        const STORAGE_KEY_STATUS = "lkyspp_toefl_50_status_v1";
+        const STORAGE_KEY_CUSTOM_WORDS = "lkyspp_toefl_custom_words_v2";
+        const STORAGE_KEY_CHECKLIST = "lkyspp_toefl_daily_checks_v2";
         const DRAFT_STORAGE_KEY = "lkyspp_toefl_writing_draft_v1";
+
+        let WORDS_DATA = [...BASE_WORDS_DATA];
         let wordStatus = {}; // { [id]: 'mastered' | 'review' }
+        let dailyChecks = {}; // { '2026-10-13_tue-a': true }
+        let selectedWeekday = new Date().getDay(); // 0 (Sun) - 6 (Sat)
         let currentFilter = 'all';
         let filteredDeck = [...WORDS_DATA];
         let currentCardIndex = 0;
         let isCardFlipped = false;
-        let isMuted = true; // Default muted for office stealth!
+        let isMuted = true;
         let isStealthMode = false;
 
-        // 30-Minute Stealth Timer State
+        // Timers
         let stealthSecondsLeft = 30 * 60;
         let stealthTimerInterval = null;
-
-        // 10-Minute Writing Timer State
         let writingSecondsLeft = 10 * 60;
         let writingTimerInterval = null;
+        let speakingSecondsLeft = 45;
+        let speakingTimerInterval = null;
+
+        // Drill Pod States
+        let currentListeningIdx = 0;
+        let currentReadingIdx = 0;
+        let isSlasherActive = true;
+        let currentWritingPromptIdx = 0;
 
         // Quiz State
         let quizQuestions = [];
@@ -656,21 +1202,35 @@
 
         function loadState() {
             try {
-                const saved = localStorage.getItem(STORAGE_KEY);
-                if (saved) wordStatus = JSON.parse(saved);
+                const savedStatus = localStorage.getItem(STORAGE_KEY_STATUS);
+                if (savedStatus) wordStatus = JSON.parse(savedStatus);
+
+                const savedCustomWords = localStorage.getItem(STORAGE_KEY_CUSTOM_WORDS);
+                if (savedCustomWords) {
+                    const customArr = JSON.parse(savedCustomWords);
+                    if (Array.isArray(customArr) && customArr.length > 0) {
+                        WORDS_DATA = [...BASE_WORDS_DATA, ...customArr];
+                    }
+                }
+
+                const savedChecks = localStorage.getItem(STORAGE_KEY_CHECKLIST);
+                if (savedChecks) dailyChecks = JSON.parse(savedChecks);
+
                 const savedDraft = localStorage.getItem(DRAFT_STORAGE_KEY);
                 if (savedDraft) {
                     document.getElementById('writingTextarea').value = savedDraft;
                 }
             } catch (e) {
-                wordStatus = {};
+                console.error("State load warning:", e);
             }
+            filteredDeck = [...WORDS_DATA];
             updateProgressStats();
+            renderDeckFilterButtons();
         }
 
         function saveState() {
             try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(wordStatus));
+                localStorage.setItem(STORAGE_KEY_STATUS, JSON.stringify(wordStatus));
             } catch (e) {}
             updateProgressStats();
         }
@@ -678,18 +1238,20 @@
         function updateProgressStats() {
             let mastered = 0;
             let review = 0;
+            const total = WORDS_DATA.length;
             WORDS_DATA.forEach(w => {
                 if (wordStatus[w.id] === 'mastered') mastered++;
                 else if (wordStatus[w.id] === 'review') review++;
             });
-            const unseen = WORDS_DATA.length - mastered - review;
+            const unseen = total - mastered - review;
 
+            document.getElementById('totalWordsCount').textContent = total;
             document.getElementById('countMastered').textContent = mastered;
             document.getElementById('countReview').textContent = review;
             document.getElementById('countUnseen').textContent = unseen;
 
-            document.getElementById('barMastered').style.width = `${(mastered / 50) * 100}%`;
-            document.getElementById('barReview').style.width = `${(review / 50) * 100}%`;
+            document.getElementById('barMastered').style.width = `${(mastered / total) * 100}%`;
+            document.getElementById('barReview').style.width = `${(review / total) * 100}%`;
         }
 
         function resetAllProgress() {
@@ -699,12 +1261,322 @@
             renderWordTable();
         }
 
+        // ============================================================================
+        // 5. AUTO DAY-OF-WEEK SCHEDULE HUB & DRILL POD LOGIC
+        // ============================================================================
+        function getTodayDateString() {
+            const now = new Date();
+            return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+        }
+
+        function initAutoSchedule() {
+            const now = new Date();
+            selectedWeekday = now.getDay();
+            const dayConfig = WEEKLY_SCHEDULE[selectedWeekday];
+            const dateStr = `${now.getMonth() + 1}月${now.getDate()}日 (${dayConfig.dayLabel})`;
+            document.getElementById('todayHeaderBadge').textContent = `📅 今日自動感知：${dateStr} · ${dayConfig.themeTitle.split('：')[1]}`;
+
+            renderWeekdayPillBar();
+            renderDailyScheduleCards();
+            switchDrillPod(dayConfig.recommendedPod);
+        }
+
+        function jumpToRealToday() {
+            selectedWeekday = new Date().getDay();
+            renderWeekdayPillBar();
+            renderDailyScheduleCards();
+            switchDrillPod(WEEKLY_SCHEDULE[selectedWeekday].recommendedPod);
+        }
+
+        function selectWeekday(dayNum) {
+            selectedWeekday = dayNum;
+            renderWeekdayPillBar();
+            renderDailyScheduleCards();
+            switchDrillPod(WEEKLY_SCHEDULE[dayNum].recommendedPod);
+        }
+
+        function renderWeekdayPillBar() {
+            const realToday = new Date().getDay();
+            const order = [1, 2, 3, 4, 5, 6, 0]; // Mon to Sun
+            const bar = document.getElementById('weekdayPillBar');
+            bar.innerHTML = order.map(d => {
+                const cfg = WEEKLY_SCHEDULE[d];
+                const isSelected = d === selectedWeekday;
+                const isRealToday = d === realToday;
+                return `
+                    <button onclick="selectWeekday(${d})" class="py-2 px-1 sm:px-3 rounded-xl text-center transition border ${
+                        isSelected
+                            ? 'bg-amber-500 text-slate-950 font-extrabold border-amber-400 shadow-md stealth-accent'
+                            : 'bg-slate-950 hover:bg-slate-800 text-slate-300 border-slate-800'
+                    }">
+                        <div class="text-xs sm:text-sm">${cfg.dayLabel} ${isRealToday ? '📍' : ''}</div>
+                        <div class="hidden md:block text-[10px] opacity-80 truncate mt-0.5">${cfg.themeTitle.split('：')[1]}</div>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function renderDailyScheduleCards() {
+            const cfg = WEEKLY_SCHEDULE[selectedWeekday];
+            const todayKeyPrefix = getTodayDateString();
+            document.getElementById('scheduleDayTitle').innerHTML = `
+                <span class="px-2.5 py-0.5 rounded-lg bg-amber-500 text-slate-950 text-xs font-black">${cfg.dayLabel}排程</span>
+                <span>${cfg.themeTitle}</span>
+            `;
+
+            const container = document.getElementById('dailyBlocksContainer');
+            container.innerHTML = cfg.blocks.map(b => {
+                const checkKey = `${todayKeyPrefix}_${b.id}`;
+                const isChecked = !!dailyChecks[checkKey];
+                const clickHandler = b.actionTab
+                    ? `switchTab('${b.actionTab}')`
+                    : `switchDrillPod('${b.actionPod}'); document.getElementById('drillPod-${b.actionPod}').scrollIntoView({behavior:'smooth'})`;
+
+                return `
+                    <div class="bg-slate-900 border ${isChecked ? 'border-emerald-500/60 bg-emerald-950/10' : 'border-slate-800'} rounded-2xl p-4 flex flex-col justify-between gap-3 panel-box transition">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-2">
+                                <span class="text-[11px] font-mono font-bold text-amber-400 bg-slate-950 px-2.5 py-1 rounded-md border border-slate-800">
+                                    ${b.time}
+                                </span>
+                                <label class="inline-flex items-center gap-1.5 cursor-pointer select-none text-xs ${isChecked ? 'text-emerald-400 font-bold' : 'text-slate-400'}">
+                                    <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleBlockCheck('${checkKey}')" class="rounded text-emerald-500 focus:ring-0">
+                                    <span>${isChecked ? '已完成' : '打卡'}</span>
+                                </label>
+                            </div>
+                            <h4 class="text-sm sm:text-base font-bold text-white mb-1">${b.title}</h4>
+                            <p class="text-xs text-slate-400 leading-relaxed">${b.desc}</p>
+                        </div>
+                        <button onclick="${clickHandler}" class="w-full py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-amber-300 border border-slate-700 transition stealth-accent">
+                            ${b.actionText} ➔
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleBlockCheck(key) {
+            dailyChecks[key] = !dailyChecks[key];
+            try {
+                localStorage.setItem(STORAGE_KEY_CHECKLIST, JSON.stringify(dailyChecks));
+            } catch (e) {}
+            renderDailyScheduleCards();
+        }
+
+        function switchDrillPod(podName) {
+            ['listening', 'reading', 'speaking'].forEach(p => {
+                document.getElementById(`drillPod-${p}`).classList.add('hidden');
+                const btn = document.getElementById(`podBtn-${p}`);
+                btn.className = 'pod-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition';
+            });
+            document.getElementById(`drillPod-${podName}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`podBtn-${podName}`);
+            activeBtn.className = 'pod-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-amber-500 text-slate-950 transition stealth-accent';
+        }
+
+        // --- POD 1: LISTENING DRILL ---
+        function renderListeningDrill() {
+            const bar = document.getElementById('listeningTrackSelectBar');
+            bar.innerHTML = LISTENING_DRILLS.map((d, idx) => `
+                <button onclick="currentListeningIdx=${idx}; renderListeningDrill();" class="px-2.5 py-1 rounded-lg text-xs font-semibold transition ${
+                    idx === currentListeningIdx ? 'bg-amber-500 text-slate-950' : 'bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-700'
+                }">
+                    ${d.tag}
+                </button>
+            `).join('');
+
+            const item = LISTENING_DRILLS[currentListeningIdx];
+            const box = document.getElementById('listeningExerciseBox');
+            box.innerHTML = `
+                <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2.5">
+                        <div>
+                            <h4 class="text-sm sm:text-base font-bold text-white">${item.title}</h4>
+                            <p class="text-xs text-slate-400 mt-0.5">${item.context}</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="playListeningAudio(0.95)" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-1">
+                                🔊 播放對話 (1.0x)
+                            </button>
+                            <button onclick="playListeningAudio(1.15)" class="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold flex items-center gap-1">
+                                ⚡ 1.15x 實戰跟讀
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2.5 text-xs sm:text-sm">
+                        ${item.lines.map((line, lIdx) => `
+                            <div class="p-3 rounded-xl border ${line.isSignal ? 'bg-amber-500/10 border-amber-500/40' : 'bg-slate-900/70 border-slate-800/80'}">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="font-mono font-bold text-xs ${line.speaker === 'Student' ? 'text-sky-400' : 'text-amber-400'}">${line.speaker}:</span>
+                                    ${line.isSignal ? `<span class="text-[11px] font-bold px-2 py-0.5 rounded bg-amber-500 text-slate-950">🚨 轉折必考訊號句</span>` : ''}
+                                </div>
+                                <p class="text-slate-100 leading-relaxed">${line.text}</p>
+                                ${line.isSignal ? `<div class="mt-2 pt-2 border-t border-amber-500/20 text-xs text-emerald-300 font-medium">${line.signalNote}</div>` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-800 space-y-2.5">
+                        <div class="text-xs sm:text-sm font-bold text-amber-300">🎯 托福實戰考題：${item.question}</div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            ${item.options.map((opt, oIdx) => `
+                                <button onclick="checkListeningOption(${oIdx}, this)" class="text-left p-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs text-slate-200 transition">
+                                    <strong class="text-amber-400 font-mono mr-1">(${String.fromCharCode(65 + oIdx)})</strong> ${opt}
+                                </button>
+                            `).join('')}
+                        </div>
+                        <div id="listeningQuizFeedback" class="hidden p-3 rounded-xl text-xs leading-relaxed"></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function playListeningAudio(rate) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            const item = LISTENING_DRILLS[currentListeningIdx];
+            const fullText = item.lines.map(l => l.text).join(' ');
+            const utter = new SpeechSynthesisUtterance(fullText);
+            utter.lang = 'en-US';
+            utter.rate = rate || 1.0;
+            window.speechSynthesis.speak(utter);
+        }
+
+        function checkListeningOption(selectedIdx, btnEl) {
+            const item = LISTENING_DRILLS[currentListeningIdx];
+            const fb = document.getElementById('listeningQuizFeedback');
+            fb.classList.remove('hidden');
+            if (selectedIdx === item.answerIdx) {
+                btnEl.classList.add('border-emerald-500', 'bg-emerald-950/50');
+                fb.className = 'p-3 rounded-xl bg-emerald-950/60 border border-emerald-600 text-emerald-200 text-xs';
+                fb.innerHTML = `<strong>✅ 精準命中心臟！</strong> ${item.explanation}`;
+            } else {
+                btnEl.classList.add('border-rose-500', 'bg-rose-950/50');
+                fb.className = 'p-3 rounded-xl bg-rose-950/60 border border-rose-600 text-rose-200 text-xs';
+                fb.innerHTML = `<strong>❌ 掉入誘答陷阱！正確答案為 (${String.fromCharCode(65 + item.answerIdx)})。</strong> ${item.explanation}`;
+            }
+        }
+
+        // --- POD 2: READING BRACKET SLASHER ---
+        function toggleSlasherMode() {
+            isSlasherActive = !isSlasherActive;
+            renderReadingSlasher();
+        }
+
+        function renderReadingSlasher() {
+            const item = READING_SLASHER_DRILLS[currentReadingIdx];
+            const box = document.getElementById('readingSlasherBox');
+            box.innerHTML = `
+                <div class="flex flex-wrap gap-2 mb-2">
+                    ${READING_SLASHER_DRILLS.map((r, idx) => `
+                        <button onclick="currentReadingIdx=${idx}; renderReadingSlasher();" class="px-3 py-1 rounded-lg text-xs font-semibold transition ${
+                            idx === currentReadingIdx ? 'bg-amber-500 text-slate-950' : 'bg-slate-950 text-slate-300 border border-slate-800'
+                        }">${r.tag}</button>
+                    `).join('')}
+                </div>
+
+                <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 sm:p-5 space-y-4 ${isSlasherActive ? 'slasher-active' : ''}">
+                    <div class="flex items-center justify-between text-xs text-slate-400">
+                        <span>${isSlasherActive ? '✂️ 已啟動「法條括號刪減視角」（灰色括號為修飾贅詞，金色底線為核心法意主幹）' : '📄 原始考場長難句視角'}</span>
+                        <button onclick="speakWord(document.getElementById('rawSentenceText').innerText)" class="px-2.5 py-1 rounded bg-slate-900 text-amber-400 border border-slate-800">🔊 朗讀整句</button>
+                    </div>
+
+                    <div id="rawSentenceText" class="text-sm sm:text-base leading-loose text-slate-100 font-serif p-3.5 bg-slate-900/90 rounded-xl border border-slate-800">
+                        ${item.rawHtml}
+                    </div>
+
+                    <div class="p-3 rounded-xl bg-emerald-950/30 border border-emerald-700/40 text-xs text-emerald-300 font-medium">
+                        ⚡ ${item.coreSummary}
+                    </div>
+
+                    <div class="space-y-2 pt-2 border-t border-slate-800">
+                        <div class="text-xs sm:text-sm font-bold text-amber-300">🎯 托福句子簡化題：${item.question}</div>
+                        <div class="grid grid-cols-1 gap-2">
+                            ${item.options.map((opt, oIdx) => `
+                                <button onclick="checkReadingOption(${oIdx}, this)" class="text-left p-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs text-slate-200 transition">
+                                    <strong class="text-amber-400 font-mono mr-1">(${String.fromCharCode(65 + oIdx)})</strong> ${opt}
+                                </button>
+                            `).join('')}
+                        </div>
+                        <div id="readingQuizFeedback" class="hidden p-3 rounded-xl text-xs leading-relaxed"></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function checkReadingOption(selectedIdx, btnEl) {
+            const item = READING_SLASHER_DRILLS[currentReadingIdx];
+            const fb = document.getElementById('readingQuizFeedback');
+            fb.classList.remove('hidden');
+            if (selectedIdx === item.answerIdx) {
+                btnEl.classList.add('border-emerald-500', 'bg-emerald-950/50');
+                fb.className = 'p-3 rounded-xl bg-emerald-950/60 border border-emerald-600 text-emerald-200 text-xs';
+                fb.innerHTML = `<strong>✅ 秒殺正確！</strong> ${item.explanation}`;
+            } else {
+                btnEl.classList.add('border-rose-500', 'bg-rose-950/50');
+                fb.className = 'p-3 rounded-xl bg-rose-950/60 border border-rose-600 text-rose-200 text-xs';
+                fb.innerHTML = `<strong>❌ 被枝節修飾語誤導了！正確答案為 (${String.fromCharCode(65 + item.answerIdx)})。</strong> ${item.explanation}`;
+            }
+        }
+
+        // --- POD 3: SPEAKING TIMER ---
+        function initSpeakingPod() {
+            const sel = document.getElementById('speakingPromptSelect');
+            sel.innerHTML = SPEAKING_PROMPTS.map((s, idx) => `<option value="${idx}">${s.title}</option>`).join('');
+            renderSpeakingPrompt();
+        }
+
+        function renderSpeakingPrompt() {
+            const idx = parseInt(document.getElementById('speakingPromptSelect')?.value || '0', 10);
+            const item = SPEAKING_PROMPTS[idx];
+            document.getElementById('speakingPromptBox').innerHTML = `
+                <div class="font-bold text-amber-300 mb-1">${item.title}</div>
+                <div>${item.prompt}</div>
+            `;
+        }
+
+        function startSpeakingTimer(seconds, mode) {
+            if (speakingTimerInterval) clearInterval(speakingTimerInterval);
+            speakingSecondsLeft = seconds;
+            updateSpeakingTimerUI(mode);
+            speakingTimerInterval = setInterval(() => {
+                if (speakingSecondsLeft > 0) {
+                    speakingSecondsLeft--;
+                    updateSpeakingTimerUI(mode);
+                } else {
+                    clearInterval(speakingTimerInterval);
+                    speakingTimerInterval = null;
+                    document.getElementById('speakingPhaseHint').textContent = '🔔 時間到！請立刻收尾停止發音！';
+                }
+            }, 1000);
+        }
+
+        function updateSpeakingTimerUI(mode) {
+            const s = String(speakingSecondsLeft).padStart(2, '0');
+            document.getElementById('speakingTimerBig').textContent = `00:${s}`;
+            const hint = document.getElementById('speakingPhaseHint');
+            if (mode === 'prep') {
+                hint.textContent = '🧠 15秒準備期：在紙上寫下 2 個核心關鍵字（例如：Incentive + Mitigate）！';
+            } else if (mode === 'speak45') {
+                if (speakingSecondsLeft > 37) hint.textContent = '⚡ [第 1 階段] 破題立論：Personally, I firmly believe that...';
+                else if (speakingSecondsLeft > 20) hint.textContent = '🔥 [第 2 階段] 展開第一核心理由：First and foremost, from an efficiency standpoint...';
+                else if (speakingSecondsLeft > 5) hint.textContent = '🛡️ [第 3 階段] 展開第二實務理由：Furthermore, in practical governance...';
+                else hint.textContent = '🎯 [最後 5 秒] 權威收尾：Therefore, this remains the most viable option.';
+            } else {
+                hint.textContent = '🎙️ 60秒整合口說作答中：請維持穩定語速，清楚交待轉折與因果！';
+            }
+        }
+
+        // ============================================================================
+        // 6. 30-MIN STEALTH TIMER & STEALTH BOSS KEY
+        // ============================================================================
         function toggleStealthTimer() {
             const btn = document.getElementById('timerStartBtn');
             if (stealthTimerInterval) {
                 clearInterval(stealthTimerInterval);
                 stealthTimerInterval = null;
-                btn.textContent = '▶ 繼續潛行';
+                btn.textContent = '▶ 繼續';
             } else {
                 btn.textContent = '⏸ 暫停';
                 stealthTimerInterval = setInterval(() => {
@@ -714,7 +1586,7 @@
                     } else {
                         clearInterval(stealthTimerInterval);
                         stealthTimerInterval = null;
-                        btn.textContent = '✔ 完成 30m';
+                        btn.textContent = '✔ 完成';
                     }
                 }, 1000);
             }
@@ -726,7 +1598,7 @@
                 stealthTimerInterval = null;
             }
             stealthSecondsLeft = 30 * 60;
-            document.getElementById('timerStartBtn').textContent = '▶ 啟動潛行';
+            document.getElementById('timerStartBtn').textContent = '▶ 啟動';
             updateStealthTimerUI();
         }
 
@@ -756,13 +1628,13 @@
             if (isStealthMode) {
                 mainTitle.textContent = '行政程序法暨正當法律程序實務用語對照檢索系統';
                 subTitle.textContent = '內部法制參考資料 · 雙語法規詞彙與抗辯例句彙編';
-                btnDesktop.textContent = '切回戰略暗色模式 (Esc)';
-                btnMobile.textContent = '切回暗色';
+                btnDesktop.textContent = '切回暗色 (Esc)';
+                btnMobile.textContent = '還原';
             } else {
-                mainTitle.textContent = 'LKYSPP 戰略潛行：托福 3.0 ➔ 5.0 隨身刷字系統';
-                subTitle.textContent = '目標：NUS 李光耀公共政策學院 / NTU 南洋公共管理研究生院（政經法規高頻核心詞庫）';
-                btnDesktop.textContent = '偽裝公文模式 (Esc)';
-                btnMobile.textContent = '偽裝公文';
+                mainTitle.textContent = 'LKYSPP 戰略潛行 v2.0：托福 3.0 ➔ 5.0 智慧特訓系統';
+                subTitle.textContent = '目標：NUS 李光耀公共政策學院 / NTU 南洋公共管理研究生院（自動感知星期排程 ＋ 隨身熱更新題庫）';
+                btnDesktop.textContent = '偽裝公文 (Esc)';
+                btnMobile.textContent = '偽裝';
             }
         }
 
@@ -787,8 +1659,48 @@
             speakWord(item.word);
         }
 
+        // ============================================================================
+        // 7. FLASHCARD DECK & DYNAMIC FILTERING
+        // ============================================================================
+        function getDistinctGroups() {
+            const map = new Map();
+            WORDS_DATA.forEach(w => {
+                if (!map.has(w.group)) {
+                    map.set(w.group, { group: w.group, groupName: w.groupName, count: 0 });
+                }
+                map.get(w.group).count++;
+            });
+            return Array.from(map.values());
+        }
+
+        function renderDeckFilterButtons() {
+            const groups = getDistinctGroups();
+            const bar = document.getElementById('deckFilterButtonsBar');
+            if (!bar) return;
+
+            let html = `<span class="text-xs text-slate-400 mr-1 font-medium">戰略分組：</span>`;
+            html += `<button onclick="setDeckFilter('all')" id="filter-all" class="deck-filter-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-amber-500 text-slate-950 stealth-accent">全部 (${WORDS_DATA.length})</button>`;
+            groups.forEach(g => {
+                const shortLabel = g.groupName.replace('群組', '');
+                html += `<button onclick="setDeckFilter('${g.group}')" id="filter-${g.group}" class="deck-filter-btn px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">${shortLabel} (${g.count})</button>`;
+            });
+            html += `<button onclick="setDeckFilter('review')" id="filter-review" class="deck-filter-btn px-2.5 py-1 rounded-lg text-xs font-medium bg-rose-950/80 text-rose-300 border border-rose-700/50 hover:bg-rose-900/60">🔥 只刷「待加強」弱點</button>`;
+            bar.innerHTML = html;
+
+            // Also update Table Group Select dropdown
+            const tableSelect = document.getElementById('tableGroupSelect');
+            if (tableSelect) {
+                let optHtml = `<option value="all">所有戰略群組 (${WORDS_DATA.length}字)</option>`;
+                groups.forEach(g => {
+                    optHtml += `<option value="${g.group}">${g.groupName} (${g.count})</option>`;
+                });
+                optHtml += `<option value="review">🔥 只顯示「待加強」弱點字</option>`;
+                tableSelect.innerHTML = optHtml;
+            }
+        }
+
         function setDeckFilter(filterType) {
-            currentFilter = filterType;
+            currentFilter = String(filterType);
             document.querySelectorAll('.deck-filter-btn').forEach(btn => {
                 btn.className = 'deck-filter-btn px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700';
             });
@@ -797,15 +1709,15 @@
                 activeBtn.className = 'deck-filter-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-amber-500 text-slate-950 stealth-accent';
             }
 
-            if (filterType === 'all') {
+            if (currentFilter === 'all') {
                 filteredDeck = [...WORDS_DATA];
-            } else if (filterType === 'review') {
+            } else if (currentFilter === 'review') {
                 filteredDeck = WORDS_DATA.filter(w => wordStatus[w.id] === 'review');
                 if (filteredDeck.length === 0) {
                     filteredDeck = [...WORDS_DATA];
                 }
             } else {
-                const g = parseInt(filterType, 10);
+                const g = parseInt(currentFilter, 10);
                 filteredDeck = WORDS_DATA.filter(w => w.group === g);
             }
 
@@ -828,7 +1740,7 @@
             const bar = document.getElementById('reflexBar');
             if (!bar) return;
             bar.classList.remove('animate-reflex');
-            void bar.offsetWidth; // Force reflow
+            void bar.offsetWidth;
             bar.classList.add('animate-reflex');
         }
 
@@ -899,13 +1811,15 @@
             nextCard();
         }
 
+        // ============================================================================
+        // 8. SPEED QUIZ & MULTI-PROMPT WRITING SANDBOX
+        // ============================================================================
         function startQuiz(count, mode) {
             quizScore = 0;
             currentQuizIdx = 0;
             quizQuestions = [];
 
             if (mode === 'classic') {
-                // Exact 4 verification questions from today's 12:55 checkpoint + 1 bonus context question
                 quizQuestions = [
                     {
                         wordId: 38,
@@ -930,7 +1844,7 @@
                     },
                     {
                         wordId: 5,
-                        prompt: '4. 【今晚寫作填空預演】Handing out cash is merely a <strong class="text-amber-400">________</strong> and <strong class="text-amber-400">superficial</strong> fix that may even <strong class="text-amber-400">exacerbate</strong> resource misallocation.',
+                        prompt: '4. 【寫作填空預演】Handing out cash is merely a <strong class="text-amber-400">________</strong> and <strong class="text-amber-400">superficial</strong> fix that may even <strong class="text-amber-400">exacerbate</strong> resource misallocation.',
                         options: ['short-sighted', 'meticulous', 'compelling', 'autonomous'],
                         answer: 'short-sighted',
                         explanation: '發放現金只是「短視近利（short-sighted）」且「治標不治本（superficial）」的做法，甚至會「惡化（exacerbate）」資源錯置。'
@@ -940,11 +1854,16 @@
                         prompt: '5. 【偏鄉補助反駁句】One-off cash subsidies often attract <strong class="text-amber-400">________</strong> applicants who leave as soon as the funding expires.',
                         options: ['opportunistic', 'ubiquitous', 'legitimate', 'stagnant'],
                         answer: 'opportunistic',
-                        explanation: 'opportunistic 指「投機取巧的」，完美用來駁斥 Paul 的短期現金補助盲點！'
+                        explanation: 'opportunistic 指「投機取巧的」，完美用來駁斥短期現金補助盲點！'
                     }
                 ];
             } else {
-                const pool = [...WORDS_DATA].sort(() => Math.random() - 0.5).slice(0, count);
+                let sourcePool = [...WORDS_DATA];
+                if (mode === 'weak') {
+                    const weakPool = WORDS_DATA.filter(w => wordStatus[w.id] === 'review');
+                    if (weakPool.length >= 4) sourcePool = weakPool;
+                }
+                const pool = sourcePool.sort(() => Math.random() - 0.5).slice(0, Math.min(count, sourcePool.length));
                 pool.forEach((target, idx) => {
                     const correctSyn = target.synonyms[0];
                     const distractors = WORDS_DATA
@@ -977,8 +1896,8 @@
                         <h3 class="text-lg font-bold text-white">
                             ${pct >= 80 ? '⚡ 戰略算力滿格！具備秒殺托福詞彙題水準！' : '🔥 錯題已自動標記至「待加強弱點庫」，可切回閃卡專項快刷！'}
                         </h3>
-                        <div class="flex justify-center gap-3 pt-2">
-                            <button onclick="startQuiz(5, 'classic')" class="px-4 py-2 rounded-xl text-xs font-bold bg-amber-500 text-slate-950">再測一次經典 5 題</button>
+                        <div class="flex flex-wrap justify-center gap-3 pt-2">
+                            <button onclick="startQuiz(5, 'classic')" class="px-4 py-2 rounded-xl text-xs font-bold bg-amber-500 text-slate-950">再測經典 5 題</button>
                             <button onclick="startQuiz(10, 'random')" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-200 border border-slate-700">再刷隨機 10 題</button>
                             <button onclick="switchTab('flashcard'); setDeckFilter('review');" class="px-4 py-2 rounded-xl text-xs font-semibold bg-rose-950 text-rose-200 border border-rose-700/50">去刷「待加強」弱點字</button>
                         </div>
@@ -1039,6 +1958,157 @@
             `;
         }
 
+        // --- WRITING SANDBOX ---
+        function initWritingSandbox() {
+            const sel = document.getElementById('writingPromptSelector');
+            sel.innerHTML = WRITING_PROMPTS_DATA.map((p, idx) => `<option value="${idx}">${p.title}</option>`).join('');
+            selectWritingPrompt();
+        }
+
+        function selectWritingPrompt() {
+            currentWritingPromptIdx = parseInt(document.getElementById('writingPromptSelector')?.value || '0', 10);
+            const item = WRITING_PROMPTS_DATA[currentWritingPromptIdx];
+            document.getElementById('writingPromptTitle').textContent = item.title;
+            document.getElementById('writingPromptBody').innerHTML = `
+                <p><strong class="text-amber-400">Professor:</strong> ${item.prof}</p>
+                <p class="border-t border-slate-800 pt-2"><strong class="text-sky-400">${item.stuA.split(':')[0]}:</strong> ${item.stuA.split(':').slice(1).join(':')}</p>
+                <p class="border-t border-slate-800 pt-2"><strong class="text-emerald-400">${item.stuB.split(':')[0]}:</strong> ${item.stuB.split(':').slice(1).join(':')}</p>
+            `;
+            renderWritingChips();
+        }
+
+        function renderWritingChips() {
+            const container = document.getElementById('writingVocabChips');
+            if (!container) return;
+            const text = (document.getElementById('writingTextarea')?.value || '').toLowerCase();
+
+            let usedCount = 0;
+            WORDS_DATA.forEach(w => {
+                const stem = w.word.toLowerCase().slice(0, Math.max(4, w.word.length - 2));
+                if (text.includes(stem)) usedCount++;
+            });
+            document.getElementById('usedCoreWordsBadge').textContent = `已嵌入核心字：${usedCount} 個`;
+
+            const activePrompt = WRITING_PROMPTS_DATA[currentWritingPromptIdx] || WRITING_PROMPTS_DATA[0];
+            const priorityWords = WORDS_DATA.filter(w => activePrompt.priorityIds.includes(w.id));
+            container.innerHTML = priorityWords.map(w => {
+                const stem = w.word.toLowerCase().slice(0, Math.max(4, w.word.length - 2));
+                const isUsed = text.includes(stem);
+                return `
+                    <button onclick="insertWordIntoWriting('${w.word}')" class="px-2.5 py-1 rounded-lg text-xs font-mono transition flex items-center gap-1 border ${
+                        isUsed
+                            ? 'bg-emerald-950/90 border-emerald-500 text-emerald-300 font-bold'
+                            : 'bg-slate-950 border-slate-800 text-slate-300 hover:border-amber-500/60'
+                    }" title="${w.meaning} | ${w.anchor}">
+                        <span>${isUsed ? '✓' : '+'} ${w.word}</span>
+                        <span class="text-[10px] text-slate-400 font-sans">(${w.meaning.split('；')[0]})</span>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function insertWordIntoWriting(word) {
+            const ta = document.getElementById('writingTextarea');
+            const start = ta.selectionStart;
+            const end = ta.selectionEnd;
+            const current = ta.value;
+            const insertText = (start > 0 && current[start - 1] !== ' ' && current[start - 1] !== '\n') ? ` ${word}` : word;
+            ta.value = current.substring(0, start) + insertText + current.substring(end);
+            ta.focus();
+            ta.selectionStart = ta.selectionEnd = start + insertText.length;
+            updateWritingMetrics();
+        }
+
+        function insertTemplateSkeletonOnly() {
+            const ta = document.getElementById('writingTextarea');
+            ta.value = `While this policy debate is multifaceted, I firmly contend that [填入您的核心立場] primarily due to its profound impact on [填入高維度價值，如 long-term regional sustainability].
+
+Although [填入對手同學名] raises a valid point regarding [簡述對方考量], this perspective overlooks a critical systemic flaw: [指出制度漏洞，如 short-sighted subsidies attract opportunistic behavior].
+
+Specifically, when authorities implement [填入您的方案], it directly creates a powerful structural incentive for [對象] to [具體正面行為].
+
+For instance, in practical governance, establishing [具體政策工具] not only mitigates [原本的弊端] but also optimizes public resource allocation.
+
+Therefore, rather than relying on superficial measures, adopting [您的方案簡稱] remains the most viable strategy to ensure sustainable progress.`;
+            updateWritingMetrics();
+        }
+
+        function loadModelAnswer() {
+            const activePrompt = WRITING_PROMPTS_DATA[currentWritingPromptIdx] || WRITING_PROMPTS_DATA[0];
+            document.getElementById('writingTextarea').value = activePrompt.modelAnswer;
+            updateWritingMetrics();
+        }
+
+        function clearWritingDraft() {
+            document.getElementById('writingTextarea').value = '';
+            updateWritingMetrics();
+        }
+
+        function updateWritingMetrics() {
+            const text = document.getElementById('writingTextarea').value;
+            try {
+                localStorage.setItem(DRAFT_STORAGE_KEY, text);
+            } catch (e) {}
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            const countEl = document.getElementById('writingWordCount');
+            countEl.textContent = words;
+            countEl.className = words >= 120 ? 'font-mono text-base text-emerald-400' : 'font-mono text-base text-amber-400';
+            renderWritingChips();
+        }
+
+        function toggleWritingTimer() {
+            const btn = document.getElementById('writingTimerBtn');
+            if (writingTimerInterval) {
+                clearInterval(writingTimerInterval);
+                writingTimerInterval = null;
+                btn.textContent = '繼續計時';
+            } else {
+                btn.textContent = '暫停';
+                writingTimerInterval = setInterval(() => {
+                    if (writingSecondsLeft > 0) {
+                        writingSecondsLeft--;
+                        const m = String(Math.floor(writingSecondsLeft / 60)).padStart(2, '0');
+                        const s = String(writingSecondsLeft % 60).padStart(2, '0');
+                        document.getElementById('writingTimerDisplay').textContent = `${m}:${s}`;
+                    } else {
+                        clearInterval(writingTimerInterval);
+                        writingTimerInterval = null;
+                        btn.textContent = '時間到！';
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetWritingTimer() {
+            if (writingTimerInterval) {
+                clearInterval(writingTimerInterval);
+                writingTimerInterval = null;
+            }
+            writingSecondsLeft = 10 * 60;
+            document.getElementById('writingTimerDisplay').textContent = '10:00';
+            document.getElementById('writingTimerBtn').textContent = '開始計時';
+        }
+
+        function copyDraftForAI() {
+            const activePrompt = WRITING_PROMPTS_DATA[currentWritingPromptIdx] || WRITING_PROMPTS_DATA[0];
+            const draft = document.getElementById('writingTextarea').value.trim();
+            const payload = `【區塊 C 寫作答辯驗收】題目：${activePrompt.title}\n這是我套用五句抗辯法典寫出的草稿，請幫我依托福新制 5.0 滿分標準批改並升級句型：\n\n${draft}`;
+            
+            const temp = document.createElement('textarea');
+            temp.value = payload;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+
+            const toast = document.getElementById('copyToast');
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 4000);
+        }
+
+        // ============================================================================
+        // 9. STRATEGIC WORD TABLE & HOT-SWAP AMMO IMPORTER
+        // ============================================================================
         function renderWordTable() {
             const query = (document.getElementById('tableSearchInput')?.value || '').trim().toLowerCase();
             const groupFilter = document.getElementById('tableGroupSelect')?.value || 'all';
@@ -1103,134 +2173,155 @@
             renderWordTable();
         }
 
-        function renderWritingChips() {
-            const container = document.getElementById('writingVocabChips');
-            if (!container) return;
-            const text = (document.getElementById('writingTextarea')?.value || '').toLowerCase();
-
-            let usedCount = 0;
-            WORDS_DATA.forEach(w => {
-                const stem = w.word.toLowerCase().slice(0, Math.max(4, w.word.length - 2));
-                if (text.includes(stem)) usedCount++;
-            });
-            document.getElementById('usedCoreWordsBadge').textContent = `已嵌入今日核心字：${usedCount} 個`;
-
-            const priorityWords = WORDS_DATA.filter(w => WRITING_PRIORITY_IDS.includes(w.id));
-            container.innerHTML = priorityWords.map(w => {
-                const stem = w.word.toLowerCase().slice(0, Math.max(4, w.word.length - 2));
-                const isUsed = text.includes(stem);
-                return `
-                    <button onclick="insertWordIntoWriting('${w.word}')" class="px-2.5 py-1 rounded-lg text-xs font-mono transition flex items-center gap-1 border ${
-                        isUsed
-                            ? 'bg-emerald-950/90 border-emerald-500 text-emerald-300 font-bold'
-                            : 'bg-slate-950 border-slate-800 text-slate-300 hover:border-amber-500/60'
-                    }" title="${w.meaning} | ${w.anchor}">
-                        <span>${isUsed ? '✓' : '+'} ${w.word}</span>
-                        <span class="text-[10px] text-slate-400 font-sans">(${w.meaning.split('；')[0]})</span>
-                    </button>
-                `;
-            }).join('');
+        function openAmmoModal() {
+            document.getElementById('ammoModal').classList.remove('hidden');
+            document.getElementById('ammoImportFeedback').classList.add('hidden');
         }
 
-        function insertWordIntoWriting(word) {
-            const ta = document.getElementById('writingTextarea');
-            const start = ta.selectionStart;
-            const end = ta.selectionEnd;
-            const current = ta.value;
-            const insertText = (start > 0 && current[start - 1] !== ' ' && current[start - 1] !== '\n') ? ` ${word}` : word;
-            ta.value = current.substring(0, start) + insertText + current.substring(end);
-            ta.focus();
-            ta.selectionStart = ta.selectionEnd = start + insertText.length;
-            updateWritingMetrics();
+        function closeAmmoModal() {
+            document.getElementById('ammoModal').classList.add('hidden');
         }
 
-        function insertTemplateSkeleton() {
-            const ta = document.getElementById('writingTextarea');
-            const skeleton = `While this policy debate is multifaceted, I firmly contend that the government should allocate budgets toward upgrading rural public infrastructure rather than direct cash subsidies, primarily due to its profound impact on long-term regional sustainability.
-
-Although Paul raises a valid point regarding immediate financial relief, this perspective overlooks a critical systemic flaw: short-sighted cash handouts often attract opportunistic applicants, resulting in only a transient population influx.
-
-Specifically, when authorities implement comprehensive infrastructure upgrades, it directly creates a powerful structural incentive for remote professionals and enterprises to relocate permanently.
-
-For instance, in practical governance, establishing high-speed digital connectivity and reliable healthcare not only mitigates chronic regional disparities but also optimizes public resource allocation.
-
-Therefore, rather than relying on superficial subsidies, modernizing rural infrastructure remains the most viable strategy to revitalize aging communities.`;
-            ta.value = skeleton;
-            updateWritingMetrics();
+        function showAmmoFeedback(msg, isSuccess) {
+            const fb = document.getElementById('ammoImportFeedback');
+            fb.classList.remove('hidden');
+            fb.className = `text-xs font-semibold p-3 rounded-xl border ${
+                isSuccess ? 'bg-emerald-950/70 border-emerald-500 text-emerald-200' : 'bg-rose-950/70 border-rose-500 text-rose-200'
+            }`;
+            fb.innerHTML = msg;
         }
 
-        function loadModelAnswer() {
-            insertTemplateSkeleton();
-        }
+        function loadBuiltinExpansionPack() {
+            const existingWords = new Set(WORDS_DATA.map(w => w.word.toLowerCase()));
+            const toAdd = EXPANSION_PACK_WORDS.filter(w => !existingWords.has(w.word.toLowerCase()));
 
-        function clearWritingDraft() {
-            document.getElementById('writingTextarea').value = '';
-            updateWritingMetrics();
-        }
+            if (toAdd.length === 0) {
+                showAmmoFeedback('✅ 內建第 2 彈（環境生態與歷史結構 20 詞）已經在您的詞庫中囉！可直接至閃卡或總表切換群組五、六。', true);
+                return;
+            }
 
-        function updateWritingMetrics() {
-            const text = document.getElementById('writingTextarea').value;
+            WORDS_DATA = [...WORDS_DATA, ...toAdd];
+            const customOnly = WORDS_DATA.filter(w => w.id > 50);
             try {
-                localStorage.setItem(DRAFT_STORAGE_KEY, text);
+                localStorage.setItem(STORAGE_KEY_CUSTOM_WORDS, JSON.stringify(customOnly));
             } catch (e) {}
-            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
-            const countEl = document.getElementById('writingWordCount');
-            countEl.textContent = words;
-            countEl.className = words >= 120 ? 'font-mono text-base text-emerald-400' : 'font-mono text-base text-amber-400';
-            renderWritingChips();
+
+            filteredDeck = [...WORDS_DATA];
+            updateProgressStats();
+            renderDeckFilterButtons();
+            renderCurrentCard();
+            renderWordTable();
+            showAmmoFeedback(`🎉 成功載入內建擴充包！新增了 ${toAdd.length} 個環境生態與歷史社科核心單字（群組五、群組六），總詞庫已達 ${WORDS_DATA.length} 字！`, true);
         }
 
-        function toggleWritingTimer() {
-            const btn = document.getElementById('writingTimerBtn');
-            if (writingTimerInterval) {
-                clearInterval(writingTimerInterval);
-                writingTimerInterval = null;
-                btn.textContent = '繼續計時';
-            } else {
-                btn.textContent = '暫停';
-                writingTimerInterval = setInterval(() => {
-                    if (writingSecondsLeft > 0) {
-                        writingSecondsLeft--;
-                        const m = String(Math.floor(writingSecondsLeft / 60)).padStart(2, '0');
-                        const s = String(writingSecondsLeft % 60).padStart(2, '0');
-                        document.getElementById('writingTimerDisplay').textContent = `${m}:${s}`;
-                    } else {
-                        clearInterval(writingTimerInterval);
-                        writingTimerInterval = null;
-                        btn.textContent = '時間到！';
-                    }
-                }, 1000);
+        function processAmmoImport() {
+            const raw = (document.getElementById('ammoImportInput')?.value || '').trim();
+            if (!raw) {
+                showAmmoFeedback('⚠️ 請先在上方輸入框貼上新單字或 JSON 代碼！', false);
+                return;
+            }
+
+            let addedCount = 0;
+            const existingWords = new Set(WORDS_DATA.map(w => w.word.toLowerCase()));
+
+            try {
+                if (raw.startsWith('{') || raw.startsWith('[')) {
+                    const parsed = JSON.parse(raw);
+                    const wordsArr = Array.isArray(parsed) ? parsed : (parsed.words || []);
+                    wordsArr.forEach(item => {
+                        if (item.word && !existingWords.has(item.word.toLowerCase())) {
+                            const nextId = WORDS_DATA.length + 1;
+                            WORDS_DATA.push({
+                                id: nextId,
+                                group: item.group || 7,
+                                groupName: item.groupName || "群組七：AI 幕僚熱更新擴充詞庫",
+                                word: item.word.trim(),
+                                pos: item.pos || "(n./v.)",
+                                meaning: item.meaning || "",
+                                anchor: item.anchor || "實戰擴充記憶錨點",
+                                synonyms: Array.isArray(item.synonyms) ? item.synonyms : ["core synonym"],
+                                example: item.example || ""
+                            });
+                            existingWords.add(item.word.toLowerCase());
+                            addedCount++;
+                        }
+                    });
+                } else {
+                    // Pipe-delimited format: GroupName | word | pos | meaning | anchor | syn1,syn2 | example
+                    const lines = raw.split('\n').map(l => l.trim()).filter(Boolean);
+                    lines.forEach(line => {
+                        const parts = line.split('|').map(p => p.trim());
+                        if (parts.length >= 4) {
+                            const [groupName, word, pos, meaning, anchor, syns, example] = parts;
+                            if (word && !existingWords.has(word.toLowerCase())) {
+                                const nextId = WORDS_DATA.length + 1;
+                                WORDS_DATA.push({
+                                    id: nextId,
+                                    group: 7,
+                                    groupName: groupName || "群組七：AI 幕僚熱更新擴充詞庫",
+                                    word,
+                                    pos: pos || "(v./n.)",
+                                    meaning: meaning || "",
+                                    anchor: anchor || "公職與政策擴充錨點",
+                                    synonyms: syns ? syns.split(',').map(s => s.trim()) : ["equivalent"],
+                                    example: example || ""
+                                });
+                                existingWords.add(word.toLowerCase());
+                                addedCount++;
+                            }
+                        }
+                    });
+                }
+
+                if (addedCount > 0) {
+                    const customOnly = WORDS_DATA.filter(w => w.id > 50);
+                    localStorage.setItem(STORAGE_KEY_CUSTOM_WORDS, JSON.stringify(customOnly));
+                    filteredDeck = [...WORDS_DATA];
+                    updateProgressStats();
+                    renderDeckFilterButtons();
+                    renderCurrentCard();
+                    renderWordTable();
+                    document.getElementById('ammoImportInput').value = '';
+                    showAmmoFeedback(`✅ 熱更新成功！已新增 ${addedCount} 個新單字至您的隨身系統（目前總計 ${WORDS_DATA.length} 字）。`, true);
+                } else {
+                    showAmmoFeedback('ℹ️ 未偵測到新單字（可能單字已存在或格式不符）。請確認格式後重試！', false);
+                }
+            } catch (err) {
+                showAmmoFeedback('❌ 解析失敗，請確認貼上的文字或 JSON 格式是否完整。', false);
             }
         }
 
-        function resetWritingTimer() {
-            if (writingTimerInterval) {
-                clearInterval(writingTimerInterval);
-                writingTimerInterval = null;
-            }
-            writingSecondsLeft = 10 * 60;
-            document.getElementById('writingTimerDisplay').textContent = '10:00';
-            document.getElementById('writingTimerBtn').textContent = '開始計時';
-        }
-
-        function copyDraftForAI() {
-            const draft = document.getElementById('writingTextarea').value.trim();
-            const payload = `【區塊 C 寫作答辯驗收】這是我今晚針對「偏鄉預算配置（Infrastructure vs. Cash Subsidies）」套用五句抗辯法典寫出的草稿，請幫我依托福新制 5.0 滿分標準批改並升級句型：\n\n${draft}`;
-            
+        function exportAllUserData() {
+            const payload = {
+                exportedAt: new Date().toISOString(),
+                wordStatus,
+                customWords: WORDS_DATA.filter(w => w.id > 50),
+                dailyChecks,
+                writingDraft: document.getElementById('writingTextarea')?.value || ''
+            };
             const temp = document.createElement('textarea');
-            temp.value = payload;
+            temp.value = JSON.stringify(payload);
             document.body.appendChild(temp);
             temp.select();
             document.execCommand('copy');
             document.body.removeChild(temp);
+            showAmmoFeedback('📋 已將您的所有學習紀錄與擴充單字複製到剪貼簿！您可以貼在記事本備份。', true);
+        }
 
-            const toast = document.getElementById('copyToast');
-            toast.classList.remove('hidden');
-            setTimeout(() => toast.classList.add('hidden'), 4000);
+        function clearCustomAmmo() {
+            localStorage.removeItem(STORAGE_KEY_CUSTOM_WORDS);
+            WORDS_DATA = [...BASE_WORDS_DATA];
+            filteredDeck = [...WORDS_DATA];
+            currentFilter = 'all';
+            updateProgressStats();
+            renderDeckFilterButtons();
+            renderCurrentCard();
+            renderWordTable();
+            showAmmoFeedback('🔄 已還原為預設的 50 個政經法規核心單字。', true);
         }
 
         function switchTab(tabName) {
-            ['flashcard', 'quiz', 'table', 'writing'].forEach(t => {
+            ['schedule', 'flashcard', 'quiz', 'writing', 'table'].forEach(t => {
                 document.getElementById(`tab-${t}`).classList.add('hidden');
                 const btn = document.getElementById(`tabBtn-${t}`);
                 btn.className = 'tab-btn flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold whitespace-nowrap transition text-slate-300 hover:bg-slate-800';
@@ -1252,10 +2343,14 @@ Therefore, rather than relying on superficial subsidies, modernizing rural infra
         // Global Keyboard Shortcuts
         window.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                toggleStealthMode();
+                const modal = document.getElementById('ammoModal');
+                if (modal && !modal.classList.contains('hidden')) {
+                    closeAmmoModal();
+                } else {
+                    toggleStealthMode();
+                }
                 return;
             }
-            // Ignore shortcuts when typing in input/textarea
             if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) {
                 return;
             }
@@ -1285,8 +2380,13 @@ Therefore, rather than relying on superficial subsidies, modernizing rural infra
 
         window.onload = function () {
             loadState();
+            initAutoSchedule();
+            renderListeningDrill();
+            renderReadingSlasher();
+            initSpeakingPod();
+            initWritingSandbox();
             renderCurrentCard();
-            renderWritingChips();
+            renderWordTable();
         };
     </script>
 </body>
